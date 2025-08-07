@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ .Title }} | Studio Meowtoon</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="header">Studio Meowtoon</div>
+  <div class="comic-episode">Episode {{ .Params.episode }}</div>
+  <div class="comic-title">{{ .Title }}</div>
+  <div class="comic-images">
+    {{ range .Params.images }}
+      <img src="{{ . | relURL }}" alt="comic panel">
+    {{ end }}
+  </div>
+  <div class="nav">
+    {{ with .PrevInSection }}<a href="{{ .RelPermalink }}">&lt; Prev</a>{{ else }}<span></span>{{ end }}
+    <a href="/">List</a>
+    {{ with .NextInSection }}<a href="{{ .RelPermalink }}">Next &gt;</a>{{ else }}<span></span>{{ end }}
+  </div>
+  <script>
+  // スワイプで前後話に遷移
+  let touchStartX = null;
+  document.addEventListener('touchstart', function(e) {
+    touchStartX = e.changedTouches[0].screenX;
+  });
+  document.addEventListener('touchend', function(e) {
+    if (touchStartX === null) return;
+    let dx = e.changedTouches[0].screenX - touchStartX;
+    if (dx > 80) {
+      // 右スワイプ: 前の話
+      let prev = document.querySelector('.nav a:first-child');
+      if (prev && prev.getAttribute('href')) location.href = prev.getAttribute('href');
+    } else if (dx < -80) {
+      // 左スワイプ: 次の話
+      let next = document.querySelector('.nav a:last-child');
+      if (next && next.getAttribute('href')) location.href = next.getAttribute('href');
+    }
+    touchStartX = null;
+  });
+  </script>
+</body>
+</html>
