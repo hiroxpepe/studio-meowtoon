@@ -13,6 +13,7 @@
     {{ range .Params.images }}
       <img src="{{ . | relURL }}" alt="comic panel">
     {{ end }}
+  {{ .Content }}
   </div>
   <div class="nav">
     {{ with .PrevInSection }}<a href="{{ .RelPermalink }}">&lt; Prev</a>{{ else }}<span></span>{{ end }}

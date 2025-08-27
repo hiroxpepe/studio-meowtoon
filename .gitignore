@@ -3,3 +3,8 @@
 /hugo_stats.json
 *.lock
 .DS_Store
+
+
+# VS Code
+.vsconfig
+*.code-workspace
