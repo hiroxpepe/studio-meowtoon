@@ -8,10 +8,12 @@
 <body>
   <div class="header">Comic List</div>
   <ul>
-    {{ range .Pages }}
-      <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+    {{ range sort .Pages "Params.episode" }}
+      <li>
+        <a href="{{ .RelPermalink }}">{{ .Params.episode }} {{ .Title }}</a>
+      </li>
     {{ end }}
   </ul>
-  <div style="margin-top:2em;"><a href="/">&larr; Top</a></div>
+  <div style="margin-top:2em;"><a href="/">⤴️ Top</a></div>
 </body>
 </html>
