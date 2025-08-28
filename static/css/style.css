@@ -1,0 +1,29 @@
+/* 4コマ画像をスマホで横幅最大に表示するCSS */
+.comic-images p {
+  margin: 0 !important;
+  padding: 0 !important;
+  display: block !important;
+  width: 100vw !important;
+  box-sizing: border-box !important;
+}
+.comic-images {
+  width: 100vw !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+}
+.comic-images img {
+  display: block !important;
+  width: 100vw !important;
+  max-width: 100vw !important;
+  height: auto !important;
+  margin: 0 !important;
+  border: none !important;
+  box-sizing: border-box !important;
+  background: #ff0 !important;
+  object-fit: cover !important;
+}
+body {
+  margin: 0 !important;
+  padding: 0 !important;
+}
