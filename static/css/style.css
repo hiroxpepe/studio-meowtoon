@@ -20,8 +20,10 @@
   margin: 0 !important;
   border: none !important;
   box-sizing: border-box !important;
-  background: #ff0 !important;
+  background:#ffff !important;
   object-fit: cover !important;
+  padding-top: 1em !important;
+  padding-bottom: 1em !important;
 }
 body {
   margin: 0 !important;

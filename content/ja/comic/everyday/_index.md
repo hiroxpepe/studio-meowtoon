@@ -1,3 +1,3 @@
 ---
-title: "everyday"
+title: "Everyday"
 ---

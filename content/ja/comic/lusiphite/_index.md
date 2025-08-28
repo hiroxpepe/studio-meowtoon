@@ -1,3 +1,3 @@
 ---
-title: "lusiphite"
+title: "Lusiphite"
 ---

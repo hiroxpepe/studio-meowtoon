@@ -2,16 +2,16 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>Comic List | STUDIO MeowToon</title>
+  <title>{{ .Title }} | STUDIO MeowToon</title>
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-  <div class="header">Comic List</div>
+  <div class="header">{{ .Title }} - Episode List</div>
   <ul>
     {{ range .Pages }}
       <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
     {{ end }}
   </ul>
-  <div style="margin-top:2em;"><a href="/">&larr; Top</a></div>
+  <div style="margin-top:2em;"><a href="/ja/comic/">&larr; Comic Series</a></div>
 </body>
 </html>
