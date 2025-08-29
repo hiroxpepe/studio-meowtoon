@@ -6,16 +6,18 @@
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-  <div class="header">STUDIO MeowToon</div>
-  <div class="comic-episode">Episode {{ .Params.episode }}</div>
-  <div class="comic-title">{{ .Title }}</div>
-  <div class="comic-images">
+  <div class="hugo-episode">Episode {{ .Params.episode }}</div>
+  <div class="hugo-title">{{ .Title }}</div>
+  <div class="hugo-images">
     {{ range .Params.images }}
       <img src="{{ . | relURL }}" alt="comic panel">
     {{ end }}
-  {{ .Content }}
+    {{ .Content }}
+    {{ with .Params.description }}
+      <div class="hugo-description">{{ . }}</div>
+    {{ end }}
   </div>
-  <div class="nav">
+  <div class="hugo-nav">
   {{ with .NextInSection }}<a href="{{ .RelPermalink }}">◀️ Prev</a>{{ else }}<span></span>{{ end }}
   <a href="{{ .Parent.RelPermalink }}">⤴️ List</a>
   {{ with .PrevInSection }}<a href="{{ .RelPermalink }}">Next ▶️</a>{{ else }}<span></span>{{ end }}

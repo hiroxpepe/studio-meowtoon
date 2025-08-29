@@ -1,18 +1,18 @@
 /* 4コマ画像をスマホで横幅最大に表示するCSS */
-.comic-images p {
+.hugo-images p {
   margin: 0 !important;
   padding: 0 !important;
   display: block !important;
   width: 100vw !important;
   box-sizing: border-box !important;
 }
-.comic-images {
+.hugo-images {
   width: 100vw !important;
   margin: 0 !important;
   padding: 0 !important;
   box-sizing: border-box !important;
 }
-.comic-images img {
+.hugo-images img {
   display: block !important;
   width: 100vw !important;
   max-width: 100vw !important;
@@ -22,10 +22,65 @@
   box-sizing: border-box !important;
   background:#ffff !important;
   object-fit: cover !important;
-  padding-top: 1em !important;
-  padding-bottom: 1em !important;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 body {
   margin: 0 !important;
   padding: 0 !important;
+}
+
+html { font-size: 0; }
+body { font-size: 0; }
+.hugo-header { font-weight: bold; margin-bottom: 1em; }
+.hugo-series { font-weight: bold; margin-bottom: 0.5em; }
+.hugo-episode { color: #888; margin-bottom: 0.5em; }
+.hugo-title { font-weight: bold; margin-bottom: 0.5em; }
+.hugo-description { color: #555; margin-bottom: 0.5em; line-height: 1.6; }
+.hugo-list { margin: 0; padding: 0; list-style: none; }
+
+/* PC用 */
+html { font-size: 24px; }
+body { font-size: 1rem; }
+.hugo-header { font-size: 1rem;}
+.hugo-series { font-size: 1rem;}
+.hugo-episode { font-size: 1rem;}
+.hugo-title { font-size: 1rem;}
+.hugo-description { font-size: 0.75rem;}
+.hugo-list { font-size: 1rem; }
+.hugo-images img {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+
+/* タブレット用 */
+@media (max-width: 900px) {
+  html { font-size: 24px; }
+  body { font-size: 1rem; }
+  .hugo-header { font-size: 1rem; }
+  .hugo-series { font-size: 1rem; }
+  .hugo-episode { font-size: 1rem; }
+  .hugo-title { font-size: 1rem; }
+  .hugo-description { font-size: 0.75rem; }
+  .hugo-list { font-size: 1rem; }
+  .hugo-images img {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+  }
+}
+
+/* スマホ用 */
+@media (max-width: 600px) {
+  html { font-size: 22px; }
+  body { font-size: 1rem; }
+  .hugo-header { font-size: 1rem; }
+  .hugo-series { font-size: 1rem; }
+  .hugo-episode { font-size: 1rem; }
+  .hugo-title { font-size: 1rem; }
+  .hugo-description { font-size: 0.75rem; }
+  .hugo-list { font-size: 1rem; }
+  .hugo-images img {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
 }

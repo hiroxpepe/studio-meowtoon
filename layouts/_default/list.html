@@ -2,16 +2,14 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>Comic List | STUDIO MeowToon</title>
+  <title>{{ .Title }} | STUDIO MeowToon</title>
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-  <div class="header">Comic List</div>
-  <ul>
+  <div class="hugo-header">{{ .Title }} - Episode List</div>
+  <ul class="hugo-list">
     {{ range sort .Pages "Params.episode" }}
-      <li>
-        <a href="{{ .RelPermalink }}">{{ .Params.episode }} {{ .Title }}</a>
-      </li>
+      <li><a href="{{ .RelPermalink }}">{{ .Params.episode }} {{ .Title }}</a></li>
     {{ end }}
   </ul>
   <div style="margin-top:2em;"><a href="/">⤴️ Top</a></div>
