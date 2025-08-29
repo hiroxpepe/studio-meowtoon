@@ -24,25 +24,7 @@
   {{ with .PrevInSection }}<a href="{{ .RelPermalink }}">Next ▶️</a>{{ else }}<span></span>{{ end }}
   </div>
   <script>
-  // スワイプで前後話に遷移
-  let touchStartX = null;
-  document.addEventListener('touchstart', function(e) {
-    touchStartX = e.changedTouches[0].screenX;
-  });
-  document.addEventListener('touchend', function(e) {
-    if (touchStartX === null) return;
-    let dx = e.changedTouches[0].screenX - touchStartX;
-    if (dx > 40) {
-      // 右スワイプ: 前の話
-      let prev = document.querySelector('.hugo-nav a:first-child');
-      if (prev && prev.getAttribute('href')) location.href = prev.getAttribute('href');
-    } else if (dx < -40) {
-      // 左スワイプ: 次の話
-      let next = document.querySelector('.hugo-nav a:last-child');
-      if (next && next.getAttribute('href')) location.href = next.getAttribute('href');
-    }
-    touchStartX = null;
-  });
+OK
   </script>
 </body>
 </html>

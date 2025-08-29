@@ -55,7 +55,7 @@ body { font-size: 1rem; }
 
 /* タブレット用 */
 @media (max-width: 900px) {
-  html { font-size: 28px; }
+  html { font-size: 26px; }
   body { font-size: 1rem; }
   .hugo-header { font-size: 1rem; }
   .hugo-series { font-size: 1rem; }
@@ -64,8 +64,8 @@ body { font-size: 1rem; }
   .hugo-description { font-size: 0.75rem; }
   .hugo-list { font-size: 1rem; }
   .hugo-images img {
-    padding-top: 0.75rem;
-    padding-bottom: 0.75rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
   }
 }
 
