@@ -40,7 +40,7 @@ body { font-size: 0; }
 .hugo-list { margin: 0; padding: 0; list-style: none; }
 
 /* PC用 */
-html { font-size: 24px; }
+html { font-size: 30px; }
 body { font-size: 1rem; }
 .hugo-header { font-size: 1rem;}
 .hugo-series { font-size: 1rem;}
@@ -49,13 +49,13 @@ body { font-size: 1rem; }
 .hugo-description { font-size: 0.75rem;}
 .hugo-list { font-size: 1rem; }
 .hugo-images img {
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
 
 /* タブレット用 */
 @media (max-width: 900px) {
-  html { font-size: 24px; }
+  html { font-size: 28px; }
   body { font-size: 1rem; }
   .hugo-header { font-size: 1rem; }
   .hugo-series { font-size: 1rem; }
@@ -71,7 +71,7 @@ body { font-size: 1rem; }
 
 /* スマホ用 */
 @media (max-width: 600px) {
-  html { font-size: 22px; }
+  html { font-size: 16px; }
   body { font-size: 1rem; }
   .hugo-header { font-size: 1rem; }
   .hugo-series { font-size: 1rem; }
