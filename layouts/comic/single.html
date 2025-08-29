@@ -32,13 +32,13 @@
   document.addEventListener('touchend', function(e) {
     if (touchStartX === null) return;
     let dx = e.changedTouches[0].screenX - touchStartX;
-    if (dx > 80) {
+    if (dx > 40) {
       // 右スワイプ: 前の話
-      let prev = document.querySelector('.nav a:first-child');
+      let prev = document.querySelector('.hugo-nav a:first-child');
       if (prev && prev.getAttribute('href')) location.href = prev.getAttribute('href');
-    } else if (dx < -80) {
+    } else if (dx < -40) {
       // 左スワイプ: 次の話
-      let next = document.querySelector('.nav a:last-child');
+      let next = document.querySelector('.hugo-nav a:last-child');
       if (next && next.getAttribute('href')) location.href = next.getAttribute('href');
     }
     touchStartX = null;
