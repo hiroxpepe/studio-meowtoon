@@ -27,16 +27,17 @@
   // スワイプで前後話に遷移（斜めも許容、判定緩め）
   let touchStartX = null;
   let touchStartY = null;
-  document.addEventListener('touchstart', function(e) {
+  document.body.addEventListener('touchstart', function(e) {
     touchStartX = e.changedTouches[0].screenX;
     touchStartY = e.changedTouches[0].screenY;
   });
-  document.addEventListener('touchend', function(e) {
+  document.body.addEventListener('touchend', function(e) {
     if (touchStartX === null || touchStartY === null) return;
     let dx = e.changedTouches[0].screenX - touchStartX;
     let dy = e.changedTouches[0].screenY - touchStartY;
     // 横方向の動きが縦の0.7倍以上なら左右スワイプとみなす
     if (Math.abs(dx) > Math.abs(dy) * 0.7 && Math.abs(dx) > 40) {
+      e.preventDefault();
       if (dx > 0) {
         // 右スワイプ: 前の話
         let prev = document.querySelector('.hugo-nav a:first-child');
