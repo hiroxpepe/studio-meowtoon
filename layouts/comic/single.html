@@ -51,6 +51,20 @@
     touchStartX = null;
     touchStartY = null;
   });
+  // PCキーボードの左右キーで前後話に遷移
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowLeft') {
+      let prev = document.querySelector('.hugo-nav a:first-child');
+      if (prev && prev.getAttribute('href')) {
+        location.href = prev.getAttribute('href');
+      }
+    } else if (e.key === 'ArrowRight') {
+      let next = document.querySelector('.hugo-nav a:last-child');
+      if (next && next.getAttribute('href')) {
+        location.href = next.getAttribute('href');
+      }
+    }
+  });
   </script>
 </body>
 </html>
