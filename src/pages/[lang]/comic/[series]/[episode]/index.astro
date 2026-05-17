@@ -1,0 +1,71 @@
+---
+// Episode page: displays comic panel images with navigation.
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../../../layouts/base_layout.astro';
+import EpisodeNav from '../../../../../components/episode_nav.astro';
+import { get_episode, build_episode_paths, build_episode_nav } from '../../../../../lib/comic.js';
+
+export async function getStaticPaths() {
+  const all_entries = await getCollection('comic');
+  return build_episode_paths(all_entries);
+}
+
+const { lang, series, episode } = Astro.params;
+const all_entries = await getCollection('comic');
+const current = get_episode(all_entries, lang, series, episode);
+const { title, description, images } = current.data;
+const nav = build_episode_nav(all_entries, lang, series, episode);
+---
+<BaseLayout title={title} lang={lang} og_image={images[0]}>
+  <div class="hugo-episode">Episode {episode}</div>
+  <div class="hugo-title">{title}</div>
+  <div class="hugo-images">
+    {images.map(src => (
+      <img src={src} alt="comic panel">
+    ))}
+  </div>
+  {description && (
+    <div class="hugo-description">{description}</div>
+  )}
+  <EpisodeNav
+    prev_href={nav.prev_href}
+    next_href={nav.next_href}
+    list_href={nav.list_href}
+  />
+  <script>
+  // Swipe navigation: right swipe = prev, left swipe = next.
+  let touchStartX = null;
+  let touchStartY = null;
+  document.body.addEventListener('touchstart', function(e) {
+    touchStartX = e.changedTouches[0].screenX;
+    touchStartY = e.changedTouches[0].screenY;
+  });
+  document.body.addEventListener('touchend', function(e) {
+    if (touchStartX === null || touchStartY === null) return;
+    let dx = e.changedTouches[0].screenX - touchStartX;
+    let dy = e.changedTouches[0].screenY - touchStartY;
+    if (Math.abs(dx) > Math.abs(dy) * 0.7 && Math.abs(dx) > 40) {
+      e.preventDefault();
+      if (dx > 0) {
+        let prev = document.querySelector('.hugo-nav a:first-child');
+        if (prev && prev.getAttribute('href')) location.href = prev.getAttribute('href');
+      } else {
+        let next = document.querySelector('.hugo-nav a:last-child');
+        if (next && next.getAttribute('href')) location.href = next.getAttribute('href');
+      }
+    }
+    touchStartX = null;
+    touchStartY = null;
+  });
+  // Keyboard navigation: arrow keys.
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowLeft') {
+      let prev = document.querySelector('.hugo-nav a:first-child');
+      if (prev && prev.getAttribute('href')) location.href = prev.getAttribute('href');
+    } else if (e.key === 'ArrowRight') {
+      let next = document.querySelector('.hugo-nav a:last-child');
+      if (next && next.getAttribute('href')) location.href = next.getAttribute('href');
+    }
+  });
+  </script>
+</BaseLayout>

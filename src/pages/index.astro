@@ -1,0 +1,22 @@
+---
+// Top page: displays all comic series with cover images.
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/base_layout.astro';
+import { build_top_page_data } from '../lib/comic.js';
+
+const all_entries = await getCollection('comic');
+const series_list = build_top_page_data(all_entries);
+---
+<BaseLayout title="Comic Series" lang="ja" og_image={series_list[0]?.cover_src}>
+  <div class="hugo-header">Emily and Orange the cat</div>
+  <div style="margin:0 auto;">
+    <div style="display:flex;flex-direction:column;gap:1.5em;">
+      {series_list.map(s => (
+        <a href={s.href} style="text-decoration:none;color:inherit;">
+          <div class="hugo-series">{s.display_title}</div>
+          <img src={s.cover_src} alt={s.display_title} width="100%">
+        </a>
+      ))}
+    </div>
+  </div>
+</BaseLayout>

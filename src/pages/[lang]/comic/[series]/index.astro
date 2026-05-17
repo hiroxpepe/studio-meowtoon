@@ -1,0 +1,30 @@
+---
+// Series list page: shows all episodes for a given lang/series.
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../../layouts/base_layout.astro';
+import { get_all_episodes, build_series_paths } from '../../../../lib/comic.js';
+import { series_titles, series_covers } from '../../../../lib/series_meta.js';
+
+export async function getStaticPaths() {
+  const all_entries = await getCollection('comic');
+  return build_series_paths(all_entries);
+}
+
+const { lang, series } = Astro.params;
+const all_entries = await getCollection('comic');
+const episodes = get_all_episodes(all_entries, lang, series);
+const display_title = series_titles[series] ?? series;
+---
+<BaseLayout title={display_title} lang={lang} og_image={series_covers[series]}>
+  <div class="hugo-header">{display_title} - Episode List</div>
+  <ul class="hugo-list">
+    {episodes.map(ep => (
+      <li>
+        <a href={`/${lang}/comic/${series}/${ep.data.episode}/`}>
+          {ep.data.episode} {ep.data.title}
+        </a>
+      </li>
+    ))}
+  </ul>
+  <div style="margin-top:2em;"><a href="/">⤴️ Top</a></div>
+</BaseLayout>

@@ -1,0 +1,22 @@
+{
+  "name": "studio-meowtoon",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev":             "astro dev",
+    "build":           "astro build",
+    "preview":         "astro preview",
+    "test":            "vitest run",
+    "migrate:content": "node scripts/migrate_content.mjs",
+    "migrate:images":  "node scripts/migrate_images.mjs"
+  },
+  "dependencies": {
+    "astro": "^5.0.0",
+    "@astrojs/sitemap": "^3.0.0"
+  },
+  "devDependencies": {
+    "vitest": "^2.0.0",
+    "gray-matter": "^4.0.3",
+    "fast-glob": "^3.3.0"
+  }
+}

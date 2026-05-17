@@ -1,0 +1,27 @@
+---
+// Base HTML layout providing <html>, <head>, <body> wrapper for all page types.
+// Props: title (required), lang (default 'ja'), og_image (optional relative path — enables OGP/Twitter Card).
+const { title, lang = 'ja', og_image } = Astro.props;
+const page_title = `${title} | STUDIO MeowToon`;
+// import.meta.env.DEV is true in dev/preview mode; Astro.site is ALWAYS set (from astro.config.mjs)
+// even during local dev — so Astro.site ?? Astro.url.origin never falls back. Use DEV flag instead.
+const base_url = import.meta.env.DEV ? Astro.url.origin : Astro.site;
+const og_image_abs = og_image ? new URL(og_image, base_url).href : undefined;
+---
+<!DOCTYPE html>
+<html lang={lang}>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{page_title}</title>
+  <meta property="og:title" content={page_title}>
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="STUDIO MeowToon">
+  {og_image_abs && <meta property="og:image" content={og_image_abs}>}
+  {og_image_abs && <meta name="twitter:card" content="summary_large_image">}
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <slot />
+</body>
+</html>

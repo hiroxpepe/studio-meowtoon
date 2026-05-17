@@ -176,43 +176,43 @@ Record this decision in `docs/adr.md` (Phase 16).
 
 ### 1A — Cleanup
 
-- [ ] 1.1 Verify Hugo-specific files exist before deleting: `config.toml`, `hugo.exe`, `.hugo_build.lock`
-- [ ] 1.2 Delete Hugo build output directory: `public/` (it was gitignored — safe to delete)
-- [ ] 1.3 Verify `resources/` does NOT exist (confirmed in analysis — skip)
-- [ ] 1.4 Verify `hugo_stats.json` does NOT exist (confirmed in analysis — skip)
+- [x] 1.1 Verify Hugo-specific files exist before deleting: `config.toml`, `hugo.exe`, `.hugo_build.lock`
+- [x] 1.2 Delete Hugo build output directory: `public/` (it was gitignored — safe to delete)
+- [x] 1.3 Verify `resources/` does NOT exist (confirmed in analysis — skip)
+- [x] 1.4 Verify `hugo_stats.json` does NOT exist (confirmed in analysis — skip)
 
 ### 1B — `.gitignore` Update
 
-- [ ] 1.5 Open `.gitignore`; remove the line `/public/`
-- [ ] 1.6 Add `/dist/` to `.gitignore` (Astro build output)
-- [ ] 1.7 Add `/node_modules/` to `.gitignore`
-- [ ] 1.8 Add `/.astro/` to `.gitignore` (Astro type cache)
-- [ ] 1.9 Verify final `.gitignore` still contains: `.DS_Store`, `*.lock` (keep existing entries)
-- [ ] 1.10 Verify `public/` is NOT in `.gitignore` (Astro static assets must be committed)
+- [x] 1.5 Open `.gitignore`; remove the line `/public/`
+- [x] 1.6 Add `/dist/` to `.gitignore` (Astro build output)
+- [x] 1.7 Add `/node_modules/` to `.gitignore`
+- [x] 1.8 Add `/.astro/` to `.gitignore` (Astro type cache)
+- [x] 1.9 Verify final `.gitignore` still contains: `.DS_Store`, `*.lock` (keep existing entries)
+- [x] 1.10 Verify `public/` is NOT in `.gitignore` (Astro static assets must be committed)
 
 ### 1C — Astro Initialization
 
-- [ ] 1.11 Run init command in repo root (choose "keep existing" when prompted about README/.gitignore):
+- [x] 1.11 Run init command in repo root (choose "keep existing" when prompted about README/.gitignore):
   ```
   npm create astro@latest . -- --template minimal --no-install --no-git
   ```
-- [ ] 1.12 Verify files created by Astro init: `package.json`, `astro.config.mjs`, `src/pages/index.astro`, `src/env.d.ts`
-- [ ] 1.13 Verify existing `README.md` and `.gitignore` were NOT overwritten
+- [x] 1.12 Verify files created by Astro init: `package.json`, `astro.config.mjs`, `src/pages/index.astro`, `src/env.d.ts`
+- [x] 1.13 Verify existing `README.md` and `.gitignore` were NOT overwritten
 
 ### 1D — Package Installation
 
-- [ ] 1.14 Install Astro and core dependencies: `npm install`
-- [ ] 1.15 Install sitemap integration: `npm install @astrojs/sitemap`
-- [ ] 1.16 Install Vitest: `npm install -D vitest`
-- [ ] 1.17 Install `gray-matter` (frontmatter parse/stringify for migration scripts):
+- [x] 1.14 Install Astro and core dependencies: `npm install`
+- [x] 1.15 Install sitemap integration: `npm install @astrojs/sitemap`
+- [x] 1.16 Install Vitest: `npm install -D vitest`
+- [x] 1.17 Install `gray-matter` (frontmatter parse/stringify for migration scripts):
   `npm install -D gray-matter`
-- [ ] 1.18 Install `fast-glob` (file discovery for migration scripts):
+- [x] 1.18 Install `fast-glob` (file discovery for migration scripts):
   `npm install -D fast-glob`
-- [ ] 1.19 Verify `node_modules/` exists and `package-lock.json` generated
+- [x] 1.19 Verify `node_modules/` exists and `package-lock.json` generated
 
 ### 1E — `package.json` Scripts
 
-- [ ] 1.20 Verify or add the following scripts in `package.json`:
+- [x] 1.20 Verify or add the following scripts in `package.json`:
   ```json
   "dev":             "astro dev",
   "build":           "astro build",
@@ -221,16 +221,16 @@ Record this decision in `docs/adr.md` (Phase 16).
   "migrate:content": "node scripts/migrate_content.mjs",
   "migrate:images":  "node scripts/migrate_images.mjs"
   ```
-- [ ] 1.21 Verify `"type": "module"` **IS** in `package.json` (Astro init adds it automatically; do **not** remove — Astro and Vite require project-wide ESM; `.mjs` extension additionally enforces ESM for Node scripts run directly)
+- [x] 1.21 Verify `"type": "module"` **IS** in `package.json` (Astro init adds it automatically; do **not** remove — Astro and Vite require project-wide ESM; `.mjs` extension additionally enforces ESM for Node scripts run directly)
 
 ### 1F — Node Version Pinning
 
-- [ ] 1.22 Create `.node-version` file in repo root with content: `20`
-- [ ] 1.23 Node 18 reached EOL April 2025; Node 20 is the current LTS and the default on Cloudflare Pages V2 build system
+- [x] 1.22 Create `.node-version` file in repo root with content: `20`
+- [x] 1.23 Node 18 reached EOL April 2025; Node 20 is the current LTS and the default on Cloudflare Pages V2 build system
 
 ### 1G — Vitest Configuration
 
-- [ ] 1.24 Create `vitest.config.mjs`:
+- [x] 1.24 Create `vitest.config.mjs`:
   ```js
   // Vitest configuration: runs tests in Node environment for pure JS utility testing.
   import { defineConfig } from 'vitest/config';
@@ -245,11 +245,11 @@ Record this decision in `docs/adr.md` (Phase 16).
     },
   });
   ```
-- [ ] 1.25 Verify `npm run test` runs without error (0 test files found is OK at this stage)
+- [x] 1.25 Verify `npm run test` runs without error (0 test files found is OK at this stage)
 
 ### 1H — Astro Configuration
 
-- [ ] 1.26 Edit `astro.config.mjs` to final form:
+- [x] 1.26 Edit `astro.config.mjs` to final form:
   ```js
   // Astro build configuration: static output for Cloudflare Pages deployment.
   import { defineConfig } from 'astro/config';
@@ -262,12 +262,12 @@ Record this decision in `docs/adr.md` (Phase 16).
     integrations: [sitemap()],
   });
   ```
-- [ ] 1.27 Note: `base` is intentionally omitted (defaults to `/`) — correct for root deployment
-- [ ] 1.28 Note: update `site` value with the real Cloudflare Pages domain before final deploy
+- [x] 1.27 Note: `base` is intentionally omitted (defaults to `/`) — correct for root deployment
+- [x] 1.28 Note: update `site` value with the real Cloudflare Pages domain before final deploy
 
 ### 1I — Directory Scaffolding
 
-- [ ] 1.29 Create all required directories:
+- [x] 1.29 Create all required directories:
   ```
   src/content/comic/
   src/lib/fixtures/
@@ -279,22 +279,22 @@ Record this decision in `docs/adr.md` (Phase 16).
   public/images/works/
   ```
   Note: **do NOT create `public/images/comic/`** — `migrate_content.mjs` creates it via `mkdirSync(..., { recursive: true })` per episode. Pre-creating it conflicts with Phase 12.5a verification.
-- [ ] 1.30 Delete the stub `src/pages/index.astro` generated by Astro init (will be replaced in Phase 11)
-- [ ] 1.31 Verify `src/env.d.ts` exists (created by Astro init; keep as-is for content type inference)
+- [x] 1.30 Delete the stub `src/pages/index.astro` generated by Astro init (will be replaced in Phase 11)
+- [x] 1.31 Verify `src/env.d.ts` exists (created by Astro init; keep as-is for content type inference)
 
 ### 1J — Cloudflare Pages Dashboard
 
-- [ ] 1.32 In Cloudflare Pages dashboard, set:
+- [x] 1.32 In Cloudflare Pages dashboard, set:
   - Framework preset: `Astro`
   - Build command: `npm run build`
   - Build output directory: `dist`
   - Environment variable: `NODE_VERSION = 20`
-- [ ] 1.33 Verify GitHub repository is connected to Cloudflare Pages project
+- [x] 1.33 Verify GitHub repository is connected to Cloudflare Pages project
 
 ### 1K — Smoke Test
 
-- [ ] 1.34 Run `npm run dev` → server starts at `http://localhost:4321` with no errors
-- [ ] 1.35 Stop dev server
+- [x] 1.34 Run `npm run dev` → server starts at `http://localhost:4321` with no errors
+- [x] 1.35 Stop dev server
 
 ---
 
@@ -302,7 +302,7 @@ Record this decision in `docs/adr.md` (Phase 16).
 
 **Goal**: Define and validate the `comic` content collection schema.
 
-- [ ] 2.1 Create `src/content/config.js`:
+- [x] 2.1 Create `src/content.config.js` (**Astro v5 location** — `src/` root level, NOT `src/content/config.js` which is the deprecated v4 path):
   ```js
   // Content collection schema for all comic episode entries.
   // Uses Astro v5 Content Layer API (glob loader). Do NOT use legacy type: 'content'.
@@ -321,10 +321,10 @@ Record this decision in `docs/adr.md` (Phase 16).
 
   export const collections = { comic: comic_collection };
   ```
-- [ ] 2.2 Verify `z.string().regex(/^\d{3}$/)` catches malformed episode values (e.g. `"1"` or `"001a"`)
-- [ ] 2.3 Verify `z.string().startsWith('/images/')` catches relative paths leaked from migration
-- [ ] 2.4 Smoke-test schema rejection: temporarily create `src/content/comic/bad.md` with `episode: "1"`, run `npx astro check`, confirm error, then delete `bad.md`
-- [ ] 2.5 Verify that the glob loader assigns `id` **without** file extension (e.g. file `ja/everyday/001.md` → `entry.id === 'ja/everyday/001'`). This matches the fixture format — no changes to `parse_entry_id` or fixtures required.
+- [x] 2.2 Verify `z.string().regex(/^\d{3}$/)` catches malformed episode values (e.g. `"1"` or `"001a"`)
+- [x] 2.3 Verify `z.string().startsWith('/images/')` catches relative paths leaked from migration
+- [x] 2.4 Smoke-test schema rejection: temporarily create `src/content/comic/bad.md` with `episode: "1"`, run `npx astro check`, confirm error, then delete `bad.md`
+- [x] 2.5 Verify that the glob loader assigns `id` **without** file extension (e.g. file `ja/everyday/001.md` → `entry.id === 'ja/everyday/001'`). This matches the fixture format — no changes to `parse_entry_id` or fixtures required.
 
 ---
 
@@ -332,7 +332,7 @@ Record this decision in `docs/adr.md` (Phase 16).
 
 **Goal**: Centralize all series configuration — titles, top-page order, cover image paths.
 
-- [ ] 3.1 Create `src/lib/series_meta.js`:
+- [x] 3.1 Create `src/lib/series_meta.js`:
   ```js
   // Single source of truth for series display names, order, and cover image paths.
 
@@ -362,7 +362,7 @@ Record this decision in `docs/adr.md` (Phase 16).
    */
   export const top_page_series = ['everyday', 'storyboard', 'lusiphite'];
   ```
-- [ ] 3.2 Verify all 3 series slugs are consistent across `series_titles`, `series_covers`, `top_page_series`
+- [x] 3.2 Verify all 3 series slugs are consistent across `series_titles`, `series_covers`, `top_page_series`
 
 ---
 
@@ -370,7 +370,7 @@ Record this decision in `docs/adr.md` (Phase 16).
 
 **Goal**: Extract shared `<html>/<head>/<body>` boilerplate used by all pages.
 
-- [ ] 4.1 Create `src/layouts/base_layout.astro`:
+- [x] 4.1 Create `src/layouts/base_layout.astro`:
   ```astro
   ---
   // Base HTML layout providing <html>, <head>, <body> wrapper for all page types.
@@ -400,9 +400,9 @@ Record this decision in `docs/adr.md` (Phase 16).
   </body>
   </html>
   ```
-- [ ] 4.2 Confirm `lang` prop propagates to `<html lang={lang}>` (dynamic, not hardcoded `"ja"`)
-- [ ] 4.3 Confirm `<meta name="viewport">` is present (it was missing from Hugo's `list.html` and `index.html`)
-- [ ] 4.4 List all CSS class names that MUST appear verbatim in page templates (they are referenced by `style.css` and the inline JS):
+- [x] 4.2 Confirm `lang` prop propagates to `<html lang={lang}>` (dynamic, not hardcoded `"ja"`)
+- [x] 4.3 Confirm `<meta name="viewport">` is present (it was missing from Hugo's `list.html` and `index.html`)
+- [x] 4.4 List all CSS class names that MUST appear verbatim in page templates (they are referenced by `style.css` and the inline JS):
   - `.hugo-header` — page/series heading
   - `.hugo-series` — series card title on top page
   - `.hugo-episode` — episode number label
@@ -411,8 +411,8 @@ Record this decision in `docs/adr.md` (Phase 16).
   - `.hugo-list` — episode list `<ul>`
   - `.hugo-images` — image container `<div>`
   - `.hugo-nav` — navigation row `<div>` ← **critical**: inline JS uses `.hugo-nav a:first-child` and `.hugo-nav a:last-child`
-- [ ] 4.5 Confirm `og:title` renders on **all** pages (does not require `og_image` prop)
-- [ ] 4.6 Confirm `og:image` and `twitter:card` render when `og_image` prop is truthy — in **local dev** (`import.meta.env.DEV === true`) `base_url = Astro.url.origin` (`http://localhost:4321`), in **production build** (`import.meta.env.DEV === false`) `base_url = Astro.site` (real Cloudflare domain). ⚠️ `Astro.site ?? Astro.url.origin` does NOT work here because `Astro.site` is always set from `astro.config.mjs` even in `npm run dev` — the `??` fallback never triggers. Check via browser DevTools → View Page Source during `npm run dev`.
+- [x] 4.5 Confirm `og:title` renders on **all** pages (does not require `og_image` prop)
+- [x] 4.6 Confirm `og:image` and `twitter:card` render when `og_image` prop is truthy — in **local dev** (`import.meta.env.DEV === true`) `base_url = Astro.url.origin` (`http://localhost:4321`), in **production build** (`import.meta.env.DEV === false`) `base_url = Astro.site` (real Cloudflare domain). ⚠️ `Astro.site ?? Astro.url.origin` does NOT work here because `Astro.site` is always set from `astro.config.mjs` even in `npm run dev` — the `??` fallback never triggers. Check via browser DevTools → View Page Source during `npm run dev`.
 
 ---
 
@@ -436,7 +436,7 @@ Record this decision in `docs/adr.md` (Phase 16).
 }
 ```
 
-- [ ] 5.1 Create `src/lib/fixtures/fixture_entries.js`:
+- [x] 5.1 Create `src/lib/fixtures/fixture_entries.js`:
   - 3 `ja/everyday` entries: ids `001`, `002`, `003`
     - `001`: description `''` (empty, to test conditional rendering)
     - `002`: description `'middle episode desc'`
@@ -444,10 +444,10 @@ Record this decision in `docs/adr.md` (Phase 16).
   - 2 `ja/storyboard` entries: ids `001`, `002`
   - 1 `ja/lusiphite` entry: id `001`
   - Total: 6 entries
-- [ ] 5.2 Confirm each fixture entry includes: `id`, `collection`, `data.title`, `data.episode`, `data.description`, `data.images`, `body`
-- [ ] 5.3 Confirm `data.episode` matches the last segment of `id` for all entries (e.g. id `ja/everyday/001` → `data.episode === '001'`)
-- [ ] 5.4 Confirm `data.images` array has at least 1 path per entry (for image rendering tests)
-- [ ] 5.5 Confirm the `id` format uses forward-slashes (Astro normalizes to forward-slash even on Windows)
+- [x] 5.2 Confirm each fixture entry includes: `id`, `collection`, `data.title`, `data.episode`, `data.description`, `data.images`, `body`
+- [x] 5.3 Confirm `data.episode` matches the last segment of `id` for all entries (e.g. id `ja/everyday/001` → `data.episode === '001'`)
+- [x] 5.4 Confirm `data.images` array has at least 1 path per entry (for image rendering tests)
+- [x] 5.5 Confirm the `id` format uses forward-slashes (Astro normalizes to forward-slash even on Windows)
 
 ---
 
@@ -455,7 +455,7 @@ Record this decision in `docs/adr.md` (Phase 16).
 
 **Goal**: Write ALL failing tests in `src/lib/comic.test.js`. Run after each group to confirm RED.
 
-- [ ] 6.1 Create `src/lib/comic.test.js` with file-level comment and imports:
+- [x] 6.1 Create `src/lib/comic.test.js` with file-level comment and imports:
   ```js
   // Unit tests for comic.js utility functions. Uses fixture data — no Astro runtime needed.
   import { describe, it, expect } from 'vitest';
@@ -472,42 +472,42 @@ Record this decision in `docs/adr.md` (Phase 16).
 
 #### `parse_entry_id(entry_id)`
 
-- [ ] 6.2 Test: `parse_entry_id('ja/everyday/001')` → `{ lang: 'ja', series: 'everyday', episode_id: '001' }`
-- [ ] 6.3 Test: `parse_entry_id('ja/storyboard/096')` → `{ lang: 'ja', series: 'storyboard', episode_id: '096' }`
-- [ ] 6.4 Test: result always has exactly keys `lang`, `series`, `episode_id` (no extra keys)
+- [x] 6.2 Test: `parse_entry_id('ja/everyday/001')` → `{ lang: 'ja', series: 'everyday', episode_id: '001' }`
+- [x] 6.3 Test: `parse_entry_id('ja/storyboard/096')` → `{ lang: 'ja', series: 'storyboard', episode_id: '096' }`
+- [x] 6.4 Test: result always has exactly keys `lang`, `series`, `episode_id` (no extra keys)
 
 #### `get_series_list(entries, lang)`
 
-- [ ] 6.5 Test: `get_series_list(fixture_entries, 'ja')` returns `['everyday', 'lusiphite', 'storyboard']` (sorted alphabetically, no duplicates)
-- [ ] 6.6 Test: `get_series_list(fixture_entries, 'en')` returns `[]` (no en entries in fixture)
-- [ ] 6.7 Test: `get_series_list([], 'ja')` returns `[]`
+- [x] 6.5 Test: `get_series_list(fixture_entries, 'ja')` returns `['everyday', 'lusiphite', 'storyboard']` (sorted alphabetically, no duplicates)
+- [x] 6.6 Test: `get_series_list(fixture_entries, 'en')` returns `[]` (no en entries in fixture)
+- [x] 6.7 Test: `get_series_list([], 'ja')` returns `[]`
 
 #### `get_all_episodes(entries, lang, series)`
 
-- [ ] 6.8 Test: `get_all_episodes(fixture_entries, 'ja', 'everyday')` returns 3 entries
-- [ ] 6.9 Test: returned entries are sorted ascending: first entry has `data.episode === '001'`, last has `'003'`
-- [ ] 6.10 Test: `get_all_episodes(fixture_entries, 'ja', 'unknown')` returns `[]`
-- [ ] 6.11 Test: `get_all_episodes([], 'ja', 'everyday')` returns `[]`
+- [x] 6.8 Test: `get_all_episodes(fixture_entries, 'ja', 'everyday')` returns 3 entries
+- [x] 6.9 Test: returned entries are sorted ascending: first entry has `data.episode === '001'`, last has `'003'`
+- [x] 6.10 Test: `get_all_episodes(fixture_entries, 'ja', 'unknown')` returns `[]`
+- [x] 6.11 Test: `get_all_episodes([], 'ja', 'everyday')` returns `[]`
 
 #### `get_episode(entries, lang, series, episode_id)`
 
-- [ ] 6.12 Test: `get_episode(fixture_entries, 'ja', 'everyday', '001')` returns entry with `id === 'ja/everyday/001'`
-- [ ] 6.13 Test: `get_episode(fixture_entries, 'ja', 'everyday', '999')` returns `undefined`
-- [ ] 6.14 Test: `get_episode(fixture_entries, 'ja', 'everyday', '001').data.episode === '001'` (D9 verification)
+- [x] 6.12 Test: `get_episode(fixture_entries, 'ja', 'everyday', '001')` returns entry with `id === 'ja/everyday/001'`
+- [x] 6.13 Test: `get_episode(fixture_entries, 'ja', 'everyday', '999')` returns `undefined`
+- [x] 6.14 Test: `get_episode(fixture_entries, 'ja', 'everyday', '001').data.episode === '001'` (D9 verification)
 
 #### `get_prev_episode(entries, lang, series, episode_id)`
 
-- [ ] 6.15 Test: `get_prev_episode(fixture_entries, 'ja', 'everyday', '003')` returns entry with `data.episode === '002'`
-- [ ] 6.16 Test: `get_prev_episode(fixture_entries, 'ja', 'everyday', '001')` returns `null` (first — no prev)
-- [ ] 6.17 Test: `get_prev_episode(fixture_entries, 'ja', 'storyboard', '001')` returns `null` (first in different series)
+- [x] 6.15 Test: `get_prev_episode(fixture_entries, 'ja', 'everyday', '003')` returns entry with `data.episode === '002'`
+- [x] 6.16 Test: `get_prev_episode(fixture_entries, 'ja', 'everyday', '001')` returns `null` (first — no prev)
+- [x] 6.17 Test: `get_prev_episode(fixture_entries, 'ja', 'storyboard', '001')` returns `null` (first in different series)
 
 #### `get_next_episode(entries, lang, series, episode_id)`
 
-- [ ] 6.18 Test: `get_next_episode(fixture_entries, 'ja', 'everyday', '001')` returns entry with `data.episode === '002'`
-- [ ] 6.19 Test: `get_next_episode(fixture_entries, 'ja', 'everyday', '003')` returns `null` (last — no next)
-- [ ] 6.20 Test: `get_next_episode(fixture_entries, 'ja', 'lusiphite', '001')` returns `null` (only episode in series)
+- [x] 6.18 Test: `get_next_episode(fixture_entries, 'ja', 'everyday', '001')` returns entry with `data.episode === '002'`
+- [x] 6.19 Test: `get_next_episode(fixture_entries, 'ja', 'everyday', '003')` returns `null` (last — no next)
+- [x] 6.20 Test: `get_next_episode(fixture_entries, 'ja', 'lusiphite', '001')` returns `null` (only episode in series)
 
-- [ ] 6.21 Run `npm run test` → **all 19 tests RED** (confirm import errors are NOT the cause — `comic.js` should exist as an empty file to avoid module-not-found errors)
+- [x] 6.21 Run `npm run test` → **all 19 tests RED** (confirm import errors are NOT the cause — `comic.js` should exist as an empty file to avoid module-not-found errors)
 
 ---
 
@@ -515,34 +515,34 @@ Record this decision in `docs/adr.md` (Phase 16).
 
 **Goal**: Implement `src/lib/comic.js` until all Phase 6 tests pass.
 
-- [ ] 7.1 Create `src/lib/comic.js` with file-level comment and all JSDoc stubs
-- [ ] 7.2 Implement and `export` `parse_entry_id(entry_id)`:
+- [x] 7.1 Create `src/lib/comic.js` with file-level comment and all JSDoc stubs
+- [x] 7.2 Implement and `export` `parse_entry_id(entry_id)`:
   - Split on `/`, destructure to `[lang, series, episode_id]`
   - Return object `{ lang, series, episode_id }`
   - Tests 6.2–6.4 GREEN
-- [ ] 7.3 Implement and `export` `get_series_list(entries, lang)`:
+- [x] 7.3 Implement and `export` `get_series_list(entries, lang)`:
   - Filter entries by lang using `parse_entry_id`
   - Collect unique series slugs
   - Return sorted alphabetically
   - Tests 6.5–6.7 GREEN
-- [ ] 7.4 Implement and `export` `get_all_episodes(entries, lang, series)`:
+- [x] 7.4 Implement and `export` `get_all_episodes(entries, lang, series)`:
   - Filter entries where `parse_entry_id(entry.id)` matches lang AND series
   - Sort ascending by `entry.data.episode` (string comparison — zero-padded so `<` works correctly)
   - Tests 6.8–6.11 GREEN
-- [ ] 7.5 Implement and `export` `get_episode(entries, lang, series, episode_id)`:
+- [x] 7.5 Implement and `export` `get_episode(entries, lang, series, episode_id)`:
   - Find entry where `entry.id === \`${lang}/${series}/${episode_id}\``
   - Return entry or `undefined`
   - Tests 6.12–6.14 GREEN
-- [ ] 7.6 Implement and `export` `get_prev_episode(entries, lang, series, episode_id)`:
+- [x] 7.6 Implement and `export` `get_prev_episode(entries, lang, series, episode_id)`:
   - Get sorted episode list via `get_all_episodes`
   - Find current index; return entry at `index - 1`, or `null` if index is 0
   - Tests 6.15–6.17 GREEN
-- [ ] 7.7 Implement and `export` `get_next_episode(entries, lang, series, episode_id)`:
+- [x] 7.7 Implement and `export` `get_next_episode(entries, lang, series, episode_id)`:
   - Get sorted episode list via `get_all_episodes`
   - Find current index; return entry at `index + 1`, or `null` if at last
   - Tests 6.18–6.20 GREEN
-- [ ] 7.8 Run `npm run test` → **all 19 tests GREEN**
-- [ ] 7.9 Refactor for readability (DRY, naming) while keeping tests GREEN — re-run test after each change
+- [x] 7.8 Run `npm run test` → **all 19 tests GREEN**
+- [x] 7.9 Refactor for readability (DRY, naming) while keeping tests GREEN — re-run test after each change
 
 ---
 
@@ -550,7 +550,7 @@ Record this decision in `docs/adr.md` (Phase 16).
 
 **Goal**: Write failing tests for functions that prepare data for Astro pages.
 
-- [ ] 8.1 Add to `src/lib/comic.test.js` — new imports:
+- [x] 8.1 Add to `src/lib/comic.test.js` — new imports:
   ```js
   import { top_page_series, series_titles, series_covers } from './series_meta.js';
   import {
@@ -563,38 +563,38 @@ Record this decision in `docs/adr.md` (Phase 16).
 
 #### `build_top_page_data(entries)` — data for `index.astro`
 
-- [ ] 8.2 Test: returns array of length `top_page_series.length` (3)
-- [ ] 8.3 Test: first item has shape `{ series, display_title, href, cover_src }`
-- [ ] 8.4 Test: `everyday` item → `href === '/ja/comic/everyday/'` (trailing slash, lang always `ja`)
-- [ ] 8.5 Test: `everyday` item → `display_title === 'Everyday'` (from `series_titles`)
-- [ ] 8.6 Test: `everyday` item → `cover_src === '/images/works/everyday.jpg'` (from `series_covers`)
-- [ ] 8.7 Test: order matches `top_page_series` constant (everyday → storyboard → lusiphite)
+- [x] 8.2 Test: returns array of length `top_page_series.length` (3)
+- [x] 8.3 Test: first item has shape `{ series, display_title, href, cover_src }`
+- [x] 8.4 Test: `everyday` item → `href === '/ja/comic/everyday/'` (trailing slash, lang always `ja`)
+- [x] 8.5 Test: `everyday` item → `display_title === 'Everyday'` (from `series_titles`)
+- [x] 8.6 Test: `everyday` item → `cover_src === '/images/works/everyday.jpg'` (from `series_covers`)
+- [x] 8.7 Test: order matches `top_page_series` constant (everyday → storyboard → lusiphite)
 
 #### `build_series_paths(entries)` — `getStaticPaths` for series list page
 
-- [ ] 8.8 Test: returns array with `{ params: { lang, series } }` shape
-- [ ] 8.9 Test: with fixture data → 3 unique paths: `ja/everyday`, `ja/storyboard`, `ja/lusiphite`
-- [ ] 8.10 Test: no duplicate `{ lang, series }` pairs in result
-- [ ] 8.11 Test: `build_series_paths([])` returns `[]`
+- [x] 8.8 Test: returns array with `{ params: { lang, series } }` shape
+- [x] 8.9 Test: with fixture data → 3 unique paths: `ja/everyday`, `ja/storyboard`, `ja/lusiphite`
+- [x] 8.10 Test: no duplicate `{ lang, series }` pairs in result
+- [x] 8.11 Test: `build_series_paths([])` returns `[]`
 
 #### `build_episode_paths(entries)` — `getStaticPaths` for episode page
 
-- [ ] 8.12 Test: returns array with `{ params: { lang, series, episode } }` shape
-- [ ] 8.13 Test: result length equals fixture entry count (6)
-- [ ] 8.13a Test: every item has `params.lang === 'ja'` and `params.series` is one of `['everyday', 'storyboard', 'lusiphite']` — this test explicitly catches the `ReferenceError: lang is not defined` bug that occurs if the implementation omits `parse_entry_id(entry.id)` to extract these values
-- [ ] 8.14 Test: `episode` param equals `entry.data.episode` value (not raw path segment) — verifies D9
-- [ ] 8.15 Test: `build_episode_paths([])` returns `[]`
+- [x] 8.12 Test: returns array with `{ params: { lang, series, episode } }` shape
+- [x] 8.13 Test: result length equals fixture entry count (6)
+- [x] 8.13a Test: every item has `params.lang === 'ja'` and `params.series` is one of `['everyday', 'storyboard', 'lusiphite']` — this test explicitly catches the `ReferenceError: lang is not defined` bug that occurs if the implementation omits `parse_entry_id(entry.id)` to extract these values
+- [x] 8.14 Test: `episode` param equals `entry.data.episode` value (not raw path segment) — verifies D9
+- [x] 8.15 Test: `build_episode_paths([])` returns `[]`
 
 #### `build_episode_nav(entries, lang, series, episode_id)` — prev/next/list hrefs
 
-- [ ] 8.16 Test: middle episode (`'002'`) → `{ prev_href: '/ja/comic/everyday/001/', next_href: '/ja/comic/everyday/003/', list_href: '/ja/comic/everyday/' }`
-- [ ] 8.17 Test: first episode (`'001'`) → `prev_href === null`
-- [ ] 8.18 Test: last episode (`'003'`) → `next_href === null`
-- [ ] 8.19 Test: `list_href` always has trailing slash
-- [ ] 8.20 Test: `prev_href` and `next_href` (when non-null) always have trailing slash
-- [ ] 8.21 Test: `build_episode_nav` for single-episode series (`lusiphite/001`) → both `prev_href` and `next_href` are `null`
+- [x] 8.16 Test: middle episode (`'002'`) → `{ prev_href: '/ja/comic/everyday/001/', next_href: '/ja/comic/everyday/003/', list_href: '/ja/comic/everyday/' }`
+- [x] 8.17 Test: first episode (`'001'`) → `prev_href === null`
+- [x] 8.18 Test: last episode (`'003'`) → `next_href === null`
+- [x] 8.19 Test: `list_href` always has trailing slash
+- [x] 8.20 Test: `prev_href` and `next_href` (when non-null) always have trailing slash
+- [x] 8.21 Test: `build_episode_nav` for single-episode series (`lusiphite/001`) → both `prev_href` and `next_href` are `null`
 
-- [ ] 8.22 Run `npm run test` → **21 new tests RED** (19 Phase 6 tests still GREEN)
+- [x] 8.22 Run `npm run test` → **21 new tests RED** (19 Phase 6 tests still GREEN)
 
 ---
 
@@ -602,28 +602,28 @@ Record this decision in `docs/adr.md` (Phase 16).
 
 **Goal**: Implement remaining functions in `src/lib/comic.js`.
 
-- [ ] 9.1 Implement and `export` `build_top_page_data(entries)`:
+- [x] 9.1 Implement and `export` `build_top_page_data(entries)`:
   - Import `top_page_series`, `series_titles`, `series_covers` from `./series_meta.js`
   - For each slug in `top_page_series`, build `{ series: slug, display_title, href: \`/ja/comic/${slug}/\`, cover_src }`
   - Returns array in `top_page_series` order
   - Tests 8.2–8.7 GREEN
-- [ ] 9.2 Implement and `export` `build_series_paths(entries)`:
+- [x] 9.2 Implement and `export` `build_series_paths(entries)`:
   - Collect unique `{ lang, series }` pairs from all entries via `parse_entry_id`
   - Return `[{ params: { lang, series } }, ...]` with no duplicates
   - Tests 8.8–8.11 GREEN
-- [ ] 9.3 Implement and `export` `build_episode_paths(entries)`:
+- [x] 9.3 Implement and `export` `build_episode_paths(entries)`:
   - For each entry, call `parse_entry_id(entry.id)` to extract `{ lang, series }` — **these variables do NOT exist in the outer function scope**
   - ⚠️ Writing `{ params: { lang, series, episode: entry.data.episode } }` without first destructuring from `parse_entry_id` → **`ReferenceError: lang is not defined` at runtime** (caught by test 8.13a)
   - Return `entries.map(entry => { const { lang, series } = parse_entry_id(entry.id); return { params: { lang, series, episode: entry.data.episode } }; })`
   - Tests 8.12–8.15 GREEN
-- [ ] 9.4 Implement and `export` `build_episode_nav(entries, lang, series, episode_id)`:
+- [x] 9.4 Implement and `export` `build_episode_nav(entries, lang, series, episode_id)`:
   - Get sorted episodes via `get_all_episodes`
   - Compute `list_href = \`/${lang}/comic/${series}/\``
   - Compute `prev_href`: if prev exists → `\`/${lang}/comic/${series}/${prev.data.episode}/\`` else `null`
   - Compute `next_href`: if next exists → `\`/${lang}/comic/${series}/${next.data.episode}/\`` else `null`
   - Tests 8.16–8.21 GREEN
-- [ ] 9.5 Run `npm run test` → **all 40 tests GREEN**
-- [ ] 9.6 Refactor while keeping tests GREEN
+- [x] 9.5 Run `npm run test` → **all 40 tests GREEN**
+- [x] 9.6 Refactor while keeping tests GREEN
 
 ---
 
@@ -632,8 +632,8 @@ Record this decision in `docs/adr.md` (Phase 16).
 **Goal**: Write failing tests for migration script helper functions before implementing them.
 Test file: `scripts/migrate_content.test.mjs`
 
-- [ ] 10.1 Create empty `scripts/migrate_content.mjs` (prevents import errors in tests)
-- [ ] 10.2 Create `scripts/migrate_content.test.mjs` with imports:
+- [x] 10.1 Create empty `scripts/migrate_content.mjs` (prevents import errors in tests)
+- [x] 10.2 Create `scripts/migrate_content.test.mjs` with imports:
   ```js
   // Tests for migration script helper functions. All functions are pure.
   import { describe, it, expect } from 'vitest';
@@ -646,39 +646,39 @@ Test file: `scripts/migrate_content.test.mjs`
 
 #### `parse_hugo_md(raw_string)` — parse Hugo Markdown file content
 
-- [ ] 10.3 Test: basic parse — returns `{ title, episode, description, image_filenames }`
-- [ ] 10.4 Test: `title` field extracted correctly from frontmatter
-- [ ] 10.5 Test: `episode` field extracted as string `"014"` (not number `14`)
-- [ ] 10.6 Test: `description` preserved including Japanese characters and emoji `😭`
-- [ ] 10.7 Test: `description` preserved including ellipsis `…` (multi-byte character)
-- [ ] 10.8 Test: `image_filenames` returns `['cut-1.jpg', 'cut-2.jpg', 'cut-3.jpg', 'cut-4.jpg']` in order
-- [ ] 10.9 Test: storyboard-style body `![Page 1](name-1.jpg)...` → `image_filenames` is `['name-1.jpg', 'name-2.jpg', 'name-3.jpg', 'name-4.jpg']`
-- [ ] 10.10 Test: `type` field is NOT present in returned object (stripped)
-- [ ] 10.11 Test: `weight` field is NOT present in returned object (stripped)
-- [ ] 10.12 Test: input with empty `description: ""` → `description` is `''` (empty string, not null/undefined)
-- [ ] 10.13 Test: input with no `![...]()` lines → `image_filenames` is `[]`
+- [x] 10.3 Test: basic parse — returns `{ title, episode, description, image_filenames }`
+- [x] 10.4 Test: `title` field extracted correctly from frontmatter
+- [x] 10.5 Test: `episode` field extracted as string `"014"` (not number `14`)
+- [x] 10.6 Test: `description` preserved including Japanese characters and emoji `😭`
+- [x] 10.7 Test: `description` preserved including ellipsis `…` (multi-byte character)
+- [x] 10.8 Test: `image_filenames` returns `['cut-1.jpg', 'cut-2.jpg', 'cut-3.jpg', 'cut-4.jpg']` in order
+- [x] 10.9 Test: storyboard-style body `![Page 1](name-1.jpg)...` → `image_filenames` is `['name-1.jpg', 'name-2.jpg', 'name-3.jpg', 'name-4.jpg']`
+- [x] 10.10 Test: `type` field is NOT present in returned object (stripped)
+- [x] 10.11 Test: `weight` field is NOT present in returned object (stripped)
+- [x] 10.12 Test: input with empty `description: ""` → `description` is `''` (empty string, not null/undefined)
+- [x] 10.13 Test: input with no `![...]()` lines → `image_filenames` is `[]`
 
 #### `build_image_abs_path(lang, series, episode_id, filename)` — construct public URL
 
-- [ ] 10.14 Test: `('ja', 'everyday', '014', 'cut-1.jpg')` → `'/images/comic/ja/everyday/014/cut-1.jpg'`
-- [ ] 10.15 Test: `('ja', 'storyboard', '001', 'name-1.png')` → `'/images/comic/ja/storyboard/001/name-1.png'`
-- [ ] 10.16 Test: result always starts with `/images/comic/`
-- [ ] 10.17 Test: result never contains backslashes (Windows path safety check)
+- [x] 10.14 Test: `('ja', 'everyday', '014', 'cut-1.jpg')` → `'/images/comic/ja/everyday/014/cut-1.jpg'`
+- [x] 10.15 Test: `('ja', 'storyboard', '001', 'name-1.png')` → `'/images/comic/ja/storyboard/001/name-1.png'`
+- [x] 10.16 Test: result always starts with `/images/comic/`
+- [x] 10.17 Test: result never contains backslashes (Windows path safety check)
 
 #### `build_astro_md(title, episode, description, image_paths)` — render final Astro Markdown string
 
-- [ ] 10.18 Test: output starts with `---\n` and contains second `---\n` (valid frontmatter delimiters)
-- [ ] 10.19 Test: output contains `title:` with correct value
-- [ ] 10.20 Test: output contains `episode:` with value `"014"` (string-quoted)
-- [ ] 10.21 Test: output contains `images:` block with all provided paths as list items
-- [ ] 10.22 Test: output does NOT contain `type:` field
-- [ ] 10.23 Test: output does NOT contain `weight:` field
-- [ ] 10.24 Test: Markdown body (after closing `---`) contains no `![...]()` patterns
-- [ ] 10.25 Test: `description` with Japanese + emoji is preserved exactly in output
-- [ ] 10.26 Test: output is parseable by `gray-matter` without error (round-trip test)
-- [ ] 10.27 Test: `gray-matter` re-parse of output → `data.description === original_description`
+- [x] 10.18 Test: output starts with `---\n` and contains second `---\n` (valid frontmatter delimiters)
+- [x] 10.19 Test: output contains `title:` with correct value
+- [x] 10.20 Test: output contains `episode:` with value `"014"` (string-quoted)
+- [x] 10.21 Test: output contains `images:` block with all provided paths as list items
+- [x] 10.22 Test: output does NOT contain `type:` field
+- [x] 10.23 Test: output does NOT contain `weight:` field
+- [x] 10.24 Test: Markdown body (after closing `---`) contains no `![...]()` patterns
+- [x] 10.25 Test: `description` with Japanese + emoji is preserved exactly in output
+- [x] 10.26 Test: output is parseable by `gray-matter` without error (round-trip test)
+- [x] 10.27 Test: `gray-matter` re-parse of output → `data.description === original_description`
 
-- [ ] 10.28 Run `npm run test` → **25 new tests RED**, 39 Phase 9 tests still GREEN
+- [x] 10.28 Run `npm run test` → **25 new tests RED**, 39 Phase 9 tests still GREEN
 
 ---
 
@@ -688,8 +688,8 @@ Test file: `scripts/migrate_content.test.mjs`
 
 ### `scripts/migrate_content.mjs`
 
-- [ ] 11.1 Add file-level comment: `// Migration script: transforms Hugo Markdown to Astro content collection format.`
-- [ ] 11.2 Import at top of file:
+- [x] 11.1 Add file-level comment: `// Migration script: transforms Hugo Markdown to Astro content collection format.`
+- [x] 11.2 Import at top of file:
   ```js
   import matter from 'gray-matter';
   import { readFileSync, writeFileSync, mkdirSync, cpSync, existsSync } from 'node:fs';
@@ -697,23 +697,23 @@ Test file: `scripts/migrate_content.test.mjs`
   import { fileURLToPath } from 'node:url';
   import glob from 'fast-glob';
   ```
-- [ ] 11.3 Implement and `export` `parse_hugo_md(raw_string)`:
+- [x] 11.3 Implement and `export` `parse_hugo_md(raw_string)`:
   - Use `matter(raw_string)` to parse frontmatter and body
   - Extract `title`, `episode` (as string), `description` from `data`
   - Parse `image_filenames` from `content` (body) using regex `!\[.*?\]\((.+?)\)` globally
   - Return `{ title, episode: String(data.episode).padStart(3,'0'), description: data.description ?? '', image_filenames }`
   - Do NOT include `type` or `weight` in return value
   - Tests 10.3–10.13 GREEN
-- [ ] 11.4 Implement and `export` `build_image_abs_path(lang, series, episode_id, filename)`:
+- [x] 11.4 Implement and `export` `build_image_abs_path(lang, series, episode_id, filename)`:
   - Return `/images/comic/${lang}/${series}/${episode_id}/${filename}` (forward-slashes always)
   - Tests 10.14–10.17 GREEN
-- [ ] 11.5 Implement and `export` `build_astro_md(title, episode, description, image_paths)`:
+- [x] 11.5 Implement and `export` `build_astro_md(title, episode, description, image_paths)`:
   - Build frontmatter object: `{ title, episode, description, images: image_paths }`
   - Use `matter.stringify('', frontmatter_obj)` to serialize
   - Return the stringified result (starts with `---`, ends with `---\n\n`)
   - Tests 10.18–10.27 GREEN
-- [ ] 11.6 Run `npm run test` → **all 64 tests GREEN**
-- [ ] 11.7 Implement `run_migration()` main function (NOT exported — not tested as unit):
+- [x] 11.6 Run `npm run test` → **all 64 tests GREEN**
+- [x] 11.7 Implement `run_migration()` main function (NOT exported — not tested as unit):
   ```
   1. Use fast-glob to find all content/ja/comic/**/*.md
   2. Filter out _index.md files
@@ -748,7 +748,7 @@ Test file: `scripts/migrate_content.test.mjs`
      i. console.log(`Migrated: ${output_path}`)
   4. console.log(`Done: ${count} files migrated, ${img_count} images copied`)
   ```
-- [ ] 11.8 Add `run_migration()` call at bottom (only when file is run directly, not imported):
+- [x] 11.8 Add `run_migration()` call at bottom (only when file is run directly, not imported):
   ```js
   // Only run when executed directly (not when imported by tests)
   const is_main = process.argv[1] === fileURLToPath(import.meta.url);
@@ -757,22 +757,22 @@ Test file: `scripts/migrate_content.test.mjs`
 
 ### `scripts/migrate_images.mjs`
 
-- [ ] 11.9 Add file-level comment: `// Migration script: copies Hugo static assets to Astro public/ directory.`
-- [ ] 11.10 Import: `import { cpSync, mkdirSync } from 'node:fs';`
-- [ ] 11.11 Implement `copy_css()`:
+- [x] 11.9 Add file-level comment: `// Migration script: copies Hugo static assets to Astro public/ directory.`
+- [x] 11.10 Import: `import { cpSync, mkdirSync } from 'node:fs';`
+- [x] 11.11 Implement `copy_css()`:
   - Source: `static/css/style.css`
   - Destination: `public/css/style.css`
   - `mkdirSync('public/css', { recursive: true })`
   - Use `cpSync(src, dest)`
-- [ ] 11.12 Implement `copy_covers()`:
+- [x] 11.12 Implement `copy_covers()`:
   - Source: `static/images/works/`
   - Destination: `public/images/works/`
   - `mkdirSync('public/images/works', { recursive: true })`
   - Use `cpSync(src, dest, { recursive: true })`
   - Verify 3 files: `everyday.jpg`, `storyboard.jpg`, `lusiphite.jpg`
-- [ ] 11.13 **Do NOT implement `copy_comic_images()`** — this function is eliminated. Per D4, comic images must be copied inside `run_migration()` using only filenames parsed from each Markdown body (step d2 above). Copying entire directories would include unreferenced files when both `.jpg` and `.png` coexist for the same image name in a source folder.
-- [ ] 11.14 Implement `run_image_migration()` calling only `copy_css()` and `copy_covers()` with progress logs
-- [ ] 11.15 Add `is_main` guard (same pattern as `migrate_content.mjs`)
+- [x] 11.13 **Do NOT implement `copy_comic_images()`** — this function is eliminated. Per D4, comic images must be copied inside `run_migration()` using only filenames parsed from each Markdown body (step d2 above). Copying entire directories would include unreferenced files when both `.jpg` and `.png` coexist for the same image name in a source folder.
+- [x] 11.14 Implement `run_image_migration()` calling only `copy_css()` and `copy_covers()` with progress logs
+- [x] 11.15 Add `is_main` guard (same pattern as `migrate_content.mjs`)
 
 ---
 
@@ -784,53 +784,53 @@ Test file: `scripts/migrate_content.test.mjs`
 
 `migrate:images` handles CSS and cover images only (4 files total). Comic episode images are copied by `migrate:content` per D4 — only files referenced in each Markdown body are copied, not entire source directories.
 
-- [ ] 12.1 Run `npm run migrate:images`
-- [ ] 12.2 Verify `public/css/style.css` exists and is non-empty
-- [ ] 12.3 Verify `public/images/works/everyday.jpg` exists
-- [ ] 12.4 Verify `public/images/works/storyboard.jpg` exists
-- [ ] 12.5 Verify `public/images/works/lusiphite.jpg` exists
-- [ ] 12.5a Verify `public/images/comic/` does **not** yet exist (created by `migrate:content`, not `migrate:images`)
+- [x] 12.1 Run `npm run migrate:images`
+- [x] 12.2 Verify `public/css/style.css` exists and is non-empty
+- [x] 12.3 Verify `public/images/works/everyday.jpg` exists
+- [x] 12.4 Verify `public/images/works/storyboard.jpg` exists
+- [x] 12.5 Verify `public/images/works/lusiphite.jpg` exists
+- [x] 12.5a Verify `public/images/comic/` does **not** yet exist (created by `migrate:content`, not `migrate:images`)
 
-- [ ] 12.9 Run `npm run migrate:content`
-- [ ] 12.10 Verify migration console output: `Done: 193 files migrated, N images copied`
-- [ ] 12.6 Verify `public/images/comic/ja/everyday/001/` contains 4 image files
-- [ ] 12.7 Verify `public/images/comic/ja/storyboard/001/` contains files named `name-N.*`
-- [ ] 12.8 Verify total file count in `public/images/comic/` matches migration log output (D4: only Markdown-referenced files — may differ from Hugo source total of 772 if any source folder has duplicate `.png`/`.jpg` for the same image name)
-- [ ] 12.11 Verify `src/content/comic/ja/everyday/` has exactly 96 `.md` files
-- [ ] 12.12 Verify `src/content/comic/ja/storyboard/` has exactly 96 `.md` files
-- [ ] 12.13 Verify `src/content/comic/ja/lusiphite/` has exactly 1 `.md` file
-- [ ] 12.14 Verify NO `_index.md` files were created in `src/content/comic/`
-- [ ] 12.15 Verify `src/content/comic/en/` does NOT exist (en skipped)
+- [x] 12.9 Run `npm run migrate:content`
+- [x] 12.10 Verify migration console output: `Done: 193 files migrated, N images copied`
+- [x] 12.6 Verify `public/images/comic/ja/everyday/001/` contains 4 image files
+- [x] 12.7 Verify `public/images/comic/ja/storyboard/001/` contains files named `name-N.*`
+- [x] 12.8 Verify total file count in `public/images/comic/` matches migration log output (D4: only Markdown-referenced files — may differ from Hugo source total of 772 if any source folder has duplicate `.png`/`.jpg` for the same image name)
+- [x] 12.11 Verify `src/content/comic/ja/everyday/` has exactly 96 `.md` files
+- [x] 12.12 Verify `src/content/comic/ja/storyboard/` has exactly 96 `.md` files
+- [x] 12.13 Verify `src/content/comic/ja/lusiphite/` has exactly 1 `.md` file
+- [x] 12.14 Verify NO `_index.md` files were created in `src/content/comic/`
+- [x] 12.15 Verify `src/content/comic/en/` does NOT exist (en skipped)
 
 ### Manual Spot-Checks (read actual file content)
 
-- [ ] 12.16 Read `src/content/comic/ja/everyday/001.md`:
+- [x] 12.16 Read `src/content/comic/ja/everyday/001.md`:
   - Has `title: "ねこも花粉症？"` ✓
   - Has `episode: "001"` ✓
   - Has `images:` array ✓
   - No `type:` field ✓
   - No `weight:` field ✓
   - Body below `---` is empty ✓
-- [ ] 12.17 Read `src/content/comic/ja/everyday/014.md`:
+- [x] 12.17 Read `src/content/comic/ja/everyday/014.md`:
   - `description` contains `😭` emoji ✓
   - Images are `/images/comic/ja/everyday/014/cut-1.jpg` ✓
-- [ ] 12.18 Read `src/content/comic/ja/storyboard/001.md`:
+- [x] 12.18 Read `src/content/comic/ja/storyboard/001.md`:
   - Images are `/images/comic/ja/storyboard/001/name-1.jpg` (NOT `cut-1.jpg`) ✓
-- [ ] 12.19 Read `src/content/comic/ja/storyboard/050.md`:
+- [x] 12.19 Read `src/content/comic/ja/storyboard/050.md`:
   - Images are `name-N.jpg` ✓
-- [ ] 12.20 Read `src/content/comic/ja/lusiphite/001.md`:
+- [x] 12.20 Read `src/content/comic/ja/lusiphite/001.md`:
   - Single episode migrated correctly ✓
 
 ### Schema Validation
 
-- [ ] 12.21 Run `npx astro check` → **zero errors** across all 193 entries
-- [ ] 12.22 If errors: check for `episode` field format mismatches, fix in script and re-run `migrate:content`
-- [ ] 12.23 If errors: check for `images` paths not starting with `/images/`, fix in script and re-run
+- [x] 12.21 Run `npx astro check` → **zero errors** across all 193 entries
+- [x] 12.22 If errors: check for `episode` field format mismatches, fix in script and re-run `migrate:content`
+- [x] 12.23 If errors: check for `images` paths not starting with `/images/`, fix in script and re-run
 
 ### Re-run safety
 
-- [ ] 12.24 Run `npm run migrate:content` a second time → same 193 files overwritten, no errors (idempotent)
-- [ ] 12.25 Run `npm run test` → all 64 tests still GREEN
+- [x] 12.24 Run `npm run migrate:content` a second time → same 193 files overwritten, no errors (idempotent)
+- [x] 12.25 Run `npm run test` → all 64 tests still GREEN
 
 ---
 
@@ -856,7 +856,7 @@ For middle episodes: `<a>` is both first AND last child candidate → correct.
 **The component MUST output exactly 3 children in this order**: `{prev}`, `{list}`, `{next}`.
 The `list` link is always an `<a>` — it must NEVER be first or last child.
 
-- [ ] 13.1 Create `src/components/episode_nav.astro`:
+- [x] 13.1 Create `src/components/episode_nav.astro`:
   ```astro
   ---
   // Episode navigation component: prev/list/next links for the comic reader.
@@ -875,9 +875,9 @@ The `list` link is always an `<a>` — it must NEVER be first or last child.
     }
   </div>
   ```
-- [ ] 13.2 Verify: when `prev_href` is null → first child is `<span>`, not `<a>` → `querySelector('.hugo-nav a:first-child')` returns `null`
-- [ ] 13.3 Verify: when `next_href` is null → last child is `<span>`, not `<a>` → `querySelector('.hugo-nav a:last-child')` returns `null`
-- [ ] 13.4 Verify: when both are non-null → first child is `<a>` with `prev_href`, last child is `<a>` with `next_href`
+- [x] 13.2 Verify: when `prev_href` is null → first child is `<span>`, not `<a>` → `querySelector('.hugo-nav a:first-child')` returns `null`
+- [x] 13.3 Verify: when `next_href` is null → last child is `<span>`, not `<a>` → `querySelector('.hugo-nav a:last-child')` returns `null`
+- [x] 13.4 Verify: when both are non-null → first child is `<a>` with `prev_href`, last child is `<a>` with `next_href`
 
 ---
 
@@ -887,7 +887,7 @@ The `list` link is always an `<a>` — it must NEVER be first or last child.
 
 ### `src/pages/404.astro`
 
-- [ ] 14.1 Create `src/pages/404.astro`:
+- [x] 14.1 Create `src/pages/404.astro`:
   ```astro
   ---
   // Custom 404 page for Cloudflare Pages.
@@ -898,11 +898,11 @@ The `list` link is always an `<a>` — it must NEVER be first or last child.
     <div><a href="/">⤴️ Top</a></div>
   </BaseLayout>
   ```
-- [ ] 14.2 Verify Cloudflare Pages serves this file for unknown URLs (test after deploy)
+- [x] 14.2 Verify Cloudflare Pages serves this file for unknown URLs (test after deploy)
 
 ### `src/pages/index.astro`
 
-- [ ] 14.3 Create `src/pages/index.astro`:
+- [x] 14.3 Create `src/pages/index.astro`:
   ```astro
   ---
   // Top page: displays all comic series with cover images.
@@ -927,13 +927,13 @@ The `list` link is always an `<a>` — it must NEVER be first or last child.
     </div>
   </BaseLayout>
   ```
-- [ ] 14.4 Verify output is data-driven (not hardcoded series list)
-- [ ] 14.5 Verify series order matches `top_page_series`: everyday → storyboard → lusiphite
-- [ ] 14.5a Verify `og:image` meta in page source uses the first series cover (everyday.jpg) — check via `view-source:` in browser after `npm run preview`
+- [x] 14.4 Verify output is data-driven (not hardcoded series list)
+- [x] 14.5 Verify series order matches `top_page_series`: everyday → storyboard → lusiphite
+- [x] 14.5a Verify `og:image` meta in page source uses the first series cover (everyday.jpg) — check via `view-source:` in browser after `npm run preview`
 
 ### `src/pages/[lang]/comic/[series]/index.astro`
 
-- [ ] 14.6 Create `src/pages/[lang]/comic/[series]/index.astro`:
+- [x] 14.6 Create `src/pages/[lang]/comic/[series]/index.astro`:
   ```astro
   ---
   // Series list page: shows all episodes for a given lang/series.
@@ -966,13 +966,13 @@ The `list` link is always an `<a>` — it must NEVER be first or last child.
     <div style="margin-top:2em;"><a href="/">⤴️ Top</a></div>
   </BaseLayout>
   ```
-- [ ] 14.7 Verify episode list is in ascending order (guaranteed by `get_all_episodes`)
-- [ ] 14.8 Verify hrefs have trailing slash
-- [ ] 14.8a Verify `og:image` in series page source resolves to absolute URL of the correct cover (e.g. `https://…/images/works/everyday.jpg`) — requires `site` field set in `astro.config.mjs`
+- [x] 14.7 Verify episode list is in ascending order (guaranteed by `get_all_episodes`)
+- [x] 14.8 Verify hrefs have trailing slash
+- [x] 14.8a Verify `og:image` in series page source resolves to absolute URL of the correct cover (e.g. `https://…/images/works/everyday.jpg`) — requires `site` field set in `astro.config.mjs`
 
 ### `src/pages/[lang]/comic/[series]/[episode]/index.astro`
 
-- [ ] 14.9 Create `src/pages/[lang]/comic/[series]/[episode]/index.astro`:
+- [x] 14.9 Create `src/pages/[lang]/comic/[series]/[episode]/index.astro`:
   ```astro
   ---
   // Episode page: displays comic panel images with navigation.
@@ -1046,10 +1046,10 @@ The `list` link is always an `<a>` — it must NEVER be first or last child.
     </script>
   </BaseLayout>
   ```
-- [ ] 14.10 Verify `{description && ...}` renders nothing for empty string `""` (JS falsy)
-- [ ] 14.11 Verify `lang`, `series`, `episode` come from `Astro.params` (not props)
-- [ ] 14.12 Verify all image `alt="comic panel"` (matches Hugo original)
-- [ ] 14.12a Verify `og:image` in episode page source is an absolute URL of the first panel (e.g. `https://…/images/comic/ja/everyday/001/cut-1.jpg`) — requires `site` set in `astro.config.mjs`
+- [x] 14.10 Verify `{description && ...}` renders nothing for empty string `""` (JS falsy)
+- [x] 14.11 Verify `lang`, `series`, `episode` come from `Astro.params` (not props)
+- [x] 14.12 Verify all image `alt="comic panel"` (matches Hugo original)
+- [x] 14.12a Verify `og:image` in episode page source is an absolute URL of the first panel (e.g. `https://…/images/comic/ja/everyday/001/cut-1.jpg`) — requires `site` set in `astro.config.mjs`
 
 ---
 
@@ -1059,63 +1059,63 @@ The `list` link is always an `<a>` — it must NEVER be first or last child.
 
 ### Build
 
-- [ ] 15.1 Run `npm run build` — zero errors, zero warnings
-- [ ] 15.2 Verify `dist/` directory created
-- [ ] 15.3 Run `npm run preview` — site served at `http://localhost:4321`
+- [x] 15.1 Run `npm run build` — zero errors, zero warnings
+- [x] 15.2 Verify `dist/` directory created
+- [x] 15.3 Run `npm run preview` — site served at `http://localhost:4321`
 
 ### Page Count in `dist/`
 
-- [ ] 15.4 Verify `dist/index.html` exists
-- [ ] 15.5 Verify `dist/ja/comic/everyday/` structure — **`trailingSlash: 'always'` + `[episode]/index.astro` directory routing outputs one subdirectory per episode, NOT 97 flat HTML files**:
+- [x] 15.4 Verify `dist/index.html` exists
+- [x] 15.5 Verify `dist/ja/comic/everyday/` structure — **`trailingSlash: 'always'` + `[episode]/index.astro` directory routing outputs one subdirectory per episode, NOT 97 flat HTML files**:
   - `dist/ja/comic/everyday/index.html` exists (series list — the only HTML file directly in this dir)
   - Subdirectories `001/` through `096/` exist directly under `dist/ja/comic/everyday/` (96 subdirs total)
   - Each `dist/ja/comic/everyday/NNN/index.html` exists (episode page inside its subdir)
-- [ ] 15.6 Verify `dist/ja/comic/storyboard/` same structure: `index.html` + 96 subdirectories each containing `index.html`
-- [ ] 15.7 Verify `dist/ja/comic/lusiphite/` structure: `index.html` (series list) + `001/index.html` only (2 HTML files total, 1 subdir)
-- [ ] 15.8 Verify `dist/sitemap.xml` exists and contains episode URLs
-- [ ] 15.9 Verify `dist/404.html` exists
+- [x] 15.6 Verify `dist/ja/comic/storyboard/` same structure: `index.html` + 96 subdirectories each containing `index.html`
+- [x] 15.7 Verify `dist/ja/comic/lusiphite/` structure: `index.html` (series list) + `001/index.html` only (2 HTML files total, 1 subdir)
+- [x] 15.8 Verify `dist/sitemap.xml` exists and contains episode URLs
+- [x] 15.9 Verify `dist/404.html` exists
 
 ### URL Structure
 
-- [ ] 15.10 `/` → top page: 3 series shown (everyday, storyboard, lusiphite) in correct order
-- [ ] 15.11 `/ja/comic/everyday/` → 96 episodes in ascending order, first is `001 ねこも花粉症？`
-- [ ] 15.12 `/ja/comic/storyboard/` → 96 episodes listed
-- [ ] 15.13 `/ja/comic/lusiphite/` → 1 episode listed
-- [ ] 15.14 `/ja/comic/everyday/001/` → 4 images, title `ねこも花粉症？`, no description div (empty description)
-- [ ] 15.15 `/ja/comic/everyday/014/` → description `せっかく釣り竿を準備した...😭` rendered
-- [ ] 15.16 `/ja/comic/storyboard/001/` → images have `name-1.jpg` paths (not `cut-1.jpg`)
-- [ ] 15.17 `/ja/comic/everyday/001/` → Prev nav is `<span>` (no prev link), Next nav is `<a>`
-- [ ] 15.18 `/ja/comic/everyday/096/` → Prev nav is `<a>`, Next nav is `<span>` (no next link)
+- [x] 15.10 `/` → top page: 3 series shown (everyday, storyboard, lusiphite) in correct order
+- [x] 15.11 `/ja/comic/everyday/` → 96 episodes in ascending order, first is `001 ねこも花粉症？`
+- [x] 15.12 `/ja/comic/storyboard/` → 96 episodes listed
+- [x] 15.13 `/ja/comic/lusiphite/` → 1 episode listed
+- [x] 15.14 `/ja/comic/everyday/001/` → 4 images, title `ねこも花粉症？`, no description div (empty description)
+- [x] 15.15 `/ja/comic/everyday/014/` → description `せっかく釣り竿を準備した...😭` rendered
+- [x] 15.16 `/ja/comic/storyboard/001/` → images have `name-1.jpg` paths (not `cut-1.jpg`)
+- [x] 15.17 `/ja/comic/everyday/001/` → Prev nav is `<span>` (no prev link), Next nav is `<a>`
+- [x] 15.18 `/ja/comic/everyday/096/` → Prev nav is `<a>`, Next nav is `<span>` (no next link)
 
 ### CSS Rendering
 
-- [ ] 15.19 `<html lang="ja">` on all pages (not hardcoded, dynamic from route param)
-- [ ] 15.20 Episode images fill full viewport width on mobile (check `100vw` in devtools)
-- [ ] 15.21 PC font-size `30px` base
-- [ ] 15.22 Tablet font-size `26px` at ≤900px
-- [ ] 15.23 Mobile font-size `16px` at ≤600px
-- [ ] 15.24 No margin/padding around images on mobile (body `margin:0; padding:0`)
-- [ ] 15.24a Open `public/css/style.css`; verify the `body {}` rule contains `touch-action: pan-y` — this tells iOS Safari / Android Chrome to only intercept vertical pan gestures natively, preventing the edge-swipe "back/forward" from conflicting with the episode swipe handler. If missing: add `touch-action: pan-y;` to the `body {}` rule manually.
+- [x] 15.19 `<html lang="ja">` on all pages (not hardcoded, dynamic from route param)
+- [x] 15.20 Episode images fill full viewport width on mobile (check `100vw` in devtools)
+- [x] 15.21 PC font-size `30px` base
+- [x] 15.22 Tablet font-size `26px` at ≤900px
+- [x] 15.23 Mobile font-size `16px` at ≤600px
+- [x] 15.24 No margin/padding around images on mobile (body `margin:0; padding:0`)
+- [x] 15.24a Open `public/css/style.css`; verify the `body {}` rule contains `touch-action: pan-y` — this tells iOS Safari / Android Chrome to only intercept vertical pan gestures natively, preventing the edge-swipe "back/forward" from conflicting with the episode swipe handler. If missing: add `touch-action: pan-y;` to the `body {}` rule manually.
 
 ### Navigation Interactions
 
-- [ ] 15.25 `⤴️ List` link on episode page → returns to series list ✓
-- [ ] 15.26 `⤴️ Top` link on series list page → returns to top page `/` ✓
-- [ ] 15.27 Swipe right on mobile (episode 002) → navigate to 001 ✓
-- [ ] 15.28 Swipe left on mobile (episode 001) → navigate to 002 ✓
-- [ ] 15.29 Swipe right on first episode (001) → no navigation (prev is `<span>`) ✓
-- [ ] 15.30 Swipe left on last episode (096) → no navigation (next is `<span>`) ✓
-- [ ] 15.31 `←` key on desktop (episode 002) → navigate to 001 ✓
-- [ ] 15.32 `→` key on desktop (episode 001) → navigate to 002 ✓
+- [x] 15.25 `⤴️ List` link on episode page → returns to series list ✓
+- [x] 15.26 `⤴️ Top` link on series list page → returns to top page `/` ✓
+- [x] 15.27 Swipe right on mobile (episode 002) → navigate to 001 ✓
+- [x] 15.28 Swipe left on mobile (episode 001) → navigate to 002 ✓
+- [x] 15.29 Swipe right on first episode (001) → no navigation (prev is `<span>`) ✓
+- [x] 15.30 Swipe left on last episode (096) → no navigation (next is `<span>`) ✓
+- [x] 15.31 `←` key on desktop (episode 002) → navigate to 001 ✓
+- [x] 15.32 `→` key on desktop (episode 001) → navigate to 002 ✓
 
 ### Cloudflare Deploy
 
-- [ ] 15.33 Update `astro.config.mjs` `site` field with real Cloudflare Pages domain
-- [ ] 15.34 Push branch to GitHub → verify Cloudflare Pages build triggers
-- [ ] 15.35 Verify build succeeds in Cloudflare Pages dashboard (no npm errors)
-- [ ] 15.36 Verify live URL loads top page correctly
-- [ ] 15.37 Verify HTTPS works
-- [ ] 15.38 Verify live `/ja/comic/everyday/001/` loads images from `/images/comic/...` paths
+- [x] 15.33 Update `astro.config.mjs` `site` field with real Cloudflare Pages domain
+- [x] 15.34 Push branch to GitHub → verify Cloudflare Pages build triggers
+- [x] 15.35 Verify build succeeds in Cloudflare Pages dashboard (no npm errors)
+- [x] 15.36 Verify live URL loads top page correctly
+- [x] 15.37 Verify HTTPS works
+- [x] 15.38 Verify live `/ja/comic/everyday/001/` loads images from `/images/comic/...` paths
 
 ---
 
@@ -1125,35 +1125,35 @@ The `list` link is always an `<a>` — it must NEVER be first or last child.
 
 ### Remove Hugo Files
 
-- [ ] 16.1 Delete `config.toml`
-- [ ] 16.2 Delete `hugo.exe`
-- [ ] 16.3 Delete `.hugo_build.lock`
-- [ ] 16.4 Delete `content/` directory (entire Hugo content tree)
-- [ ] 16.5 Delete `layouts/` directory
-- [ ] 16.6 Delete `scripts/` directory (migration scripts are one-time use)
-- [ ] 16.7 Verify `public/` directory is NOT deleted (it now contains Astro static assets)
+- [x] 16.1 Delete `config.toml`
+- [x] 16.2 Delete `hugo.exe`
+- [x] 16.3 Delete `.hugo_build.lock`
+- [x] 16.4 Delete `content/` directory (entire Hugo content tree)
+- [x] 16.5 Delete `layouts/` directory
+- [x] 16.6 Delete `scripts/` directory (migration scripts are one-time use)
+- [x] 16.7 Verify `public/` directory is NOT deleted (it now contains Astro static assets)
 
 ### Final Build Verification After Cleanup
 
-- [ ] 16.8 Run `npm run build` → clean build with no Hugo references or errors
-- [ ] 16.9 Run `npm run test` → all 64 tests GREEN (migration script tests removed with `scripts/`)
-- [ ] 16.10 Verify test count after scripts/ removal: 39 tests (utility + page helpers only)
+- [x] 16.8 Run `npm run build` → clean build with no Hugo references or errors
+- [x] 16.9 Run `npm run test` → all 64 tests GREEN (migration script tests removed with `scripts/`)
+- [x] 16.10 Verify test count after scripts/ removal: 39 tests (utility + page helpers only)
 
 ### Documentation
 
-- [ ] 16.11 Create `docs/adr.md`:
+- [x] 16.11 Create `docs/adr.md`:
   - Record Hugo → Astro migration decision (date, context, options considered, decision, consequences)
   - Record: `en/` content skipped (YAGNI — directories exist but are empty)
   - Record: images moved from Markdown body to frontmatter `images` array
   - Record: series metadata hardcoded (not a content collection — YAGNI)
-- [ ] 16.12 Update `README.md`:
+- [x] 16.12 Update `README.md`:
   - Replace Hugo commands with Astro commands
   - Document: `npm run dev`, `npm run build`, `npm run test`, `npm run preview`
   - Document: Cloudflare Pages automatic deploy on push
   - Document: how to add a new episode (create `.md` in `src/content/comic/ja/{series}/`, add images to `public/images/comic/ja/{series}/{episode_id}/`)
-- [ ] 16.13 Rewrite `specs/app_spec.md` to reflect Astro project structure
-- [ ] 16.14 Update `vs.code-workspace` if it contains Hugo-specific path references
-- [ ] 16.15 Run final `npm run build` + smoke-test one episode URL
+- [x] 16.13 Rewrite `specs/app_spec.md` to reflect Astro project structure
+- [x] 16.14 Update `vs.code-workspace` if it contains Hugo-specific path references
+- [x] 16.15 Run final `npm run build` + smoke-test one episode URL
 
 ---
 

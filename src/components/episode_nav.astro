@@ -1,0 +1,16 @@
+---
+// Episode navigation component: prev/list/next links for the comic reader.
+// IMPORTANT: DOM structure must match .hugo-nav a:first-child / a:last-child selectors in inline script.
+const { prev_href, next_href, list_href } = Astro.props;
+---
+<div class="hugo-nav">
+  {prev_href
+    ? <a href={prev_href}>◀️ Prev</a>
+    : <span></span>
+  }
+  <a href={list_href}>⤴️ List</a>
+  {next_href
+    ? <a href={next_href}>Next ▶️</a>
+    : <span></span>
+  }
+</div>
