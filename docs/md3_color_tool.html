@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MD3 Color Tool v3 — meowtoon.com</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:14px}
+body{font-family:'Roboto',system-ui,sans-serif;background:#ebebeb;color:#1c1b1f}
+.page{max-width:980px;margin:0 auto;padding:20px 16px 64px}
+
+.hd{display:flex;align-items:center;gap:10px;padding:13px 18px;background:#fff;border-radius:12px;margin-bottom:12px;border:1px solid #e0e0e0}
+.hd h1{font-size:15px;font-weight:500;flex:1;font-family:'Roboto Mono',monospace}
+.bdg{font-size:11px;color:#666;background:#f0f0f0;padding:3px 9px;border-radius:20px;white-space:nowrap}
+
+/* ── Style tabs ─────────────────────────────── */
+.style-tabs{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+.stab{height:36px;padding:0 16px;border-radius:18px;border:1.5px solid #e0e0e0;background:#fff;font-size:12px;font-weight:500;cursor:pointer;color:#555;transition:all .15s;display:flex;align-items:center;gap:6px}
+.stab:hover{border-color:#aaa}
+.stab.active{color:#fff;border-color:transparent}
+.stab[data-style="all"].active    {background:#1c1b1f}
+.stab[data-style="pale"].active   {background:#b39ddb}
+.stab[data-style="muted"].active  {background:#8d6e63}
+.stab[data-style="vivid"].active  {background:#e53935}
+.stab[data-style="strong"].active {background:#6a1b9a}
+.stab[data-style="neon"].active   {background:#00bcd4;color:#000}
+
+.style-legend{display:none;gap:8px;margin-bottom:10px;padding:10px 14px;background:#fff;border-radius:10px;border:1px solid #e0e0e0}
+.style-legend.show{display:flex;flex-wrap:wrap}
+.leg-item{display:flex;align-items:center;gap:6px;font-size:11px;color:#555}
+.leg-dot{width:28px;height:14px;border-radius:4px}
+
+/* ── Search ─────────────────────────────────── */
+.sw{position:relative;margin-bottom:10px}
+.sw input{width:100%;height:34px;border:1px solid #e0e0e0;border-radius:8px;padding:0 10px 0 34px;font-size:12px;background:#fff;color:#1c1b1f}
+.sw input:focus{outline:2px solid #555;outline-offset:1px}
+.sw .si{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:14px;color:#9e9e9e;pointer-events:none}
+#sc{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:11px;color:#9e9e9e;font-family:'Roboto Mono',monospace}
+
+/* ── Preset grid ─────────────────────────────── */
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(138px,1fr));gap:6px;margin-bottom:12px}
+.pc{background:#fff;border:1.5px solid #e8e8e8;border-radius:10px;padding:9px 10px 8px;cursor:pointer;transition:transform .1s,border-color .15s,box-shadow .15s;user-select:none}
+.pc:hover{transform:translateY(-1px);border-color:#aaa;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.pc.sel{border-width:2px;box-shadow:0 0 0 3px rgba(0,0,0,.1)}
+.pc-swatches{display:flex;gap:3px;margin-bottom:6px}
+.pc-dot{width:20px;height:20px;border-radius:50%;border:1px solid rgba(0,0,0,.07);flex-shrink:0}
+.pc-name{font-size:11px;font-weight:500;color:#1c1b1f;line-height:1.3;margin-bottom:2px}
+.pc-tag{font-size:10px;color:#888;line-height:1.3}
+.pc-style{font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-top:4px;padding:1px 5px;border-radius:3px;display:inline-block}
+.nores{text-align:center;padding:24px;color:#9e9e9e;font-size:13px;grid-column:1/-1}
+
+/* ── Controls ──────────────────────────────────── */
+.ctrl{background:#fff;border:1px solid #e0e0e0;border-radius:12px;padding:11px 14px;margin-bottom:12px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.ai{flex:1;min-width:160px}
+.ai .an{font-size:13px;font-weight:500}
+.ai .at{font-size:11px;color:#888}
+.sep{width:1px;height:26px;background:#e0e0e0;flex-shrink:0}
+.cg{display:flex;align-items:center;gap:5px}
+.cl{font-size:11px;color:#9e9e9e;white-space:nowrap}
+#cp{width:30px;height:26px;border:1px solid #e0e0e0;border-radius:5px;cursor:pointer;padding:1px;background:none}
+#sh{width:78px;height:26px;font-family:'Roboto Mono',monospace;font-size:11px;border:1px solid #e0e0e0;border-radius:5px;padding:0 6px}
+#sh:focus{outline:2px solid #555;outline-offset:1px}
+.mt{display:flex;align-items:center;gap:6px;cursor:pointer}
+.tt{width:40px;height:22px;border-radius:11px;background:#ccc;position:relative;transition:background .2s}
+.tt.dark{background:#555}
+.th{width:16px;height:16px;border-radius:50%;background:#fff;position:absolute;top:3px;left:3px;transition:left .18s;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.tt.dark .th{left:21px}
+.ml{font-size:12px;color:#555;min-width:92px;font-weight:500}
+
+/* ── Swatches ───────────────────────────────────── */
+.st{font-size:10px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:#9e9e9e;margin:14px 0 7px}
+.sg{display:grid;grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:5px;margin-bottom:3px}
+.sw2{border-radius:8px;overflow:hidden;border:1px solid rgba(0,0,0,.07);cursor:pointer;transition:transform .1s}
+.sw2:hover{transform:scale(1.04)}
+.sc2{height:56px;padding:6px 8px;display:flex;flex-direction:column;justify-content:flex-end;gap:2px}
+.sh2{font-family:'Roboto Mono',monospace;font-size:11px;font-weight:500}
+.sr{font-size:9px;opacity:.72}
+.si2{background:#fff;padding:4px 8px}
+.sn{font-size:10px;color:#757575;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* ── Preview ─────────────────────────────────────── */
+.pv{background:#fff;border:1px solid #e0e0e0;border-radius:12px;overflow:hidden;margin-top:14px}
+.pvt{display:flex;align-items:center;justify-content:space-between;padding:7px 13px;border-bottom:1px solid #f0f0f0}
+.pvt span{font-size:12px;color:#757575;font-weight:500}
+.sbdg{font-size:11px;padding:2px 9px;border-radius:4px;font-weight:500}
+.pvi{padding:9px}
+.ps{border-radius:9px;overflow:hidden}
+.pab{height:50px;display:flex;align-items:center;padding:0 13px;gap:9px}
+.pat{font-size:14px;font-weight:500;flex:1}
+.pfab{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px}
+.pb{padding:11px;display:flex;flex-direction:column;gap:8px}
+.phero{border-radius:10px;padding:12px 14px}
+.pey{font-size:10px;letter-spacing:.07em;text-transform:uppercase;opacity:.75;margin-bottom:3px}
+.ptit{font-size:15px;font-weight:500;margin-bottom:3px;line-height:1.3}
+.pbt{font-size:12px;opacity:.8;line-height:1.5}
+.prow{display:flex;gap:7px}
+.pcs{border-radius:10px;padding:8px 11px;flex:1}
+.pcl{font-size:10px;opacity:.7;text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px}
+.pcv{font-size:13px;font-weight:500}
+.pbtns{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.pbtn{height:32px;border-radius:16px;padding:0 16px;font-size:12px;font-weight:500;border:none;cursor:pointer}
+.pbtno{background:transparent!important;border:1.5px solid}
+.pchs{display:flex;gap:5px;flex-wrap:wrap}
+.pch{height:24px;border-radius:6px;padding:0 9px;font-size:11px;display:flex;align-items:center;border:1px solid}
+.perr{border-radius:8px;padding:7px 11px;font-size:11px;display:flex;align-items:center;gap:6px}
+.pnav{height:42px;display:flex;align-items:center;border-top:1px solid}
+.pni{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:9px;padding:3px 0}
+.pnp{width:44px;height:22px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:13px}
+
+/* ── Export ──────────────────────────────────────── */
+.ep{background:#fff;border:1px solid #e0e0e0;border-radius:12px;margin-top:14px;overflow:hidden}
+.eph{display:flex;align-items:center;gap:7px;flex-wrap:wrap;padding:8px 13px;background:#fafafa;border-bottom:1px solid #e8e8e8}
+.eph h3{font-size:12px;font-weight:500;flex:1}
+.btn{height:28px;border-radius:5px;padding:0 12px;font-size:11px;font-weight:500;cursor:pointer;border:none;display:inline-flex;align-items:center;gap:4px}
+.btn:hover{opacity:.85}
+.btp{background:#1c1b1f;color:#fff}
+.bts{background:#f0f0f0;color:#333}
+#co{display:block;width:100%;min-height:200px;max-height:380px;overflow-y:auto;resize:vertical;font-family:'Roboto Mono',monospace;font-size:11px;line-height:1.75;color:#263238;background:#fafafa;border:none;padding:13px 16px;white-space:pre}
+
+.ft{margin-top:20px;padding-top:12px;border-top:1px solid #ddd;font-size:11px;color:#9e9e9e;display:flex;justify-content:space-between;flex-wrap:wrap;gap:5px}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="hd">
+  <h1>MD3 Color Tool <span style="color:#9e9e9e;font-weight:400">v3</span></h1>
+  <span class="bdg">meowtoon.com · Phase 1 · D1 決定用</span>
+  <span class="bdg" id="totalBdg">5 styles × 20 hues = 100</span>
+</div>
+
+<!-- Style tabs -->
+<div class="style-tabs">
+  <button class="stab active" data-style="all">🌐 All 100</button>
+  <button class="stab" data-style="pale">🌸 Pale <span style="font-weight:400;opacity:.7">（淡い・パステル）</span></button>
+  <button class="stab" data-style="muted">🍂 Muted <span style="font-weight:400;opacity:.7">（くすみ・アース）</span></button>
+  <button class="stab" data-style="vivid">💎 Vivid <span style="font-weight:400;opacity:.7">（鮮やか）</span></button>
+  <button class="stab" data-style="strong">⚡ Strong <span style="font-weight:400;opacity:.7">（力強い・深い）</span></button>
+  <button class="stab" data-style="neon">🔆 Neon <span style="font-weight:400;opacity:.7">（電気・極彩）</span></button>
+</div>
+
+<div class="sw">
+  <span class="si">🔍</span>
+  <input type="text" id="si" placeholder="検索 — sakura, blue, tropical, jazz, desert…">
+  <span id="sc"></span>
+</div>
+
+<div class="pgrid" id="pgrid"></div>
+
+<div class="ctrl">
+  <div class="ai"><div class="an" id="an">—</div><div class="at" id="at">プリセットを選択</div></div>
+  <div class="sep"></div>
+  <div class="cg">
+    <span class="cl">Custom</span>
+    <input type="color" id="cp" value="#E91E63">
+    <input type="text"  id="sh" value="#E91E63" maxlength="7" spellcheck="false">
+  </div>
+  <div class="sep"></div>
+  <div class="cg">
+    <span class="cl">Scheme</span>
+    <div class="mt" onclick="toggleMode()">
+      <div class="tt" id="tt"><div class="th"></div></div>
+      <span class="ml" id="ml">☀ Day</span>
+    </div>
+  </div>
+</div>
+
+<div id="swArea"></div>
+
+<div class="pv">
+  <div class="pvt">
+    <span>meowtoon.com — UI Preview</span>
+    <span class="sbdg" id="sbdg"></span>
+  </div>
+  <div class="pvi"><div class="ps" id="pvs"></div></div>
+</div>
+
+<div class="ep">
+  <div class="eph">
+    <h3>Export → <code style="font-size:11px">public/css/md3-tokens.css</code></h3>
+    <button class="btn bts" onclick="copyCSS()" id="cb">📋 コピー</button>
+    <button class="btn btp" onclick="dlCSS()">⬇ ダウンロード</button>
+  </div>
+  <textarea id="co" readonly spellcheck="false"></textarea>
+</div>
+
+<div class="ft">
+  <span>MD3 Color Tool v3 · 5 Style Tiers × 20 Hues · develop_plan_v2.md Phase 1</span>
+  <span id="fi"></span>
+</div>
+</div>
+
+<script>
+/* ════════════════════════════════════════════════════════════════
+   STYLE TIER TONE MAPPINGS
+   The heart of the system. Each style defines exact tone values
+   for every color role in both light and dark schemes.
+════════════════════════════════════════════════════════════════ */
+const T = {
+  pale: {
+    // Light: Primary IS the light color → on-primary = DARK TEXT
+    pL:76,  opL:10, pcL:94, opcL:15,
+    sL:76,  osL:10, scL:94, oscL:15,
+    bgL:99, sfL:99, svL:95, osvL:20, oL:60,  ovL:88,
+    eL:60,  oeL:12,
+    onSfL:12,
+    // Dark: still soft but glowing
+    pD:88,  opD:14, pcD:30, opcD:92,
+    sD:88,  osD:14, scD:30, oscD:92,
+    bgD:6,  sfD:6,  svD:28, osvD:84, oD:60,  ovD:28,
+    eD:80,  oeD:14,
+    onSfD:92,
+    sScale:0.28, ssScale:0.24, ns:3,
+    label:'🌸 Pale', color:'#b39ddb',
+  },
+  muted: {
+    // Light: mid-dark primary, sophisticated low chroma
+    pL:46,  opL:99, pcL:90, opcL:12,
+    sL:46,  osL:99, scL:90, oscL:12,
+    bgL:98, sfL:98, svL:90, osvL:28, oL:50,  ovL:80,
+    eL:40,  oeL:99,
+    onSfL:10,
+    pD:78,  opD:18, pcD:28, opcD:90,
+    sD:78,  osD:18, scD:28, oscD:90,
+    bgD:6,  sfD:6,  svD:28, osvD:80, oD:60,  ovD:28,
+    eD:80,  oeD:18,
+    onSfD:92,
+    sScale:0.52, ssScale:0.44, ns:5,
+    label:'🍂 Muted', color:'#8d6e63',
+  },
+  vivid: {
+    // Light: saturated mid-dark primary
+    pL:36,  opL:99, pcL:88, opcL:8,
+    sL:36,  osL:99, scL:88, oscL:8,
+    bgL:98, sfL:98, svL:90, osvL:26, oL:48,  ovL:80,
+    eL:38,  oeL:99,
+    onSfL:10,
+    pD:82,  opD:16, pcD:26, opcD:92,
+    sD:82,  osD:16, scD:26, oscD:92,
+    bgD:5,  sfD:5,  svD:26, osvD:84, oD:62,  ovD:26,
+    eD:82,  oeD:16,
+    onSfD:92,
+    sScale:0.85, ssScale:0.72, ns:6,
+    label:'💎 Vivid', color:'#e53935',
+  },
+  strong: {
+    // Light: deep dark primary, powerful
+    pL:26,  opL:99, pcL:84, opcL:6,
+    sL:26,  osL:99, scL:84, oscL:6,
+    bgL:98, sfL:98, svL:90, osvL:24, oL:46,  ovL:78,
+    eL:26,  oeL:99,
+    onSfL:10,
+    pD:80,  opD:14, pcD:22, opcD:90,
+    sD:80,  osD:14, scD:22, oscD:90,
+    bgD:5,  sfD:5,  svD:24, osvD:82, oD:64,  ovD:24,
+    eD:80,  oeD:14,
+    onSfD:92,
+    sScale:1.00, ssScale:0.86, ns:7,
+    label:'⚡ Strong', color:'#6a1b9a',
+  },
+  neon: {
+    // Light: electric mid-tone + very dark on-primary
+    pL:46,  opL:4,  pcL:82, opcL:6,
+    sL:46,  osL:4,  scL:82, oscL:6,
+    bgL:98, sfL:98, svL:88, osvL:12, oL:44,  ovL:75,
+    eL:50,  oeL:4,
+    onSfL:8,
+    // Dark: glowing neon on very dark bg
+    pD:65,  opD:4,  pcD:18, opcD:88,
+    sD:65,  osD:4,  scD:18, oscD:88,
+    bgD:4,  sfD:4,  svD:18, osvD:88, oD:65,  ovD:18,
+    eD:65,  oeD:4,
+    onSfD:90,
+    sScale:1.20, ssScale:1.05, ns:5,
+    label:'🔆 Neon', color:'#00bcd4',
+  },
+};
+
+/* ════════════════════════════════════════════════════════════════
+   100 PRESETS  (style × 20 hues)
+   ph=primary hue  ps=primary sat BASE (scaled by style)
+   secH=secondary hue  ss=secondary sat BASE
+   nh=neutral hue (surface/bg)
+════════════════════════════════════════════════════════════════ */
+const P=[
+  // ── 🌸 PALE (20) ────────────────────────────────────────────
+  {s:'pale', id:'p-sakura',    n:'Pale Sakura',       t:'桜・春の柔らかさ',           ph:348,ps:80,secH:98, ss:65,nh:350,w:'japan spring pink'},
+  {s:'pale', id:'p-ice',       n:'Pale Ice Blue',     t:'雪原・透明な静寂',           ph:210,ps:80,secH:35, ss:65,nh:208,w:'arctic winter ice'},
+  {s:'pale', id:'p-lavender',  n:'Pale Lavender',     t:'プロヴァンスのラベンダー',   ph:272,ps:80,secH:55, ss:65,nh:270,w:'provence france purple'},
+  {s:'pale', id:'p-sage',      n:'Pale Sage',         t:'アーリーモーニングの森',     ph:130,ps:75,secH:28, ss:60,nh:128,w:'forest green nature'},
+  {s:'pale', id:'p-peach',     n:'Pale Peach',        t:'桃の花・柔らかい温もり',     ph:20, ps:82,secH:198,ss:65,nh:18, w:'peach blossom warm'},
+  {s:'pale', id:'p-sky',       n:'Pale Sky',          t:'夏の水色・パーフェクトブルー',ph:198,ps:78,secH:40, ss:62,nh:200,w:'summer sky blue'},
+  {s:'pale', id:'p-lilac',     n:'Pale Lilac',        t:'朝露のライラック',           ph:285,ps:75,secH:165,ss:58,nh:282,w:'garden lilac morning'},
+  {s:'pale', id:'p-mint',      n:'Pale Mint',         t:'涼やかなミントの葉',         ph:162,ps:78,secH:335,ss:62,nh:160,w:'mint fresh cool'},
+  {s:'pale', id:'p-rosegold',  n:'Pale Rose Gold',    t:'ローズゴールドの輝き',       ph:335,ps:80,secH:40, ss:62,nh:338,w:'rose gold luxury'},
+  {s:'pale', id:'p-butter',    n:'Pale Butter',       t:'朝の陽光・バターイエロー',   ph:52, ps:80,secH:240,ss:62,nh:50, w:'morning yellow sun'},
+  {s:'pale', id:'p-powder',    n:'Pale Powder Blue',  t:'パウダーブルーの静けさ',     ph:220,ps:75,secH:40, ss:60,nh:218,w:'powder blue calm'},
+  {s:'pale', id:'p-blush',     n:'Pale Blush',        t:'頬のような繊細なピンク',     ph:355,ps:78,secH:170,ss:60,nh:352,w:'blush pink delicate'},
+  {s:'pale', id:'p-apricot',   n:'Pale Apricot',      t:'アプリコットの甘さ',         ph:25, ps:82,secH:198,ss:65,nh:22, w:'apricot fruit orange'},
+  {s:'pale', id:'p-celadon',   n:'Pale Celadon',      t:'青磁器・古典の美',           ph:145,ps:72,secH:35, ss:58,nh:148,w:'celadon porcelain china'},
+  {s:'pale', id:'p-wisteria',  n:'Pale Wisteria',     t:'藤棚・日本の情景',           ph:295,ps:78,secH:50, ss:62,nh:290,w:'wisteria japan purple'},
+  {s:'pale', id:'p-cloud',     n:'Pale Cloud',        t:'雲間から差す光',             ph:235,ps:70,secH:30, ss:55,nh:232,w:'cloud light grey blue'},
+  {s:'pale', id:'p-melon',     n:'Pale Melon',        t:'夏のメロン・清涼感',         ph:12, ps:80,secH:185,ss:62,nh:10, w:'melon summer fruit'},
+  {s:'pale', id:'p-periwinkle',n:'Pale Periwinkle',   t:'忘れな草の夢見',             ph:255,ps:75,secH:55, ss:60,nh:252,w:'periwinkle flower blue'},
+  {s:'pale', id:'p-seafoam',   n:'Pale Seafoam',      t:'浜辺の波打ち際',             ph:175,ps:72,secH:345,ss:58,nh:172,w:'seafoam ocean beach'},
+  {s:'pale', id:'p-ivory',     n:'Pale Ivory',        t:'象牙色の温かみ',             ph:42, ps:65,secH:215,ss:50,nh:40, w:'ivory warm neutral'},
+
+  // ── 🍂 MUTED (20) ────────────────────────────────────────────
+  {s:'muted',id:'m-dustyrose', n:'Dusty Rose',        t:'乾いた薔薇・ノスタルジア', ph:345,ps:80,secH:80, ss:65,nh:348,w:'rose nostalgia warm'},
+  {s:'muted',id:'m-slate',     n:'Slate Blue',        t:'スレートの知性',           ph:218,ps:75,secH:25, ss:60,nh:215,w:'slate grey blue intellectual'},
+  {s:'muted',id:'m-sage',      n:'Sage Green',        t:'ハーブガーデン・癒し',     ph:130,ps:78,secH:28, ss:62,nh:128,w:'herb garden healing green'},
+  {s:'muted',id:'m-terracotta',n:'Warm Terracotta',   t:'地中海の焼き土',           ph:18, ps:88,secH:195,ss:72,nh:20, w:'terracotta mediterranean earth'},
+  {s:'muted',id:'m-smoky',     n:'Smoky Violet',      t:'煙の向こうのバイオレット', ph:272,ps:80,secH:45, ss:65,nh:268,w:'smoky violet mysterious'},
+  {s:'muted',id:'m-olive',     n:'Khaki Olive',       t:'軍用緑・アーシー',         ph:75, ps:82,secH:200,ss:65,nh:72, w:'khaki olive earth military'},
+  {s:'muted',id:'m-steel',     n:'Steel Grey-Blue',   t:'産業・鋼鉄の静けさ',       ph:220,ps:65,secH:8,  ss:55,nh:218,w:'steel industrial grey'},
+  {s:'muted',id:'m-sienna',    n:'Burnt Sienna',      t:'焦げた赤土・イタリア',     ph:22, ps:92,secH:202,ss:75,nh:18, w:'sienna italy earth warm'},
+  {s:'muted',id:'m-teal',      n:'Muted Teal',        t:'古い銅の緑青',             ph:178,ps:80,secH:30, ss:65,nh:175,w:'teal copper patina'},
+  {s:'muted',id:'m-mauve',     n:'Dusty Mauve',       t:'褪せたモーヴ・詩情',       ph:318,ps:75,secH:58, ss:60,nh:315,w:'mauve poetic faded'},
+  {s:'muted',id:'m-driftwood', n:'Driftwood',         t:'流木・海辺の侘び',         ph:32, ps:82,secH:208,ss:65,nh:28, w:'driftwood beach wabi'},
+  {s:'muted',id:'m-denim',     n:'Faded Denim',       t:'色褪せたデニム',           ph:215,ps:80,secH:35, ss:65,nh:212,w:'denim faded blue jean'},
+  {s:'muted',id:'m-gold',      n:'Muted Gold',        t:'アンティークゴールド',     ph:42, ps:85,secH:195,ss:70,nh:38, w:'antique gold vintage'},
+  {s:'muted',id:'m-moss',      n:'Moss Grey',         t:'苔と霧の朝',               ph:105,ps:75,secH:25, ss:60,nh:108,w:'moss fog morning grey'},
+  {s:'muted',id:'m-clay',      n:'Wabi Clay',         t:'侘び茶碗・素朴な美',       ph:25, ps:80,secH:188,ss:65,nh:22, w:'wabi clay pottery japan'},
+  {s:'muted',id:'m-eucalyptus',n:'Eucalyptus',        t:'ユーカリ・オーストラリア', ph:155,ps:78,secH:32, ss:62,nh:158,w:'eucalyptus australia green'},
+  {s:'muted',id:'m-coral',     n:'Muted Coral',       t:'褪せたコーラル・記憶',     ph:12, ps:85,secH:196,ss:70,nh:15, w:'coral faded memory'},
+  {s:'muted',id:'m-storm',     n:'Storm Grey',        t:'嵐の前の鉛色',             ph:225,ps:62,secH:12, ss:50,nh:222,w:'storm cloud grey dark'},
+  {s:'muted',id:'m-plum',      n:'Muted Plum',        t:'野生のプラム・深秋',       ph:300,ps:80,secH:50, ss:65,nh:295,w:'plum autumn wild purple'},
+  {s:'muted',id:'m-ochre',     n:'Sandy Ochre',       t:'砂漠の黄土・古代',         ph:40, ps:88,secH:195,ss:72,nh:35, w:'ochre desert ancient sand'},
+
+  // ── 💎 VIVID (20) ────────────────────────────────────────────
+  {s:'vivid',id:'v-hibiscus',  n:'Hibiscus Pink',     t:'バリ島のハイビスカス',      ph:340,ps:85,secH:38, ss:70,nh:340,w:'hibiscus bali tropical'},
+  {s:'vivid',id:'v-cobalt',    n:'Cobalt Blue',       t:'コバルトの深海',            ph:218,ps:85,secH:40, ss:70,nh:215,w:'cobalt ocean blue'},
+  {s:'vivid',id:'v-emerald',   n:'Emerald Green',     t:'エメラルドの森林',          ph:155,ps:82,secH:30, ss:68,nh:158,w:'emerald forest jungle'},
+  {s:'vivid',id:'v-coral',     n:'Vivid Coral',       t:'サンゴ礁の生命力',          ph:12, ps:85,secH:192,ss:70,nh:15, w:'coral reef vivid life'},
+  {s:'vivid',id:'v-violet',    n:'Electric Violet',   t:'紫の電気的エネルギー',      ph:268,ps:85,secH:55, ss:70,nh:265,w:'violet electric energy'},
+  {s:'vivid',id:'v-saffron',   n:'Saffron',           t:'サフランの神聖な色',        ph:38, ps:85,secH:178,ss:70,nh:40, w:'saffron sacred spice'},
+  {s:'vivid',id:'v-turquoise', n:'Turquoise',         t:'ターコイズ・ペルシア',      ph:178,ps:85,secH:330,ss:70,nh:178,w:'turquoise persian gem'},
+  {s:'vivid',id:'v-crimson',   n:'Vivid Crimson',     t:'情熱の深紅',                ph:355,ps:85,secH:45, ss:70,nh:352,w:'crimson passion red'},
+  {s:'vivid',id:'v-jade',      n:'Jade Green',        t:'翡翠・東洋の宝石',          ph:158,ps:80,secH:35, ss:65,nh:160,w:'jade gem oriental'},
+  {s:'vivid',id:'v-indigo',    n:'Vivid Indigo',      t:'藍染・深海',                ph:245,ps:82,secH:45, ss:68,nh:242,w:'indigo dye deep ocean'},
+  {s:'vivid',id:'v-papaya',    n:'Papaya Orange',     t:'南国のパパイヤ',            ph:25, ps:85,secH:190,ss:70,nh:22, w:'papaya tropical fruit'},
+  {s:'vivid',id:'v-teal',      n:'Electric Teal',     t:'鮮烈なティール',            ph:185,ps:85,secH:38, ss:70,nh:182,w:'teal electric vivid'},
+  {s:'vivid',id:'v-fuchsia',   n:'Fuchsia',           t:'フクシアの爆発',            ph:325,ps:85,secH:55, ss:70,nh:322,w:'fuchsia pop explosion'},
+  {s:'vivid',id:'v-amber',     n:'Vivid Amber',       t:'琥珀・古代の光',            ph:45, ps:85,secH:210,ss:70,nh:42, w:'amber ancient golden'},
+  {s:'vivid',id:'v-cerulean',  n:'Vivid Cerulean',    t:'地中海のセルリアンブルー', ph:200,ps:82,secH:35, ss:68,nh:198,w:'cerulean mediterranean sky'},
+  {s:'vivid',id:'v-vermilion', n:'Vivid Vermilion',   t:'朱・日本の社',              ph:8,  ps:85,secH:185,ss:70,nh:10, w:'vermilion shrine japan'},
+  {s:'vivid',id:'v-ocean',     n:'Ocean Blue',        t:'太平洋の碧',                ph:210,ps:82,secH:30, ss:68,nh:212,w:'ocean pacific blue'},
+  {s:'vivid',id:'v-rose',      n:'Vivid Rose',        t:'薔薇の宴',                  ph:345,ps:82,secH:98, ss:68,nh:348,w:'rose garden bloom'},
+  {s:'vivid',id:'v-lime',      n:'Vivid Lime',        t:'ライムの弾ける酸っぱさ',   ph:80, ps:80,secH:258,ss:65,nh:82, w:'lime citrus fresh'},
+  {s:'vivid',id:'v-sapphire',  n:'Vivid Sapphire',    t:'サファイアの瞳',            ph:228,ps:85,secH:45, ss:70,nh:225,w:'sapphire gem blue'},
+
+  // ── ⚡ STRONG (20) ────────────────────────────────────────────
+  {s:'strong',id:'st-crimson', n:'Deep Crimson',      t:'情念の深紅・フラメンコ',   ph:355,ps:90,secH:225,ss:75,nh:352,w:'deep crimson flamenco passion'},
+  {s:'strong',id:'st-royal',   n:'Royal Indigo',      t:'王者の藍・権威',           ph:248,ps:88,secH:45, ss:72,nh:245,w:'royal indigo authority'},
+  {s:'strong',id:'st-forest',  n:'Deep Forest',       t:'原生林の深緑',             ph:148,ps:85,secH:25, ss:70,nh:145,w:'deep forest ancient green'},
+  {s:'strong',id:'st-terracot',n:'Rich Terracotta',   t:'灼熱の赤土・マラケシュ',   ph:15, ps:92,secH:192,ss:78,nh:18, w:'terracotta marrakech hot'},
+  {s:'strong',id:'st-plum',    n:'Deep Plum',         t:'深夜の葡萄・秘密',         ph:290,ps:88,secH:55, ss:72,nh:285,w:'plum grape night secret'},
+  {s:'strong',id:'st-amber',   n:'Rich Amber',        t:'琥珀・ウィスキー',         ph:38, ps:88,secH:180,ss:72,nh:35, w:'amber whiskey warm'},
+  {s:'strong',id:'st-teal',    n:'Deep Teal',         t:'深海の緑青・神秘',         ph:182,ps:85,secH:330,ss:70,nh:180,w:'deep teal mystery ocean'},
+  {s:'strong',id:'st-cobalt',  n:'Strong Cobalt',     t:'コバルト・産業の力',       ph:222,ps:88,secH:40, ss:72,nh:218,w:'cobalt industrial power'},
+  {s:'strong',id:'st-burgundy',n:'Deep Burgundy',     t:'ブルゴーニュの重厚さ',     ph:340,ps:85,secH:50, ss:70,nh:338,w:'burgundy wine heavy'},
+  {s:'strong',id:'st-jade',    n:'Deep Jade',         t:'深い翡翠・古代の力',       ph:162,ps:82,secH:32, ss:68,nh:160,w:'deep jade ancient power'},
+  {s:'strong',id:'st-storm',   n:'Stormy Blue',       t:'嵐・荒波',                 ph:232,ps:80,secH:25, ss:65,nh:230,w:'storm sea dark blue'},
+  {s:'strong',id:'st-rust',    n:'Deep Rust',         t:'錆・工業の美',             ph:10, ps:88,secH:198,ss:72,nh:12, w:'rust industrial metal'},
+  {s:'strong',id:'st-violet',  n:'Bold Violet',       t:'ボールドバイオレット',     ph:275,ps:88,secH:50, ss:72,nh:272,w:'bold violet strong purple'},
+  {s:'strong',id:'st-gold',    n:'Deep Gold',         t:'黄金・帝国の栄光',         ph:44, ps:85,secH:200,ss:70,nh:40, w:'gold empire glory'},
+  {s:'strong',id:'st-magenta', n:'Bold Magenta',      t:'大胆なマゼンタ',           ph:320,ps:88,secH:55, ss:72,nh:318,w:'bold magenta strong pink'},
+  {s:'strong',id:'st-hunter',  n:'Hunter Green',      t:'ハンターグリーン・森',     ph:148,ps:85,secH:30, ss:70,nh:145,w:'hunter green forest dark'},
+  {s:'strong',id:'st-navy',    n:'Deep Navy',         t:'深紺・海軍',               ph:228,ps:85,secH:45, ss:70,nh:225,w:'navy dark blue sea'},
+  {s:'strong',id:'st-rose',    n:'Deep Rose',         t:'深い薔薇の記憶',           ph:342,ps:86,secH:100,ss:70,nh:345,w:'deep rose memory'},
+  {s:'strong',id:'st-grape',   n:'Deep Grape',        t:'ぶどうの深み',             ph:298,ps:82,secH:58, ss:68,nh:295,w:'grape deep purple'},
+  {s:'strong',id:'st-copper',  n:'Rich Copper',       t:'銅・アールヌーヴォー',     ph:22, ps:88,secH:200,ss:72,nh:18, w:'copper art nouveau warm'},
+
+  // ── 🔆 NEON (20) ────────────────────────────────────────────
+  {s:'neon',  id:'n-pink',     n:'Neon Pink',         t:'ネオン看板・夜の渋谷',     ph:340,ps:100,secH:160,ss:95,nh:340,w:'neon shibuya night pink'},
+  {s:'neon',  id:'n-blue',     n:'Neon Blue',         t:'電気の蒼・サイバー',       ph:210,ps:100,secH:340,ss:95,nh:210,w:'neon cyber electric blue'},
+  {s:'neon',  id:'n-green',    n:'Neon Green',        t:'マトリックス・電脳',       ph:145,ps:100,secH:315,ss:95,nh:148,w:'matrix digital green cyber'},
+  {s:'neon',  id:'n-orange',   n:'Neon Orange',       t:'溶岩・炎上',               ph:22, ps:100,secH:202,ss:95,nh:20, w:'lava flame neon orange'},
+  {s:'neon',  id:'n-purple',   n:'Neon Purple',       t:'ヴェイパーウェーヴ紫',     ph:278,ps:100,secH:155,ss:95,nh:275,w:'vaporwave neon purple'},
+  {s:'neon',  id:'n-yellow',   n:'Neon Yellow',       t:'放射性の黄・警告',         ph:60, ps:100,secH:240,ss:95,nh:58, w:'radioactive yellow warning'},
+  {s:'neon',  id:'n-cyan',     n:'Neon Cyan',         t:'サイバーパンクのシアン',   ph:185,ps:100,secH:355,ss:95,nh:188,w:'cyberpunk cyan electric'},
+  {s:'neon',  id:'n-red',      n:'Neon Red',          t:'危険・緊急・アラート',     ph:3,  ps:100,secH:183,ss:95,nh:5,  w:'danger emergency alert red'},
+  {s:'neon',  id:'n-lime',     n:'Neon Lime',         t:'バイオハザードグリーン',   ph:90, ps:100,secH:270,ss:95,nh:92, w:'biohazard lime electric green'},
+  {s:'neon',  id:'n-violet',   n:'Neon Violet',       t:'ブラックライト・夢幻',     ph:268,ps:100,secH:88, ss:95,nh:265,w:'blacklight violet dream'},
+  {s:'neon',  id:'n-coral',    n:'Electric Coral',    t:'電気サンゴ・ポップアート', ph:8,  ps:100,secH:188,ss:95,nh:10, w:'electric coral pop art'},
+  {s:'neon',  id:'n-indigo',   n:'Electric Indigo',   t:'インディゴ電光',           ph:248,ps:100,secH:68, ss:95,nh:245,w:'electric indigo lightning'},
+  {s:'neon',  id:'n-magenta',  n:'Electric Magenta',  t:'マゼンタ爆発',             ph:318,ps:100,secH:138,ss:95,nh:315,w:'magenta explosion vivid'},
+  {s:'neon',  id:'n-teal',     n:'Electric Teal',     t:'深海発光・生物発光',       ph:178,ps:100,secH:358,ss:95,nh:180,w:'bioluminescence deep sea teal'},
+  {s:'neon',  id:'n-amber',    n:'Electric Amber',    t:'琥珀電光・ハロゲン',       ph:42, ps:100,secH:222,ss:95,nh:38, w:'amber halogen electric warm'},
+  {s:'neon',  id:'n-sky',      n:'Electric Sky',      t:'雷雨・稲妻の青',           ph:198,ps:100,secH:18, ss:95,nh:200,w:'lightning storm electric sky'},
+  {s:'neon',  id:'n-hotpink',  n:'Hot Pink',          t:'ハリウッド・グラムロック', ph:332,ps:100,secH:152,ss:95,nh:330,w:'hollywood glamour hot pink'},
+  {s:'neon',  id:'n-chartreuse',n:'Neon Chartreuse',  t:'シャルトリューズ・毒々しい',ph:72,ps:100,secH:252,ss:95,nh:70, w:'chartreuse poison vivid'},
+  {s:'neon',  id:'n-rose',     n:'Electric Rose',     t:'電気薔薇・サイバーパンク', ph:350,ps:100,secH:170,ss:95,nh:348,w:'electric rose cyberpunk'},
+  {s:'neon',  id:'n-azure',    n:'Electric Azure',    t:'アジュール電光・宇宙',     ph:220,ps:100,secH:40, ss:95,nh:218,w:'azure space electric cosmic'},
+];
+
+/* ════════════════════════════════════════════════════════════════
+   COLOR MATH
+════════════════════════════════════════════════════════════════ */
+function h2r(h){return[parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)]}
+function r2h(r,g,b){return'#'+[r,g,b].map(v=>Math.round(Math.max(0,Math.min(255,v))).toString(16).padStart(2,'0')).join('')}
+function r2hsl(r,g,b){r/=255;g/=255;b/=255;const mx=Math.max(r,g,b),mn=Math.min(r,g,b);let h,s,l=(mx+mn)/2;if(mx===mn){h=s=0}else{const d=mx-mn;s=l>.5?d/(2-mx-mn):d/(mx+mn);switch(mx){case r:h=((g-b)/d+(g<b?6:0))/6;break;case g:h=((b-r)/d+2)/6;break;case b:h=((r-g)/d+4)/6;break}}return[h*360,s*100,l*100]}
+function h2rgb(p,q,t){if(t<0)t+=1;if(t>1)t-=1;if(t<1/6)return p+(q-p)*6*t;if(t<.5)return q;if(t<2/3)return p+(q-p)*(2/3-t)*6;return p}
+function hsl2h(h,s,l){h/=360;s/=100;l/=100;if(s===0){const v=Math.round(l*255);return r2h(v,v,v)}const q=l<.5?l*(1+s):l+s-l*s,p=2*l-q;return r2h(h2rgb(p,q,h+1/3)*255,h2rgb(p,q,h)*255,h2rgb(p,q,h-1/3)*255)}
+function tone(h,s,t){return hsl2h(h,s*Math.max(.04,1-Math.pow((t-50)/55,2)*.68),t)}
+function luma(hex){const[r,g,b]=h2r(hex);return .299*r+.587*g+.114*b}
+function fg(hex){return luma(hex)>148?'#111':'#fff'}
+
+/* ════════════════════════════════════════════════════════════════
+   PALETTE GENERATOR — uses style tone mapping
+════════════════════════════════════════════════════════════════ */
+function genPalette(pr){
+  const st=T[pr.s];
+  const ps=pr.ps*st.sScale, ss=pr.ss*st.ssScale;
+  const Ph=t=>tone(pr.ph, ps,  t);
+  const Sc=t=>tone(pr.secH,ss, t);
+  const N =t=>tone(pr.nh, st.ns, t);
+  const NV=t=>tone(pr.ph, st.ns*2.5, t);
+  const E =t=>tone(355, 62, t);
+  return{
+    light:{
+      '--md-sys-color-primary':               Ph(st.pL),
+      '--md-sys-color-on-primary':            Ph(st.opL),
+      '--md-sys-color-primary-container':     Ph(st.pcL),
+      '--md-sys-color-on-primary-container':  Ph(st.opcL),
+      '--md-sys-color-secondary':             Sc(st.sL),
+      '--md-sys-color-on-secondary':          Sc(st.osL),
+      '--md-sys-color-secondary-container':   Sc(st.scL),
+      '--md-sys-color-on-secondary-container':Sc(st.oscL),
+      '--md-sys-color-surface':               N(st.sfL),
+      '--md-sys-color-on-surface':            N(st.onSfL),
+      '--md-sys-color-surface-variant':       NV(st.svL),
+      '--md-sys-color-on-surface-variant':    NV(st.osvL),
+      '--md-sys-color-outline':               NV(st.oL),
+      '--md-sys-color-outline-variant':       NV(st.ovL),
+      '--md-sys-color-error':                 E(st.eL),
+      '--md-sys-color-on-error':              E(st.oeL),
+      '--md-sys-color-background':            N(st.bgL),
+      '--md-sys-color-on-background':         N(st.onSfL),
+    },
+    dark:{
+      '--md-sys-color-primary':               Ph(st.pD),
+      '--md-sys-color-on-primary':            Ph(st.opD),
+      '--md-sys-color-primary-container':     Ph(st.pcD),
+      '--md-sys-color-on-primary-container':  Ph(st.opcD),
+      '--md-sys-color-secondary':             Sc(st.sD),
+      '--md-sys-color-on-secondary':          Sc(st.osD),
+      '--md-sys-color-secondary-container':   Sc(st.scD),
+      '--md-sys-color-on-secondary-container':Sc(st.oscD),
+      '--md-sys-color-surface':               N(st.sfD),
+      '--md-sys-color-on-surface':            N(st.onSfD),
+      '--md-sys-color-surface-variant':       NV(st.svD),
+      '--md-sys-color-on-surface-variant':    NV(st.osvD),
+      '--md-sys-color-outline':               NV(st.oD),
+      '--md-sys-color-outline-variant':       NV(st.ovD),
+      '--md-sys-color-error':                 E(st.eD),
+      '--md-sys-color-on-error':              E(st.oeD),
+      '--md-sys-color-background':            N(st.bgD),
+      '--md-sys-color-on-background':         N(st.onSfD),
+    }
+  };
+}
+
+/* ── Static tokens ── */
+const TYPO={'--md-sys-typescale-display-large-size':'57px','--md-sys-typescale-display-large-line':'64px','--md-sys-typescale-headline-large-size':'32px','--md-sys-typescale-headline-large-line':'40px','--md-sys-typescale-headline-medium-size':'28px','--md-sys-typescale-headline-medium-line':'36px','--md-sys-typescale-title-large-size':'22px','--md-sys-typescale-title-large-line':'28px','--md-sys-typescale-title-medium-size':'16px','--md-sys-typescale-body-large-size':'16px','--md-sys-typescale-body-large-line':'24px','--md-sys-typescale-body-medium-size':'14px','--md-sys-typescale-label-large-size':'14px','--md-sys-typescale-label-medium-size':'12px','--md-sys-typescale-font-family':"'Roboto', system-ui, sans-serif"};
+const SHAPE={'--md-sys-shape-corner-none':'0px','--md-sys-shape-corner-extra-small':'4px','--md-sys-shape-corner-small':'8px','--md-sys-shape-corner-medium':'12px','--md-sys-shape-corner-large':'16px','--md-sys-shape-corner-extra-large':'28px','--md-sys-shape-corner-full':'9999px'};
+const ELEV={'--md-sys-elevation-level0':'none','--md-sys-elevation-level1':'0 1px 2px rgba(0,0,0,.3), 0 1px 3px 1px rgba(0,0,0,.15)','--md-sys-elevation-level2':'0 1px 2px rgba(0,0,0,.3), 0 2px 6px 2px rgba(0,0,0,.15)','--md-sys-elevation-level3':'0 4px 8px 3px rgba(0,0,0,.15), 0 1px 3px rgba(0,0,0,.3)'};
+
+/* ── Swatch groups ── */
+const GROUPS=[
+  {t:'Primary',k:['--md-sys-color-primary','--md-sys-color-on-primary','--md-sys-color-primary-container','--md-sys-color-on-primary-container']},
+  {t:'Secondary',k:['--md-sys-color-secondary','--md-sys-color-on-secondary','--md-sys-color-secondary-container','--md-sys-color-on-secondary-container']},
+  {t:'Surface & Background',k:['--md-sys-color-background','--md-sys-color-on-background','--md-sys-color-surface','--md-sys-color-on-surface','--md-sys-color-surface-variant','--md-sys-color-on-surface-variant']},
+  {t:'Outline',k:['--md-sys-color-outline','--md-sys-color-outline-variant']},
+  {t:'Error',k:['--md-sys-color-error','--md-sys-color-on-error']},
+];
+
+/* ── CSS builder ── */
+function buildCSS(pr,pal){
+  const st=T[pr.s];
+  const now=new Date().toISOString().slice(0,10);
+  const pad=(k,v,i='  ')=>i+k+':'+' '.repeat(Math.max(1,44-k.length))+v+';';
+  const blk=(obj,i='  ')=>Object.entries(obj).map(([k,v])=>pad(k,v,i)).join('\n');
+  return[
+    `/* ───────────────────────────────────────────────────────`,
+    ` * MD3 design tokens — meowtoon.com Phase 1`,
+    ` * Preset : ${pr.n} — ${pr.t}`,
+    ` * Style  : ${st.label} (${pr.s})`,
+    ` * Ph:${Math.round(pr.ph)}° Ps:${Math.round(pr.ps*st.sScale)}% | SecH:${Math.round(pr.secH)}° Ss:${Math.round(pr.ss*st.ssScale)}%`,
+    ` * Date   : ${now}`,
+    ` * ─────────────────────────────────────────────────────── */`,
+    ``,`@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');`,
+    ``,`/* Light Scheme */`,`:root {`,blk(pal.light),`}`,
+    ``,`/* Dark Scheme */`,`@media (prefers-color-scheme: dark) {`,`  :root {`,blk(pal.dark,'    '),`  }`,`}`,
+    ``,`/* Typography */`,`:root {`,blk(TYPO),`}`,
+    ``,`/* Shape */`,`:root {`,blk(SHAPE),`}`,
+    ``,`/* Elevation */`,`:root {`,blk(ELEV),`}`,
+  ].join('\n');
+}
+
+/* ════════════════════════════════════════════════════════════════
+   STATE
+════════════════════════════════════════════════════════════════ */
+let active=P[0], dark=false, fStyle='all', search='';
+
+/* ── Render grid ── */
+function renderGrid(){
+  const grid=document.getElementById('pgrid');
+  const q=search.toLowerCase();
+  const list=P.filter(p=>{
+    const sok=fStyle==='all'||p.s===fStyle;
+    const qok=!q||p.n.toLowerCase().includes(q)||p.t.includes(q)||p.w.toLowerCase().includes(q)||p.s.includes(q);
+    return sok&&qok;
+  });
+  document.getElementById('sc').textContent=list.length<P.length?list.length+'/'+P.length:'';
+  if(!list.length){grid.innerHTML='<div class="nores">検索結果なし</div>';return}
+  grid.innerHTML='';
+  list.forEach(pr=>{
+    const c=genPalette(pr).light;
+    const st=T[pr.s];
+    const card=document.createElement('div');
+    card.className='pc'+(pr.id===active?.id?' sel':'');
+    card.dataset.id=pr.id;
+    // Style-colored border for selected
+    if(pr.id===active?.id) card.style.borderColor=st.color;
+    card.innerHTML=`<div class="pc-swatches"><div class="pc-dot" style="background:${c['--md-sys-color-primary']}"></div><div class="pc-dot" style="background:${c['--md-sys-color-secondary']}"></div><div class="pc-dot" style="background:${c['--md-sys-color-primary-container']}"></div><div class="pc-dot" style="background:${c['--md-sys-color-background']}"></div></div><div class="pc-name">${pr.n}</div><div class="pc-tag">${pr.t}</div><div class="pc-style" style="background:${st.color};color:${luma(st.color)>148?'#222':'#fff'}">${st.label}</div>`;
+    card.onclick=()=>selectPreset(pr);
+    grid.appendChild(card);
+  });
+}
+
+/* ── Render swatches ── */
+function renderSwatches(scheme){
+  const area=document.getElementById('swArea');
+  area.innerHTML='';
+  GROUPS.forEach(g=>{
+    const t=document.createElement('div');t.className='st';t.textContent=g.t;area.appendChild(t);
+    const gr=document.createElement('div');gr.className='sg';
+    g.k.forEach(k=>{
+      const bg=scheme[k]||'#888',fgc=fg(bg);
+      const sw=document.createElement('div');sw.className='sw2';sw.title='コピー: '+bg;
+      sw.onclick=()=>{navigator.clipboard&&navigator.clipboard.writeText(bg);sw.style.outline='2px solid '+bg;setTimeout(()=>sw.style.outline='',700)};
+      sw.innerHTML=`<div class="sc2" style="background:${bg};color:${fgc}"><div class="sh2">${bg.toUpperCase()}</div><div class="sr">${k.replace('--md-sys-color-','')}</div></div><div class="si2"><div class="sn">${k.replace('--md-sys-color-','')}</div></div>`;
+      gr.appendChild(sw);
+    });
+    area.appendChild(gr);
+  });
+}
+
+/* ── Render preview ── */
+function renderPreview(c,pr){
+  const badge=document.getElementById('sbdg');
+  badge.textContent=(dark?'🌙':'☀')+' '+(dark?'Night':'Day')+' — '+pr.n;
+  badge.style.background=c['--md-sys-color-primary-container'];
+  badge.style.color=c['--md-sys-color-on-primary-container'];
+  const sc=document.getElementById('pvs');
+  sc.style.background=c['--md-sys-color-background'];
+  sc.innerHTML=`<div class="pab" style="background:${c['--md-sys-color-primary']};color:${c['--md-sys-color-on-primary']}"><span style="font-size:17px">☰</span><span class="pat">meowtoon.com</span><div class="pfab" style="background:${c['--md-sys-color-primary-container']};color:${c['--md-sys-color-on-primary-container']}">🐱</div></div><div class="pb"><div class="phero" style="background:${c['--md-sys-color-primary-container']};color:${c['--md-sys-color-on-primary-container']}"><div class="pey">${dark?'🌙':'☀'} Today's Discovery</div><div class="ptit">今日見つけたもの</div><div class="pbt">Something wonderful I noticed — worth sharing with the world.</div></div><div class="prow"><div class="pcs" style="background:${c['--md-sys-color-secondary-container']};color:${c['--md-sys-color-on-secondary-container']}"><div class="pcl">Comics</div><div class="pcv">everyday ✦</div></div><div class="pcs" style="background:${c['--md-sys-color-surface-variant']};color:${c['--md-sys-color-on-surface-variant']}"><div class="pcl">Works</div><div class="pcv">storyboard</div></div></div><div class="pbtns"><button class="pbtn" style="background:${c['--md-sys-color-primary']};color:${c['--md-sys-color-on-primary']}">Explore</button><button class="pbtn pbtno" style="color:${c['--md-sys-color-primary']};border-color:${c['--md-sys-color-outline']}">Manga</button><button class="pbtn" style="background:${c['--md-sys-color-secondary-container']};color:${c['--md-sys-color-on-secondary-container']}">Works</button></div><div class="pchs"><div class="pch" style="background:${c['--md-sys-color-surface-variant']};color:${c['--md-sys-color-on-surface-variant']};border-color:${c['--md-sys-color-outline-variant']}">everyday</div><div class="pch" style="background:${c['--md-sys-color-primary-container']};color:${c['--md-sys-color-on-primary-container']};border-color:${c['--md-sys-color-primary-container']}">storyboard</div><div class="pch" style="background:${c['--md-sys-color-surface-variant']};color:${c['--md-sys-color-on-surface-variant']};border-color:${c['--md-sys-color-outline-variant']}">lusiphite</div></div><div class="perr" style="background:${c['--md-sys-color-error']};color:${c['--md-sys-color-on-error']}"><span>⚠</span><span>Error — 404 / form validation</span></div></div><div class="pnav" style="background:${c['--md-sys-color-surface']};border-top-color:${c['--md-sys-color-outline-variant']}">${['🏠','📖','✨','👤'].map((ic,i)=>`<div class="pni" style="color:${i===0?c['--md-sys-color-on-secondary-container']:c['--md-sys-color-on-surface-variant']}"><div class="pnp" style="background:${i===0?c['--md-sys-color-secondary-container']:'transparent'}">${ic}</div><span>${['Home','Manga','Today','About'][i]}</span></div>`).join('')}</div>`;
+}
+
+/* ── Main render ── */
+function render(){
+  const pal=genPalette(active);
+  const scheme=dark?pal.dark:pal.light;
+  renderSwatches(scheme);
+  renderPreview(scheme,active);
+  document.getElementById('co').value=buildCSS(active,pal);
+  const st=T[active.s];
+  document.getElementById('fi').textContent=`${st.label} | Ph:${Math.round(active.ph)}° Ps:${Math.round(active.ps*st.sScale)}% | SecH:${Math.round(active.secH)}° Ss:${Math.round(active.ss*st.ssScale)}%`;
+}
+
+/* ── Actions ── */
+function selectPreset(pr){
+  active=pr;
+  document.getElementById('an').textContent=pr.n;
+  document.getElementById('at').textContent=pr.t+' · '+T[pr.s].label;
+  document.querySelectorAll('.pc').forEach(c=>{
+    const isSel=c.dataset.id===pr.id;
+    c.classList.toggle('sel',isSel);
+    c.style.borderColor=isSel?T[pr.s].color:'';
+  });
+  render();
+}
+function toggleMode(){
+  dark=!dark;
+  document.getElementById('tt').classList.toggle('dark',dark);
+  document.getElementById('ml').textContent=dark?'🌙 Night':'☀ Day';
+  render();
+}
+function copyCSS(){
+  navigator.clipboard&&navigator.clipboard.writeText(document.getElementById('co').value);
+  const b=document.getElementById('cb');b.textContent='✅ コピーしました';
+  setTimeout(()=>b.textContent='📋 コピー',2000);
+}
+function dlCSS(){
+  const blob=new Blob([document.getElementById('co').value],{type:'text/css'});
+  const url=URL.createObjectURL(blob),a=document.createElement('a');
+  a.href=url;a.download='md3-tokens.css';a.click();URL.revokeObjectURL(url);
+}
+
+/* ── Init style tabs ── */
+document.querySelectorAll('.stab').forEach(btn=>{
+  btn.onclick=()=>{
+    fStyle=btn.dataset.style;
+    document.querySelectorAll('.stab').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    renderGrid();
+  };
+});
+
+/* ── Search ── */
+document.getElementById('si').addEventListener('input',e=>{
+  search=e.target.value.trim();
+  if(search){fStyle='all';document.querySelectorAll('.stab').forEach((b,i)=>b.classList.toggle('active',i===0))}
+  renderGrid();
+});
+
+/* ── Custom hex ── */
+function hexToPreset(hex){
+  const[h,s]=r2hsl(...h2r(hex));
+  return{s:'vivid',id:'custom',n:'Custom',t:hex.toUpperCase()+' — カスタム',ph:h,ps:Math.max(50,Math.min(90,s+20)),secH:(h+58)%360,ss:70,nh:h,w:''};
+}
+document.getElementById('cp').addEventListener('input',e=>{
+  document.getElementById('sh').value=e.target.value;
+  active=hexToPreset(e.target.value);
+  document.getElementById('an').textContent='Custom';
+  document.getElementById('at').textContent=e.target.value.toUpperCase();
+  document.querySelectorAll('.pc').forEach(c=>c.classList.remove('sel'));
+  render();
+});
+document.getElementById('sh').addEventListener('input',e=>{
+  if(/^#[0-9a-fA-F]{6}$/.test(e.target.value)){
+    document.getElementById('cp').value=e.target.value;
+    active=hexToPreset(e.target.value);
+    document.getElementById('an').textContent='Custom';
+    document.getElementById('at').textContent=e.target.value.toUpperCase();
+    document.querySelectorAll('.pc').forEach(c=>c.classList.remove('sel'));
+    render();
+  }
+});
+
+/* ── Boot ── */
+renderGrid();
+selectPreset(P[0]);
+</script>
+</body>
+</html>
