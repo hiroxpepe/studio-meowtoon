@@ -1,12 +1,15 @@
 ---
 // Base HTML layout providing <html>, <head>, <body> wrapper for all page types.
-// Props: title (required), lang (default 'ja'), og_image (optional relative path — enables OGP/Twitter Card).
-const { title, lang = 'ja', og_image } = Astro.props;
+// Props: title (required), lang (default 'en'), og_image (optional), current_page (for nav active state).
+import Navigation from '../components/navigation.astro';
+import Footer from '../components/footer.astro';
+const { title, lang = 'en', og_image, current_page = '/' } = Astro.props;
 const page_title = `${title} | STUDIO MeowToon`;
 // import.meta.env.DEV is true in dev/preview mode; Astro.site is ALWAYS set (from astro.config.mjs)
 // even during local dev — so Astro.site ?? Astro.url.origin never falls back. Use DEV flag instead.
 const base_url = import.meta.env.DEV ? Astro.url.origin : Astro.site;
 const og_image_abs = og_image ? new URL(og_image, base_url).href : undefined;
+const og_url = new URL(Astro.url.pathname, base_url).href;
 ---
 <!DOCTYPE html>
 <html lang={lang}>
@@ -16,12 +19,29 @@ const og_image_abs = og_image ? new URL(og_image, base_url).href : undefined;
   <title>{page_title}</title>
   <meta property="og:title" content={page_title}>
   <meta property="og:type" content="website">
+  <meta property="og:url" content={og_url}>
   <meta property="og:site_name" content="STUDIO MeowToon">
   {og_image_abs && <meta property="og:image" content={og_image_abs}>}
   {og_image_abs && <meta name="twitter:card" content="summary_large_image">}
+  <link rel="stylesheet" href="/css/md3-tokens.css">
   <link rel="stylesheet" href="/css/style.css">
+  {import.meta.env.PUBLIC_GA4_ID && (
+    <>
+      <script async src={`https://www.googletagmanager.com/gtag/js?id=${import.meta.env.PUBLIC_GA4_ID}`}></script>
+      <script is:inline define:vars={{ ga4_id: import.meta.env.PUBLIC_GA4_ID }}>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', ga4_id);
+      </script>
+    </>
+  )}
 </head>
 <body>
-  <slot />
+  <Navigation current_page={current_page} />
+  <main class="md3-page-content">
+    <slot />
+  </main>
+  <Footer />
 </body>
 </html>

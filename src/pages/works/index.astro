@@ -1,0 +1,23 @@
+---
+// Works overview page. Redirects to / if no works at all (§16: no empty/coming-soon pages).
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/base_layout.astro';
+import { has_works } from '../../lib/works.js';
+
+const works_entries = await getCollection('works');
+const has_any = ['game', 'asset', 'book', 'project'].some(c => has_works(works_entries, c));
+---
+{!has_any
+  ? <script is:inline>window.location.replace('/');</script>
+  : <BaseLayout title="Works" lang="en" current_page="/works/">
+      <div class="md3-section">
+        <h1 class="md3-headline-large">Works</h1>
+        <div class="md3-card-grid">
+          {has_works(works_entries, 'game')    && <a href="/games/"    class="md3-card" style="text-decoration:none;">🎮 Games</a>}
+          {has_works(works_entries, 'asset')   && <a href="/assets/"   class="md3-card" style="text-decoration:none;">🎲 3D Assets</a>}
+          {has_works(works_entries, 'book')    && <a href="/books/"    class="md3-card" style="text-decoration:none;">📚 Books</a>}
+          {has_works(works_entries, 'project') && <a href="/projects/" class="md3-card" style="text-decoration:none;">💻 Projects</a>}
+        </div>
+      </div>
+    </BaseLayout>
+}

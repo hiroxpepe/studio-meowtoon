@@ -15,16 +15,18 @@ const all_entries = await getCollection('comic');
 const episodes = get_all_episodes(all_entries, lang, series);
 const display_title = series_titles[series] ?? series;
 ---
-<BaseLayout title={display_title} lang={lang} og_image={series_covers[series]}>
-  <div class="hugo-header">{display_title} - Episode List</div>
-  <ul class="hugo-list">
-    {episodes.map(ep => (
-      <li>
-        <a href={`/${lang}/comic/${series}/${ep.data.episode}/`}>
-          {ep.data.episode} {ep.data.title}
-        </a>
-      </li>
-    ))}
-  </ul>
-  <div style="margin-top:2em;"><a href="/">⤴️ Top</a></div>
+<BaseLayout title={display_title} lang={lang} og_image={series_covers[series]} current_page={`/${lang}/comic/`}>
+  <div class="md3-section">
+    <h1 class="md3-headline-large">{display_title}</h1>
+    <ul class="hugo-list">
+      {episodes.map(ep => (
+        <li style="padding: 8px 0; border-bottom: 1px solid var(--md-sys-color-outline-variant);">
+          <a href={`/${lang}/comic/${series}/${ep.data.episode}/`}>
+            {ep.data.episode} {ep.data.title}
+          </a>
+        </li>
+      ))}
+    </ul>
+    <div style="margin-top:2em;"><a href="/" class="md3-btn md3-btn-tonal">← Home</a></div>
+  </div>
 </BaseLayout>

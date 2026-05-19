@@ -1,0 +1,27 @@
+---
+// Today's Discovery archive page: shows latest 30 discoveries.
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/base_layout.astro';
+import { get_recent_discoveries } from '../../lib/today_discovery.js';
+
+const all_entries  = await getCollection('today_discovery');
+const discoveries  = get_recent_discoveries(all_entries, 30);
+const rendered     = await Promise.all(discoveries.map(d => d.render()));
+---
+<BaseLayout title="Today's Discovery" lang="en" current_page="/today/">
+  <div class="md3-section">
+    <h1 class="md3-headline-large">Today's Discovery</h1>
+    {discoveries.length === 0 && <p class="md3-body-large">No discoveries yet.</p>}
+    {discoveries.map((d, i) => {
+      const { Content } = rendered[i];
+      return (
+        <div class="md3-card" style="margin-bottom: 16px;">
+          <time datetime={d.data.date} class="md3-label-large">{d.data.date}</time>
+          <h2 class="md3-title-large">{d.data.title}</h2>
+          <Content />
+          {d.data.image && <img src={d.data.image} alt={d.data.title} loading="lazy">}
+        </div>
+      );
+    })}
+  </div>
+</BaseLayout>

@@ -58,9 +58,9 @@ All Phase 1–16 of `develop_plan_v1.md` complete. Specifically:
 Resolve D1 (seed color) before writing production values; use placeholder orange `#FB8C00`
 until final decision.
 
-- [ ] 1.1 Create `public/css/md3-tokens.css` with file-level comment:
+- [x] 1.1 Create `public/css/md3-tokens.css` with file-level comment:
   `/* Material Design 3 design tokens — generated from seed color. Replace placeholder values after D1 resolution. */`
-- [ ] 1.2 Define color role tokens (light scheme; full list below):
+- [x] 1.2 Define color role tokens (light scheme; full list below):
   ```css
   :root {
     --md-sys-color-primary:              #8B4513;
@@ -84,8 +84,8 @@ until final decision.
   }
   ```
   Note: These are placeholder values from orange `#FB8C00` seed. Replace with D1 output.
-- [ ] 1.3 Add `prefers-color-scheme: dark` block with dark scheme counterparts immediately after `:root`
-- [ ] 1.4 Define typography tokens:
+- [x] 1.3 Add `prefers-color-scheme: dark` block with dark scheme counterparts immediately after `:root`
+- [x] 1.4 Define typography tokens:
   ```css
   :root {
     --md-sys-typescale-display-large-size:    57px;
@@ -105,7 +105,7 @@ until final decision.
     --md-sys-typescale-font-family:           'Roboto', system-ui, sans-serif;
   }
   ```
-- [ ] 1.5 Define shape tokens:
+- [x] 1.5 Define shape tokens:
   ```css
   :root {
     --md-sys-shape-corner-none:        0px;
@@ -117,7 +117,7 @@ until final decision.
     --md-sys-shape-corner-full:        9999px;
   }
   ```
-- [ ] 1.6 Define elevation tokens:
+- [x] 1.6 Define elevation tokens:
   ```css
   :root {
     --md-sys-elevation-level0: none;
@@ -126,13 +126,13 @@ until final decision.
     --md-sys-elevation-level3: 0 4px 8px 3px rgba(0,0,0,.15), 0 1px 3px rgba(0,0,0,.3);
   }
   ```
-- [ ] 1.7 Add `<link rel="preconnect" href="https://fonts.googleapis.com">` and Roboto import
+- [x] 1.7 Add `<link rel="preconnect" href="https://fonts.googleapis.com">` and Roboto import
   `<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">`
   to `src/layouts/base_layout.astro` `<head>` section
-- [ ] 1.8 Add `<link rel="stylesheet" href="/css/md3-tokens.css">` to `base_layout.astro`
+- [x] 1.8 Add `<link rel="stylesheet" href="/css/md3-tokens.css">` to `base_layout.astro`
   **before** the existing `<link rel="stylesheet" href="/css/style.css">` line
-- [ ] 1.9 Run `npm run build` → zero errors (tokens file not yet consumed, no side effects)
-- [ ] 1.10 Verify browser DevTools shows `--md-sys-color-primary` resolves on any page
+- [x] 1.9 Run `npm run build` → zero errors (tokens file not yet consumed, no side effects)
+- [x] 1.10 Verify browser DevTools shows `--md-sys-color-primary` resolves on any page
 
 ---
 
@@ -140,10 +140,10 @@ until final decision.
 
 **Goal**: Define and validate the `today_discovery` content collection.
 
-- [ ] 2.1 Create directory `src/content/today_discovery/` (add `.gitkeep` placeholder file)
-- [ ] 2.2 Open `src/content.config.js`; add import at top:
+- [x] 2.1 Create directory `src/content/today_discovery/` (add `.gitkeep` placeholder file)
+- [x] 2.2 Open `src/content.config.js`; add import at top:
   `import { glob } from 'astro/loaders';` (already imported for comic — verify not duplicate)
-- [ ] 2.3 Add `today_discovery_collection` definition to `src/content.config.js`:
+- [x] 2.3 Add `today_discovery_collection` definition to `src/content.config.js`:
   ```js
   const today_discovery_collection = defineCollection({
     loader: glob({ pattern: '*.md', base: './src/content/today_discovery' }),
@@ -158,17 +158,17 @@ until final decision.
   > **⚠️ Scale guard:** Pattern is `*.md` (not `**/*.md`) — only loads files directly in the
   > `today_discovery/` root. Archived entries in subdirectories are never loaded at build time.
   > See items 2.9–2.10 for the archival convention.
-- [ ] 2.4 Export `today_discovery` in the `collections` object:
+- [x] 2.4 Export `today_discovery` in the `collections` object:
   `export const collections = { comic: comic_collection, today_discovery: today_discovery_collection };`
-- [ ] 2.5 Verify file naming convention: `src/content/today_discovery/YYYY-MM-DD.md`
+- [x] 2.5 Verify file naming convention: `src/content/today_discovery/YYYY-MM-DD.md`
   → Astro glob loader assigns `id` = `YYYY-MM-DD` (filename without `.md`)
-- [ ] 2.6 Smoke-test schema rejection: create temp `src/content/today_discovery/bad.md` with
+- [x] 2.6 Smoke-test schema rejection: create temp `src/content/today_discovery/bad.md` with
   `date: "18-05-2026"` (wrong format), run `npx astro check`, confirm error, delete `bad.md`
-- [ ] 2.7 Verify `.gitkeep` file does NOT cause schema errors (it will be ignored by glob `*.md`)
-- [ ] 2.8 Run `npm run test` → all 40 existing tests still GREEN (schema addition is additive)
-- [ ] 2.9 Create archive directory `src/content/today_discovery/_archive/` (add `.gitkeep`)
+- [x] 2.7 Verify `.gitkeep` file does NOT cause schema errors (it will be ignored by glob `*.md`)
+- [x] 2.8 Run `npm run test` → all 40 existing tests still GREEN (schema addition is additive)
+- [x] 2.9 Create archive directory `src/content/today_discovery/_archive/` (add `.gitkeep`)
   This directory exists so the archival workflow below can be followed without creating the folder ad-hoc.
-- [ ] 2.10 Document the **Long-Term Archival Convention** in a `src/content/today_discovery/README.md`:
+- [x] 2.10 Document the **Long-Term Archival Convention** in a `src/content/today_discovery/README.md`:
   ```
   ## Archival Convention (prevents Cloudflare Pages build timeout at ~1,000+ entries)
   
@@ -187,7 +187,7 @@ until final decision.
 
 **Goal**: Create synthetic fixture entries matching Astro's collection entry shape for `today_discovery`.
 
-- [ ] 3.1 Create `src/lib/fixtures/fixture_today_discovery.js`:
+- [x] 3.1 Create `src/lib/fixtures/fixture_today_discovery.js`:
   ```js
   // Fixture entries for today_discovery collection tests. Dates are intentionally out of order.
   export const fixture_today_discovery = [
@@ -212,12 +212,12 @@ until final decision.
   ];
   ```
   Note: entries are in **non-chronological order** to prove that sorting logic in helpers works.
-- [ ] 3.2 Confirm each fixture entry includes: `id`, `collection`, `data.date`, `data.title`,
+- [x] 3.2 Confirm each fixture entry includes: `id`, `collection`, `data.date`, `data.title`,
   `data.tags`, optional `data.image`, `body`
-- [ ] 3.3 Confirm `data.date` matches `id` for all entries (e.g. id `2026-05-18` → `data.date === '2026-05-18'`)
-- [ ] 3.4 Confirm entry `2026-05-17` is the ONLY entry with `data.image` set (used in rendering tests)
-- [ ] 3.5 Confirm entry `2026-05-18` will always be "latest" in sorted output (highest date string)
-- [ ] 3.6 Confirm entry `2026-05-16` will always be "oldest" in sorted output (lowest date string)
+- [x] 3.3 Confirm `data.date` matches `id` for all entries (e.g. id `2026-05-18` → `data.date === '2026-05-18'`)
+- [x] 3.4 Confirm entry `2026-05-17` is the ONLY entry with `data.image` set (used in rendering tests)
+- [x] 3.5 Confirm entry `2026-05-18` will always be "latest" in sorted output (highest date string)
+- [x] 3.6 Confirm entry `2026-05-16` will always be "oldest" in sorted output (lowest date string)
 
 ---
 
@@ -226,9 +226,9 @@ until final decision.
 **Goal**: Write ALL failing tests for `today_discovery.js`. Run `npm run test` after writing
 to confirm RED — import errors are not acceptable (create empty `today_discovery.js` first).
 
-- [ ] 4.1 Create empty `src/lib/today_discovery.js` with only: `// today_discovery utility functions.`
+- [x] 4.1 Create empty `src/lib/today_discovery.js` with only: `// today_discovery utility functions.`
   (Prevents module-not-found errors during RED phase)
-- [ ] 4.2 Create `src/lib/today_discovery.test.js` with file-level comment and imports:
+- [x] 4.2 Create `src/lib/today_discovery.test.js` with file-level comment and imports:
   ```js
   // Unit tests for today_discovery.js utility functions. No Astro runtime needed.
   import { describe, it, expect } from 'vitest';
@@ -241,30 +241,30 @@ to confirm RED — import errors are not acceptable (create empty `today_discove
 
 #### `get_latest_discovery(entries)`
 
-- [ ] 4.3 Test: `get_latest_discovery(fixture_today_discovery)` returns the entry with
+- [x] 4.3 Test: `get_latest_discovery(fixture_today_discovery)` returns the entry with
   `data.date === '2026-05-18'` (most recent — proves sorting works on unsorted input)
-- [ ] 4.4 Test: `get_latest_discovery([])` returns `undefined`
-- [ ] 4.5 Test: result (when non-undefined) has properties `id`, `data.date`, `data.title`, `body`
-- [ ] 4.6 Test: `get_latest_discovery([fixture_today_discovery[0]])` returns the single entry
+- [x] 4.4 Test: `get_latest_discovery([])` returns `undefined`
+- [x] 4.5 Test: result (when non-undefined) has properties `id`, `data.date`, `data.title`, `body`
+- [x] 4.6 Test: `get_latest_discovery([fixture_today_discovery[0]])` returns the single entry
   (edge case: array with exactly 1 element)
 
 #### `get_recent_discoveries(entries, n)`
 
-- [ ] 4.7 Test: `get_recent_discoveries(fixture_today_discovery, 3)` returns array of length 3
-- [ ] 4.8 Test: `get_recent_discoveries(fixture_today_discovery, 2)` returns array of length 2
+- [x] 4.7 Test: `get_recent_discoveries(fixture_today_discovery, 3)` returns array of length 3
+- [x] 4.8 Test: `get_recent_discoveries(fixture_today_discovery, 2)` returns array of length 2
   (n < total — truncation works)
-- [ ] 4.9 Test: `get_recent_discoveries(fixture_today_discovery, 10)` returns array of length 3
+- [x] 4.9 Test: `get_recent_discoveries(fixture_today_discovery, 10)` returns array of length 3
   (n > total — returns all without error)
-- [ ] 4.10 Test: `get_recent_discoveries([], 5)` returns `[]`
-- [ ] 4.11 Test: first element of `get_recent_discoveries(fixture_today_discovery, 3)` has
+- [x] 4.10 Test: `get_recent_discoveries([], 5)` returns `[]`
+- [x] 4.11 Test: first element of `get_recent_discoveries(fixture_today_discovery, 3)` has
   `data.date === '2026-05-18'` (sorted descending — newest first)
-- [ ] 4.12 Test: last element of `get_recent_discoveries(fixture_today_discovery, 3)` has
+- [x] 4.12 Test: last element of `get_recent_discoveries(fixture_today_discovery, 3)` has
   `data.date === '2026-05-16'` (oldest last)
-- [ ] 4.13 Test: `get_recent_discoveries(fixture_today_discovery, 3)[0].data.date >
+- [x] 4.13 Test: `get_recent_discoveries(fixture_today_discovery, 3)[0].data.date >
   get_recent_discoveries(fixture_today_discovery, 3)[1].data.date` — string comparison holds
   because YYYY-MM-DD format is lexicographically sortable
 
-- [ ] 4.14 Run `npm run test` → **13 new tests RED**, 40 existing tests still GREEN
+- [x] 4.14 Run `npm run test` → **13 new tests RED**, 40 existing tests still GREEN
 
 ---
 
@@ -272,7 +272,7 @@ to confirm RED — import errors are not acceptable (create empty `today_discove
 
 **Goal**: Implement `src/lib/today_discovery.js` until all Phase 4 tests pass.
 
-- [ ] 5.1 Add JSDoc and implement `get_latest_discovery(entries)`:
+- [x] 5.1 Add JSDoc and implement `get_latest_discovery(entries)`:
   ```js
   /**
    * Returns the most recent today_discovery entry by date, or undefined if none.
@@ -285,7 +285,7 @@ to confirm RED — import errors are not acceptable (create empty `today_discove
   }
   ```
   Tests 4.3–4.6 GREEN
-- [ ] 5.2 Add JSDoc and implement `get_recent_discoveries(entries, n)`:
+- [x] 5.2 Add JSDoc and implement `get_recent_discoveries(entries, n)`:
   ```js
   /**
    * Returns up to n today_discovery entries sorted by date descending (newest first).
@@ -300,8 +300,8 @@ to confirm RED — import errors are not acceptable (create empty `today_discove
   }
   ```
   Tests 4.7–4.13 GREEN
-- [ ] 5.3 Run `npm run test` → **all 53 tests GREEN** (40 existing + 13 new)
-- [ ] 5.4 Refactor for clarity while keeping all 53 GREEN — re-run after each change
+- [x] 5.3 Run `npm run test` → **all 53 tests GREEN** (40 existing + 13 new)
+- [x] 5.4 Refactor for clarity while keeping all 53 GREEN — re-run after each change
 
 ---
 
@@ -309,11 +309,11 @@ to confirm RED — import errors are not acceptable (create empty `today_discove
 
 **Goal**: Define and validate the `works` content collection.
 
-- [ ] 6.1 Create directories:
+- [x] 6.1 Create directories:
   `src/content/works/games/`, `src/content/works/assets/`,
   `src/content/works/books/`, `src/content/works/projects/`
   (add `.gitkeep` in each)
-- [ ] 6.2 Add `works_collection` definition to `src/content.config.js`:
+- [x] 6.2 Add `works_collection` definition to `src/content.config.js`:
   ```js
   const works_collection = defineCollection({
     loader: glob({ pattern: '**/*.md', base: './src/content/works' }),
@@ -328,14 +328,14 @@ to confirm RED — import errors are not acceptable (create empty `today_discove
     }),
   });
   ```
-- [ ] 6.3 Add `works` to the `collections` export:
+- [x] 6.3 Add `works` to the `collections` export:
   `export const collections = { comic: comic_collection, today_discovery: today_discovery_collection, works: works_collection };`
-- [ ] 6.4 Verify `category` enum rejects invalid values: create temp `src/content/works/games/bad.md`
+- [x] 6.4 Verify `category` enum rejects invalid values: create temp `src/content/works/games/bad.md`
   with `category: "movie"`, run `npx astro check`, confirm error, delete `bad.md`
-- [ ] 6.5 File naming convention: `src/content/works/{category_dir}/{slug}.md`
+- [x] 6.5 File naming convention: `src/content/works/{category_dir}/{slug}.md`
   → id = `{category_dir}/{slug}` (e.g. `games/meow-adventure`)
   → `category` in frontmatter must still be set explicitly (id path is informational only)
-- [ ] 6.6 Run `npm run test` → all 53 tests still GREEN
+- [x] 6.6 Run `npm run test` → all 53 tests still GREEN
 
 ---
 
@@ -343,7 +343,7 @@ to confirm RED — import errors are not acceptable (create empty `today_discove
 
 **Goal**: Create synthetic fixture entries for the `works` collection.
 
-- [ ] 7.1 Create `src/lib/fixtures/fixture_works.js`:
+- [x] 7.1 Create `src/lib/fixtures/fixture_works.js`:
   ```js
   // Fixture entries for works collection tests.
   // Note: NO 'project' category entry — intentional, to test has_works(entries, 'project') === false.
@@ -374,10 +374,10 @@ to confirm RED — import errors are not acceptable (create empty `today_discove
     },
   ];
   ```
-- [ ] 7.2 Confirm 2 `game` entries, 1 `asset` entry, 1 `book` entry, 0 `project` entries
-- [ ] 7.3 Confirm game entries have distinct `published_at` values (`2026-03-01` and `2026-01-15`)
+- [x] 7.2 Confirm 2 `game` entries, 1 `asset` entry, 1 `book` entry, 0 `project` entries
+- [x] 7.3 Confirm game entries have distinct `published_at` values (`2026-03-01` and `2026-01-15`)
   so sort order tests are deterministic
-- [ ] 7.4 Confirm `meow-adventure` (`2026-03-01`) is newer than `cat-quiz` (`2026-01-15`)
+- [x] 7.4 Confirm `meow-adventure` (`2026-03-01`) is newer than `cat-quiz` (`2026-01-15`)
 
 ---
 
@@ -385,8 +385,8 @@ to confirm RED — import errors are not acceptable (create empty `today_discove
 
 **Goal**: Write ALL failing tests for `works.js`.
 
-- [ ] 8.1 Create empty `src/lib/works.js` with: `// works utility functions.`
-- [ ] 8.2 Create `src/lib/works.test.js` with file-level comment and imports:
+- [x] 8.1 Create empty `src/lib/works.js` with: `// works utility functions.`
+- [x] 8.2 Create `src/lib/works.test.js` with file-level comment and imports:
   ```js
   // Unit tests for works.js utility functions. No Astro runtime needed.
   import { describe, it, expect } from 'vitest';
@@ -400,31 +400,31 @@ to confirm RED — import errors are not acceptable (create empty `today_discove
 
 #### `get_works_by_category(entries, category)`
 
-- [ ] 8.3 Test: `get_works_by_category(fixture_works, 'game')` returns array of length 2
-- [ ] 8.4 Test: `get_works_by_category(fixture_works, 'asset')` returns array of length 1
-- [ ] 8.5 Test: `get_works_by_category(fixture_works, 'book')` returns array of length 1
-- [ ] 8.6 Test: `get_works_by_category(fixture_works, 'project')` returns `[]` (no project entries)
-- [ ] 8.7 Test: `get_works_by_category([], 'game')` returns `[]`
-- [ ] 8.8 Test: result for `'game'` is sorted by `published_at` descending — first entry has
+- [x] 8.3 Test: `get_works_by_category(fixture_works, 'game')` returns array of length 2
+- [x] 8.4 Test: `get_works_by_category(fixture_works, 'asset')` returns array of length 1
+- [x] 8.5 Test: `get_works_by_category(fixture_works, 'book')` returns array of length 1
+- [x] 8.6 Test: `get_works_by_category(fixture_works, 'project')` returns `[]` (no project entries)
+- [x] 8.7 Test: `get_works_by_category([], 'game')` returns `[]`
+- [x] 8.8 Test: result for `'game'` is sorted by `published_at` descending — first entry has
   `data.title === 'Meow Adventure'` (`2026-03-01`), second is `'Cat Quiz'` (`2026-01-15`)
-- [ ] 8.9 Test: every entry in `get_works_by_category(fixture_works, 'game')` has
+- [x] 8.9 Test: every entry in `get_works_by_category(fixture_works, 'game')` has
   `data.category === 'game'` (no cross-category leakage)
 
 #### `has_works(entries, category)`
 
-- [ ] 8.10 Test: `has_works(fixture_works, 'game')` → `true`
-- [ ] 8.11 Test: `has_works(fixture_works, 'asset')` → `true`
-- [ ] 8.12 Test: `has_works(fixture_works, 'project')` → `false` (no project entries in fixture)
-- [ ] 8.13 Test: `has_works([], 'game')` → `false`
+- [x] 8.10 Test: `has_works(fixture_works, 'game')` → `true`
+- [x] 8.11 Test: `has_works(fixture_works, 'asset')` → `true`
+- [x] 8.12 Test: `has_works(fixture_works, 'project')` → `false` (no project entries in fixture)
+- [x] 8.13 Test: `has_works([], 'game')` → `false`
 
 #### `get_latest_work(entries, category)`
 
-- [ ] 8.14 Test: `get_latest_work(fixture_works, 'game')` returns entry with
+- [x] 8.14 Test: `get_latest_work(fixture_works, 'game')` returns entry with
   `data.title === 'Meow Adventure'` (most recent game by `published_at`)
-- [ ] 8.15 Test: `get_latest_work(fixture_works, 'project')` returns `undefined`
-- [ ] 8.16 Test: `get_latest_work([], 'game')` returns `undefined`
+- [x] 8.15 Test: `get_latest_work(fixture_works, 'project')` returns `undefined`
+- [x] 8.16 Test: `get_latest_work([], 'game')` returns `undefined`
 
-- [ ] 8.17 Run `npm run test` → **14 new tests RED**, 53 existing tests still GREEN
+- [x] 8.17 Run `npm run test` → **14 new tests RED**, 53 existing tests still GREEN
 
 ---
 
@@ -432,7 +432,7 @@ to confirm RED — import errors are not acceptable (create empty `today_discove
 
 **Goal**: Implement `src/lib/works.js` until all Phase 8 tests pass.
 
-- [ ] 9.1 Add JSDoc and implement `get_works_by_category(entries, category)`:
+- [x] 9.1 Add JSDoc and implement `get_works_by_category(entries, category)`:
   ```js
   export function get_works_by_category(entries, category) {
     return entries
@@ -445,14 +445,14 @@ to confirm RED — import errors are not acceptable (create empty `today_discove
   }
   ```
   Tests 8.3–8.9 GREEN
-- [ ] 9.2 Add JSDoc and implement `has_works(entries, category)`:
+- [x] 9.2 Add JSDoc and implement `has_works(entries, category)`:
   ```js
   export function has_works(entries, category) {
     return entries.some(e => e.data.category === category);
   }
   ```
   Tests 8.10–8.13 GREEN
-- [ ] 9.3 Add JSDoc and implement `get_latest_work(entries, category)`:
+- [x] 9.3 Add JSDoc and implement `get_latest_work(entries, category)`:
   ```js
   export function get_latest_work(entries, category) {
     const list = get_works_by_category(entries, category);
@@ -460,8 +460,8 @@ to confirm RED — import errors are not acceptable (create empty `today_discove
   }
   ```
   Tests 8.14–8.16 GREEN
-- [ ] 9.4 Run `npm run test` → **all 67 tests GREEN** (40 + 13 + 14)
-- [ ] 9.5 Refactor while keeping all 67 GREEN
+- [x] 9.4 Run `npm run test` → **all 67 tests GREEN** (40 + 13 + 14)
+- [x] 9.5 Refactor while keeping all 67 GREEN
 
 ---
 
@@ -470,11 +470,11 @@ to confirm RED — import errors are not acceptable (create empty `today_discove
 **Goal**: Update `src/layouts/base_layout.astro` to support MD3 navigation, footer, GA4,
 and English-first default language.
 
-- [ ] 10.1 Add new props to the frontmatter destructure:
+- [x] 10.1 Add new props to the frontmatter destructure:
   `const { title, lang = 'en', og_image, current_page = '/' } = Astro.props;`
   Note: `lang` default changes from `'ja'` to `'en'`; all existing pages that pass
   `lang="ja"` explicitly are unaffected
-- [ ] 10.2 Create build-safe **stub** `src/components/navigation.astro` before importing it
+- [x] 10.2 Create build-safe **stub** `src/components/navigation.astro` before importing it
   (Astro is a strict compiler — importing a non-existent file causes a fatal build error;
   the stub satisfies the import so Phase 10 can be verified incrementally):
   ```astro
@@ -486,7 +486,7 @@ and English-first default language.
   ```
   Then add import to `base_layout.astro` frontmatter:
   `import Navigation from '../components/navigation.astro';`
-- [ ] 10.3 Create build-safe **stub** `src/components/footer.astro` before importing it
+- [x] 10.3 Create build-safe **stub** `src/components/footer.astro` before importing it
   (same reason as 10.2 — stub first, real implementation at step 10.5):
   ```astro
   ---
@@ -496,7 +496,7 @@ and English-first default language.
   ```
   Then add import to `base_layout.astro` frontmatter:
   `import Footer from '../components/footer.astro';`
-- [ ] 10.4 Replace `<body><slot /></body>` with the new 3-region layout:
+- [x] 10.4 Replace `<body><slot /></body>` with the new 3-region layout:
   ```astro
   <body>
     <Navigation current_page={current_page} lang={lang} />
@@ -507,7 +507,7 @@ and English-first default language.
   </body>
   ```
   Run `npm run build` here → must succeed (stubs satisfy imports; nav/footer are empty but valid)
-- [ ] 10.5 **Overwrite stub** `src/components/footer.astro` with real content
+- [x] 10.5 **Overwrite stub** `src/components/footer.astro` with real content
   (replaces the placeholder created in 10.3):
   ```astro
   ---
@@ -520,7 +520,7 @@ and English-first default language.
     <span class="md3-footer-copy">© 2026 STUDIO MeowToon</span>
   </footer>
   ```
-- [ ] 10.6 Add GA4 script block (conditional on env var) in `<head>`:
+- [x] 10.6 Add GA4 script block (conditional on env var) in `<head>`:
   ```astro
   {import.meta.env.PUBLIC_GA4_ID && (
     <>
@@ -534,10 +534,10 @@ and English-first default language.
     </>
   )}
   ```
-- [ ] 10.7 Verify `PUBLIC_GA4_ID` is NOT set in `.env` or any committed file
+- [x] 10.7 Verify `PUBLIC_GA4_ID` is NOT set in `.env` or any committed file
   (set only in Cloudflare Pages dashboard environment variables)
-- [ ] 10.8 Verify OGP tags still render correctly after restructure (check `og:title`, `og:image`)
-- [ ] 10.9 Verify `lang` prop still flows to `<html lang={lang}>` (unchanged)
+- [x] 10.8 Verify OGP tags still render correctly after restructure (check `og:title`, `og:image`)
+- [x] 10.9 Verify `lang` prop still flows to `<html lang={lang}>` (unchanged)
 
 ---
 
@@ -545,11 +545,11 @@ and English-first default language.
 
 **Goal**: Create `src/components/navigation.astro` implementing MD3 bar / rail / drawer.
 
-- [ ] 11.1 Create `src/components/navigation.astro` with file-level comment:
+- [x] 11.1 Create `src/components/navigation.astro` with file-level comment:
   `// MD3 navigation component: renders bar (mobile), rail (tablet), or drawer (desktop) via CSS breakpoints only.`
-- [ ] 11.2 Define props:
+- [x] 11.2 Define props:
   `const { current_page = '/', lang = 'ja' } = Astro.props;`
-- [ ] 11.3 Define nav items array in the component frontmatter (replace D3 values when decided):
+- [x] 11.3 Define nav items array in the component frontmatter (replace D3 values when decided):
   ```js
   const nav_items = [
     { icon: '🏠', label: 'Home',  href: '/' },
@@ -559,8 +559,8 @@ and English-first default language.
   ];
   ```
   Note: Manga href uses `lang` prop — **never hardcoded to `/ja/`**.
-- [ ] 11.4 Write helper: `const is_active = (href) => current_page === href || current_page.startsWith(href) && href !== '/';`
-- [ ] 11.5 HTML structure — three sibling `<nav>` elements, CSS shows only the correct one:
+- [x] 11.4 Write helper: `const is_active = (href) => current_page === href || current_page.startsWith(href) && href !== '/';`
+- [x] 11.5 HTML structure — three sibling `<nav>` elements, CSS shows only the correct one:
   ```astro
   <!-- Mobile: Navigation Bar -->
   <nav class="md3-nav-bar" aria-label="Main navigation">
@@ -593,7 +593,7 @@ and English-first default language.
     ))}
   </nav>
   ```
-- [ ] 11.6 Add `<style>` block to the component (scoped):
+- [x] 11.6 Add `<style>` block to the component (scoped):
   ```css
   /* Mobile: show bar, hide rail + drawer */
   .md3-nav-rail, .md3-nav-drawer { display: none; }
@@ -638,7 +638,7 @@ and English-first default language.
     }
   }
   ```
-- [ ] 11.7 Add active state CSS for each nav variant (`.active` class):
+- [x] 11.7 Add active state CSS for each nav variant (`.active` class):
   ```css
   .md3-nav-bar-item.active,
   .md3-nav-rail-item.active,
@@ -648,13 +648,13 @@ and English-first default language.
     border-radius: var(--md-sys-shape-corner-full);
   }
   ```
-- [ ] 11.8 Verify in browser DevTools: at width ≤ 600px, only `.md3-nav-bar` is visible
-- [ ] 11.9 Verify in browser DevTools: at width 601–1240px, only `.md3-nav-rail` is visible
-- [ ] 11.10 Verify in browser DevTools: at width ≥ 1241px, only `.md3-nav-drawer` is visible
-- [ ] 11.11 Verify active state on homepage: Home item has `active` class; Manga item does not
-- [ ] 11.12 Verify active state on `/ja/comic/everyday/`: Manga item has `active` class
-- [ ] 11.13 Verify Manga link is `/${lang}/comic/` — check rendered HTML in page source
-- [ ] 11.14 Run `npm run build` → zero errors, all pages generate
+- [x] 11.8 Verify in browser DevTools: at width ≤ 600px, only `.md3-nav-bar` is visible
+- [x] 11.9 Verify in browser DevTools: at width 601–1240px, only `.md3-nav-rail` is visible
+- [x] 11.10 Verify in browser DevTools: at width ≥ 1241px, only `.md3-nav-drawer` is visible
+- [x] 11.11 Verify active state on homepage: Home item has `active` class; Manga item does not
+- [x] 11.12 Verify active state on `/ja/comic/everyday/`: Manga item has `active` class
+- [x] 11.13 Verify Manga link is `/${lang}/comic/` — check rendered HTML in page source
+- [x] 11.14 Run `npm run build` → zero errors, all pages generate
 
 ---
 
@@ -662,7 +662,7 @@ and English-first default language.
 
 **Goal**: Create empty slot components that reserve DOM positions for Phase 2/3 features.
 
-- [ ] 12.1 Create `src/components/reactions_slot.astro`:
+- [x] 12.1 Create `src/components/reactions_slot.astro`:
   ```astro
   ---
   // Phase 1: reserved slot for Phase 2 Reactions feature (❤️ 🔥 ✨ 👀).
@@ -670,7 +670,7 @@ and English-first default language.
   ---
   <div id="reactions-slot" style="display:none;" aria-hidden="true"></div>
   ```
-- [ ] 12.2 Create `src/components/comments_slot.astro`:
+- [x] 12.2 Create `src/components/comments_slot.astro`:
   ```astro
   ---
   // Phase 1: reserved slot for Phase 3 Comments feature.
@@ -678,9 +678,9 @@ and English-first default language.
   ---
   <div id="comments-slot" style="display:none;" aria-hidden="true"></div>
   ```
-- [ ] 12.3 Verify each component file renders only the empty `<div>` — no visible output
-- [ ] 12.4 Verify `aria-hidden="true"` is present (slots must not interfere with screen readers)
-- [ ] 12.5 Note: these components are placed inside the episode detail page in Phase 18;
+- [x] 12.3 Verify each component file renders only the empty `<div>` — no visible output
+- [x] 12.4 Verify `aria-hidden="true"` is present (slots must not interfere with screen readers)
+- [x] 12.5 Note: these components are placed inside the episode detail page in Phase 18;
   they are created here first so Phase 18 can import them without forward-dependency
 
 ---
@@ -690,7 +690,7 @@ and English-first default language.
 **Goal**: Update `public/css/style.css` to use MD3 tokens and implement the 3-column layout
 offset for the navigation component.
 
-- [ ] 13.1 Add content offset rules to `public/css/style.css`:
+- [x] 13.1 Add content offset rules to `public/css/style.css`:
   ```css
   /* Mobile: lift content above fixed nav bar */
   .md3-page-content { padding-bottom: 88px; }
@@ -705,7 +705,7 @@ offset for the navigation component.
     .md3-page-content { margin-left: 280px; }
   }
   ```
-- [ ] 13.2 Add MD3 Card base class:
+- [x] 13.2 Add MD3 Card base class:
   ```css
   .md3-card {
     background: var(--md-sys-color-surface-variant);
@@ -718,7 +718,7 @@ offset for the navigation component.
     box-shadow: var(--md-sys-elevation-level2);
   }
   ```
-- [ ] 13.3 Add MD3 Typography utility classes:
+- [x] 13.3 Add MD3 Typography utility classes:
   ```css
   .md3-display-large { font-size: var(--md-sys-typescale-display-large-size); line-height: var(--md-sys-typescale-display-large-line); }
   .md3-headline-large { font-size: var(--md-sys-typescale-headline-large-size); line-height: var(--md-sys-typescale-headline-large-line); }
@@ -727,7 +727,7 @@ offset for the navigation component.
   .md3-body-large { font-size: var(--md-sys-typescale-body-large-size); line-height: var(--md-sys-typescale-body-large-line); }
   .md3-label-large { font-size: var(--md-sys-typescale-label-large-size); }
   ```
-- [ ] 13.4 Add MD3 Button base classes:
+- [x] 13.4 Add MD3 Button base classes:
   ```css
   .md3-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 24px;
     border-radius: var(--md-sys-shape-corner-full); font-size: var(--md-sys-typescale-label-large-size);
@@ -736,7 +736,7 @@ offset for the navigation component.
   .md3-btn-tonal  { background: var(--md-sys-color-secondary-container); color: var(--md-sys-color-on-secondary-container); }
   .md3-btn-outlined { background: transparent; border: 1px solid var(--md-sys-color-outline); color: var(--md-sys-color-primary); }
   ```
-- [ ] 13.5 Add MD3 footer styles:
+- [x] 13.5 Add MD3 footer styles:
   ```css
   .md3-footer { padding: 24px 16px; display: flex; gap: 16px; align-items: center;
     border-top: 1px solid var(--md-sys-color-outline-variant); flex-wrap: wrap;
@@ -744,7 +744,7 @@ offset for the navigation component.
   .md3-footer a { color: var(--md-sys-color-primary); text-decoration: none; }
   .md3-footer-copy { margin-left: auto; }
   ```
-- [ ] 13.6 Set global base styles using tokens:
+- [x] 13.6 Set global base styles using tokens:
   ```css
   body {
     font-family: var(--md-sys-typescale-font-family);
@@ -754,8 +754,8 @@ offset for the navigation component.
   }
   a { color: var(--md-sys-color-primary); }
   ```
-- [ ] 13.7 Run `npm run dev` → spot-check that nav bar appears on mobile, page content offset works
-- [ ] 13.8 Run `npm run build` → zero errors
+- [x] 13.7 Run `npm run dev` → spot-check that nav bar appears on mobile, page content offset works
+- [x] 13.8 Run `npm run build` → zero errors
 
 ---
 
@@ -764,8 +764,8 @@ offset for the navigation component.
 **Goal**: Full rewrite of `src/pages/index.astro` with all 5 sections.
 Resolve D2 (catchphrase) before finalizing Hero copy; use placeholder `"One creator. Every day."` until then.
 
-- [ ] 14.1 Open `src/pages/index.astro`; replace entire content
-- [ ] 14.2 Add frontmatter imports:
+- [x] 14.1 Open `src/pages/index.astro`; replace entire content
+- [x] 14.2 Add frontmatter imports:
   ```js
   import { getCollection } from 'astro:content';
   import BaseLayout from '../layouts/base_layout.astro';
@@ -773,7 +773,7 @@ Resolve D2 (catchphrase) before finalizing Hero copy; use placeholder `"One crea
   import { get_latest_discovery } from '../lib/today_discovery.js';
   import { has_works, get_latest_work } from '../lib/works.js';
   ```
-- [ ] 14.3 Fetch all collections in frontmatter:
+- [x] 14.3 Fetch all collections in frontmatter:
   ```js
   const comic_entries        = await getCollection('comic');
   const discovery_entries    = await getCollection('today_discovery');
@@ -782,9 +782,9 @@ Resolve D2 (catchphrase) before finalizing Hero copy; use placeholder `"One crea
   const latest_discovery     = get_latest_discovery(discovery_entries);
   const works_categories     = ['game', 'asset', 'book', 'project'];
   ```
-- [ ] 14.4 Pass `current_page="/"` to `<BaseLayout>`:
+- [x] 14.4 Pass `current_page="/"` to `<BaseLayout>`:
   `<BaseLayout title="Home" lang="en" current_page="/">`
-- [ ] 14.5 **Section 1 — Hero:**
+- [x] 14.5 **Section 1 — Hero:**
   ```astro
   <section class="md3-hero">
     <h1 class="md3-headline-large">One creator. Every day.</h1>
@@ -792,7 +792,7 @@ Resolve D2 (catchphrase) before finalizing Hero copy; use placeholder `"One crea
   </section>
   ```
   Replace `"One creator. Every day."` with D2 value when decided.
-- [ ] 14.6 **Section 2 — Today's Discovery (conditional):**
+- [x] 14.6 **Section 2 — Today's Discovery (conditional):**
   ```astro
   {latest_discovery && (
     <section class="md3-section">
@@ -807,7 +807,7 @@ Resolve D2 (catchphrase) before finalizing Hero copy; use placeholder `"One crea
     </section>
   )}
   ```
-- [ ] 14.7 **Section 3 — Latest Manga (always shown):**
+- [x] 14.7 **Section 3 — Latest Manga (always shown):**
   ```astro
   <section class="md3-section">
     <h2 class="md3-title-large">Manga</h2>
@@ -821,7 +821,7 @@ Resolve D2 (catchphrase) before finalizing Hero copy; use placeholder `"One crea
     </div>
   </section>
   ```
-- [ ] 14.8 **Section 4 — Works (per-category conditional):**
+- [x] 14.8 **Section 4 — Works (per-category conditional):**
   ```astro
   {works_categories.some(cat => has_works(works_entries, cat)) && (
     <section class="md3-section">
@@ -837,9 +837,9 @@ Resolve D2 (catchphrase) before finalizing Hero copy; use placeholder `"One crea
   ```
 - [ ] 14.9 Verify Today's Discovery section is **absent** from rendered HTML when `discovery_entries` is empty
   (temporarily remove `.gitkeep` and check, then restore)
-- [ ] 14.10 Verify Works section is **absent** when no works entries exist
-- [ ] 14.11 Verify Works section shows only categories with `has_works === true`
-- [ ] 14.12 Add CSS for landing page sections to `public/css/style.css`:
+- [x] 14.10 Verify Works section is **absent** when no works entries exist
+- [x] 14.11 Verify Works section shows only categories with `has_works === true`
+- [x] 14.12 Add CSS for landing page sections to `public/css/style.css`:
   ```css
   .md3-section { padding: 24px 16px; max-width: 1200px; margin: 0 auto; }
   .md3-hero { padding: 48px 16px; text-align: center; }
@@ -847,7 +847,7 @@ Resolve D2 (catchphrase) before finalizing Hero copy; use placeholder `"One crea
   .md3-card-series img { width: 100%; border-radius: var(--md-sys-shape-corner-medium); }
   .md3-ephemeral-badge { color: var(--md-sys-color-error); font-size: var(--md-sys-typescale-label-medium-size); margin-left: 8px; }
   ```
-- [ ] 14.13 Run `npm run build` → zero errors; verify `/index.html` in `dist/`
+- [x] 14.13 Run `npm run build` → zero errors; verify `/index.html` in `dist/`
 
 ---
 
@@ -855,7 +855,7 @@ Resolve D2 (catchphrase) before finalizing Hero copy; use placeholder `"One crea
 
 **Goal**: Create `src/pages/about.astro` — required for launch per 企画書 v6 §16.
 
-- [ ] 15.1 Create `src/pages/about.astro`:
+- [x] 15.1 Create `src/pages/about.astro`:
   ```astro
   ---
   import BaseLayout from '../layouts/base_layout.astro';
@@ -873,8 +873,8 @@ Resolve D2 (catchphrase) before finalizing Hero copy; use placeholder `"One crea
   ```
 - [ ] 15.2 Add creator name, brief bio (1–2 sentences), and social links before launch
 - [ ] 15.3 Add contact info (email or form link)
-- [ ] 15.4 Verify `current_page="/about/"` causes the About nav item to show `active` state
-- [ ] 15.5 Run `npm run build` → verify `/about/index.html` exists in `dist/`
+- [x] 15.4 Verify `current_page="/about/"` causes the About nav item to show `active` state
+- [x] 15.5 Run `npm run build` → verify `/about/index.html` exists in `dist/`
 
 ---
 
@@ -882,7 +882,7 @@ Resolve D2 (catchphrase) before finalizing Hero copy; use placeholder `"One crea
 
 **Goal**: Create `/today/` listing the latest 30 discoveries.
 
-- [ ] 16.1 Create `src/pages/today/index.astro`:
+- [x] 16.1 Create `src/pages/today/index.astro`:
   ```astro
   ---
   import { getCollection } from 'astro:content';
@@ -906,9 +906,9 @@ Resolve D2 (catchphrase) before finalizing Hero copy; use placeholder `"One crea
     </div>
   </BaseLayout>
   ```
-- [ ] 16.2 Verify "No discoveries yet." message shows when collection is empty
-- [ ] 16.3 Verify entries are shown newest-first (Phase 5 guarantees sort order)
-- [ ] 16.4 Run `npm run build` → verify `/today/index.html` in `dist/`
+- [x] 16.2 Verify "No discoveries yet." message shows when collection is empty
+- [x] 16.3 Verify entries are shown newest-first (Phase 5 guarantees sort order)
+- [x] 16.4 Run `npm run build` → verify `/today/index.html` in `dist/`
 
 ---
 
@@ -917,7 +917,7 @@ Resolve D2 (catchphrase) before finalizing Hero copy; use placeholder `"One crea
 **Goal**: Create works listing pages. Each page shows content if it exists; shows a
 friendly "coming soon" message if no content for that category. No empty-looking broken UI.
 
-- [ ] 17.1 Create `src/pages/works/index.astro` — overview of all categories:
+- [x] 17.1 Create `src/pages/works/index.astro` — overview of all categories:
   ```astro
   ---
   import { getCollection } from 'astro:content';
@@ -940,11 +940,11 @@ friendly "coming soon" message if no content for that category. No empty-looking
     </div>
   </BaseLayout>
   ```
-- [ ] 17.2 Create `src/pages/games/index.astro`, `src/pages/assets/index.astro`,
+- [x] 17.2 Create `src/pages/games/index.astro`, `src/pages/assets/index.astro`,
   `src/pages/books/index.astro`, `src/pages/projects/index.astro` —
   each using the same pattern: fetch works, filter by category, render list or "coming soon"
-- [ ] 17.3 Verify each category page shows "coming soon" when no works entries exist for that category
-- [ ] 17.4 Run `npm run build` → verify all 5 works pages exist in `dist/`
+- [x] 17.3 Verify each category page shows "coming soon" when no works entries exist for that category
+- [x] 17.4 Run `npm run build` → verify all 5 works pages exist in `dist/`
 
 ---
 
@@ -954,40 +954,40 @@ friendly "coming soon" message if no content for that category. No empty-looking
 
 ### `src/pages/[lang]/comic/[series]/index.astro` (Series Episode List)
 
-- [ ] 18.1 Wrap episode list in `<div class="md3-section">`
-- [ ] 18.2 Series heading: add class `md3-headline-large`
-- [ ] 18.3 Episode list items: replace inline styles with `md3-card` class
-- [ ] 18.4 Pass `current_page={`/${lang}/comic/`}` to `<BaseLayout>`
+- [x] 18.1 Wrap episode list in `<div class="md3-section">`
+- [x] 18.2 Series heading: add class `md3-headline-large`
+- [x] 18.3 Episode list items: replace inline styles with `md3-card` class
+- [x] 18.4 Pass `current_page={`/${lang}/comic/`}` to `<BaseLayout>`
 
 ### `src/pages/[lang]/comic/[series]/[episode]/index.astro` (Episode Detail)
 
-- [ ] 18.5 Import slot components:
+- [x] 18.5 Import slot components:
   ```js
   import ReactionsSlot from '../../../../components/reactions_slot.astro';
   import CommentsSlot  from '../../../../components/comments_slot.astro';
   ```
-- [ ] 18.6 Place `<ReactionsSlot />` immediately after the panel images block
-- [ ] 18.7 Place `<CommentsSlot />` immediately after `<ReactionsSlot />`
-- [ ] 18.8 Verify rendered HTML contains `<div id="reactions-slot"` and `<div id="comments-slot"`
+- [x] 18.6 Place `<ReactionsSlot />` immediately after the panel images block
+- [x] 18.7 Place `<CommentsSlot />` immediately after `<ReactionsSlot />`
+- [x] 18.8 Verify rendered HTML contains `<div id="reactions-slot"` and `<div id="comments-slot"`
   with `display:none` and `aria-hidden="true"` — confirm no visible effect
-- [ ] 18.9 Pass `current_page={`/${lang}/comic/`}` to `<BaseLayout>` (Manga nav item active)
-- [ ] 18.10 Episode title: add class `md3-title-large`
-- [ ] 18.11 Episode description: add class `md3-body-large`
-- [ ] 18.12 Panel images: `<img>` tags keep `width="100%"` (existing), add `loading="lazy"`
+- [x] 18.9 Pass `current_page={`/${lang}/comic/`}` to `<BaseLayout>` (Manga nav item active)
+- [x] 18.10 Episode title: add class `md3-title-large`
+- [x] 18.11 Episode description: add class `md3-body-large`
+- [x] 18.12 Panel images: `<img>` tags keep `width="100%"` (existing), add `loading="lazy"`
 
 ### `src/components/episode_nav.astro` (Prev/List/Next Navigation)
 
-- [ ] 18.13 Replace emoji labels with English text + MD3 button styling:
+- [x] 18.13 Replace emoji labels with English text + MD3 button styling:
   - `◀️ Prev` → `← Previous` with class `md3-btn md3-btn-outlined`
   - `⤴️ List` → `All Episodes` with class `md3-btn md3-btn-tonal`
   - `Next ▶️` → `Next →` with class `md3-btn md3-btn-outlined`
-- [ ] 18.14 Preserve the exact DOM structure: `{prev}` → `{list}` → `{next}` (3 children, no reordering)
+- [x] 18.14 Preserve the exact DOM structure: `{prev}` → `{list}` → `{next}` (3 children, no reordering)
   The existing inline JS uses `.hugo-nav a:first-child` and `.hugo-nav a:last-child` —
   changing element order would break swipe and keyboard navigation.
-- [ ] 18.15 Verify swipe navigation still works on mobile (existing `touchstart`/`touchend` script)
-- [ ] 18.16 Verify keyboard navigation still works on desktop (existing `keydown` script)
-- [ ] 18.17 Run `npm run build` → all 193+ episode pages still generate without error
-- [ ] 18.18 Run `npm run test` → all 67 tests still GREEN (no utility function changes)
+- [x] 18.15 Verify swipe navigation still works on mobile (existing `touchstart`/`touchend` script)
+- [x] 18.16 Verify keyboard navigation still works on desktop (existing `keydown` script)
+- [x] 18.17 Run `npm run build` → all 193+ episode pages still generate without error
+- [x] 18.18 Run `npm run test` → all 67 tests still GREEN (no utility function changes)
 
 ---
 
@@ -998,12 +998,12 @@ context problem — the static `/404.html` is always served regardless of which 
 the user was on, so the nav's Manga link would otherwise incorrectly point to `/en/comic/`
 for a Japanese user who typo'd a `/ja/comic/...` URL.
 
-- [ ] 19.1 Open `src/pages/404.astro`; add `current_page="/404/"` prop to `<BaseLayout>`
+- [x] 19.1 Open `src/pages/404.astro`; add `current_page="/404/"` prop to `<BaseLayout>`
   Leave `lang="en"` (default) as the server-side prop — client-side correction is in 19.6.
-- [ ] 19.2 Apply MD3 typography: heading class `md3-headline-large`, body class `md3-body-large`
-- [ ] 19.3 Replace `<a href="/">⤴️ Top</a>` with `<a href="/" class="md3-btn md3-btn-filled">← Back to Home</a>`
-- [ ] 19.4 Wrap content in `<div class="md3-section">`
-- [ ] 19.5 Make the body copy **bilingual** (Japanese + English) so no user feels linguistically
+- [x] 19.2 Apply MD3 typography: heading class `md3-headline-large`, body class `md3-body-large`
+- [x] 19.3 Replace `<a href="/">⤴️ Top</a>` with `<a href="/" class="md3-btn md3-btn-filled">← Back to Home</a>`
+- [x] 19.4 Wrap content in `<div class="md3-section">`
+- [x] 19.5 Make the body copy **bilingual** (Japanese + English) so no user feels linguistically
   abandoned regardless of what the client-side script detects:
   ```astro
   <h1 class="md3-headline-large">404 — Page Not Found</h1>
@@ -1012,7 +1012,7 @@ for a Japanese user who typo'd a `/ja/comic/...` URL.
     The page you're looking for doesn't exist.
   </p>
   ```
-- [ ] 19.6 Add a `<script is:inline>` **at the bottom of 404.astro's `<body>`** that patches the
+- [x] 19.6 Add a `<script is:inline>` **at the bottom of 404.astro's `<body>`** that patches the
   Navigation's Manga link based on where the user came from (fixes the language context
   without any server-side logic):
   ```html
@@ -1031,9 +1031,9 @@ for a Japanese user who typo'd a `/ja/comic/...` URL.
   Detection priority: `document.referrer` URL path → `navigator.language` fallback.
   This means a Japanese user who typo'd a `/ja/comic/` URL will see the Manga nav link
   correctly pointing to `/ja/comic/` instead of `/en/comic/`.
-- [ ] 19.7 Verify in browser: visit `/404` by typing a non-existent `/ja/comic/fakepage/` URL →
+- [x] 19.7 Verify in browser: visit `/404` by typing a non-existent `/ja/comic/fakepage/` URL →
   confirm the Manga nav link in the 404 page's navigation points to `/ja/comic/` (not `/en/comic/`)
-- [ ] 19.8 Run `npm run build` → verify `dist/404.html` exists and does not have `hugo-header` class
+- [x] 19.8 Run `npm run build` → verify `dist/404.html` exists and does not have `hugo-header` class
 
 ---
 

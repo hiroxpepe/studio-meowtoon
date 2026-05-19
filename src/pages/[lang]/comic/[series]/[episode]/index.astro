@@ -3,6 +3,8 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../../../../layouts/base_layout.astro';
 import EpisodeNav from '../../../../../components/episode_nav.astro';
+import ReactionsSlot from '../../../../../components/reactions_slot.astro';
+import CommentsSlot from '../../../../../components/comments_slot.astro';
 import { get_episode, build_episode_paths, build_episode_nav } from '../../../../../lib/comic.js';
 
 export async function getStaticPaths() {
@@ -16,22 +18,26 @@ const current = get_episode(all_entries, lang, series, episode);
 const { title, description, images } = current.data;
 const nav = build_episode_nav(all_entries, lang, series, episode);
 ---
-<BaseLayout title={title} lang={lang} og_image={images[0]}>
-  <div class="hugo-episode">Episode {episode}</div>
-  <div class="hugo-title">{title}</div>
-  <div class="hugo-images">
-    {images.map(src => (
-      <img src={src} alt="comic panel">
-    ))}
+<BaseLayout title={title} lang={lang} og_image={images[0]} current_page={`/${lang}/comic/`}>
+  <div class="md3-section">
+    <div class="hugo-episode md3-label-large">Episode {episode}</div>
+    <h1 class="hugo-title md3-title-large">{title}</h1>
+    <div class="hugo-images">
+      {images.map(src => (
+        <img src={src} alt="comic panel" loading="lazy">
+      ))}
+    </div>
+    {description && (
+      <div class="hugo-description md3-body-large">{description}</div>
+    )}
+    <ReactionsSlot />
+    <CommentsSlot />
+    <EpisodeNav
+      prev_href={nav.prev_href}
+      next_href={nav.next_href}
+      list_href={nav.list_href}
+    />
   </div>
-  {description && (
-    <div class="hugo-description">{description}</div>
-  )}
-  <EpisodeNav
-    prev_href={nav.prev_href}
-    next_href={nav.next_href}
-    list_href={nav.list_href}
-  />
   <script>
   // Swipe navigation: right swipe = prev, left swipe = next.
   let touchStartX = null;

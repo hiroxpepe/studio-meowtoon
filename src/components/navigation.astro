@@ -1,0 +1,130 @@
+---
+// MD3 navigation component: renders bar (mobile), rail (tablet), or drawer (desktop) via CSS breakpoints only.
+const { current_page = '/' } = Astro.props;
+
+const nav_items = [
+  { icon: '🏠', label: 'Home',  href: '/' },
+  { icon: '📖', label: 'Manga', href: '/ja/comic/' },
+  { icon: '🎨', label: 'Works', href: '/works/' },
+  { icon: '👤', label: 'About', href: '/about/' },
+];
+
+const is_active = (href) => current_page === href || (href !== '/' && current_page.startsWith(href));
+---
+
+<!-- Mobile: Navigation Bar -->
+<nav class="md3-nav-bar" aria-label="Main navigation">
+  {nav_items.map(item => (
+    <a href={item.href} class={`md3-nav-bar-item ${is_active(item.href) ? 'active' : ''}`}>
+      <span class="md3-nav-icon">{item.icon}</span>
+      <span class="md3-nav-label">{item.label}</span>
+    </a>
+  ))}
+</nav>
+
+<!-- Tablet: Navigation Rail -->
+<nav class="md3-nav-rail" aria-label="Main navigation">
+  {nav_items.map(item => (
+    <a href={item.href} class={`md3-nav-rail-item ${is_active(item.href) ? 'active' : ''}`}>
+      <span class="md3-nav-icon">{item.icon}</span>
+      <span class="md3-nav-label">{item.label}</span>
+    </a>
+  ))}
+</nav>
+
+<!-- Desktop: Navigation Drawer -->
+<nav class="md3-nav-drawer" aria-label="Main navigation">
+  <div class="md3-nav-drawer-header">STUDIO MeowToon</div>
+  {nav_items.map(item => (
+    <a href={item.href} class={`md3-nav-drawer-item ${is_active(item.href) ? 'active' : ''}`}>
+      <span class="md3-nav-icon">{item.icon}</span>
+      <span class="md3-nav-label">{item.label}</span>
+    </a>
+  ))}
+</nav>
+
+<style>
+  /* Mobile: show bar, hide rail + drawer */
+  .md3-nav-rail, .md3-nav-drawer { display: none; }
+  .md3-nav-bar {
+    display: flex;
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+    height: 80px;
+    background: var(--md-sys-color-surface);
+    border-top: 1px solid var(--md-sys-color-outline-variant);
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  /* Tablet */
+  @media (min-width: 601px) {
+    .md3-nav-bar { display: none; }
+    .md3-nav-rail {
+      display: flex;
+      flex-direction: column;
+      position: fixed; top: 0; left: 0; bottom: 0; z-index: 100;
+      width: 80px;
+      background: var(--md-sys-color-surface);
+      border-right: 1px solid var(--md-sys-color-outline-variant);
+      padding-top: 12px;
+      align-items: center;
+      gap: 4px;
+    }
+  }
+
+  /* Desktop */
+  @media (min-width: 1241px) {
+    .md3-nav-rail { display: none; }
+    .md3-nav-drawer {
+      display: flex;
+      flex-direction: column;
+      position: fixed; top: 0; left: 0; bottom: 0; z-index: 100;
+      width: 280px;
+      background: var(--md-sys-color-surface);
+      border-right: 1px solid var(--md-sys-color-outline-variant);
+      padding: 16px 0;
+      gap: 2px;
+    }
+  }
+
+  .md3-nav-bar-item,
+  .md3-nav-rail-item,
+  .md3-nav-drawer-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 12px;
+    text-decoration: none;
+    color: var(--md-sys-color-on-surface-variant);
+    font-size: var(--md-sys-typescale-label-medium-size);
+    border-radius: var(--md-sys-shape-corner-full);
+  }
+
+  .md3-nav-drawer-item {
+    flex-direction: row;
+    gap: 12px;
+    padding: 12px 24px;
+    border-radius: var(--md-sys-shape-corner-full);
+    margin: 0 8px;
+    font-size: var(--md-sys-typescale-label-large-size);
+  }
+
+  .md3-nav-drawer-header {
+    padding: 16px 24px;
+    font-size: var(--md-sys-typescale-title-large-size);
+    font-weight: 700;
+    color: var(--md-sys-color-on-surface);
+    margin-bottom: 8px;
+  }
+
+  .md3-nav-bar-item.active,
+  .md3-nav-rail-item.active,
+  .md3-nav-drawer-item.active {
+    color: var(--md-sys-color-primary);
+    background: var(--md-sys-color-secondary-container);
+    border-radius: var(--md-sys-shape-corner-full);
+  }
+
+  .md3-nav-icon { font-size: 20px; }
+</style>

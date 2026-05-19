@@ -1,0 +1,45 @@
+---
+// Works category page: only generated when the category has content (§16: no empty/coming-soon pages).
+// getStaticPaths runs in isolation, so CATEGORY_META must be defined inside the function.
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/base_layout.astro';
+import { get_works_by_category, has_works } from '../../lib/works.js';
+
+export async function getStaticPaths() {
+  const CATEGORY_META = {
+    game:    { slug: 'games',    title: '🎮 Games',     page_title: 'Games' },
+    asset:   { slug: 'assets',   title: '🎲 3D Assets',  page_title: '3D Assets' },
+    book:    { slug: 'books',    title: '📚 Books',      page_title: 'Books' },
+    project: { slug: 'projects', title: '💻 Projects',   page_title: 'Projects' },
+  };
+  let works_entries = [];
+  try {
+    const result = await getCollection('works');
+    if (Array.isArray(result)) works_entries = result;
+  } catch {}
+  if (works_entries.length === 0) return [];
+  return Object.entries(CATEGORY_META)
+    .filter(([cat]) => has_works(works_entries, cat))
+    .map(([cat, meta]) => ({
+      params: { category: meta.slug },
+      props: { cat, meta, items: get_works_by_category(works_entries, cat) },
+    }));
+}
+
+const { cat, meta, items } = Astro.props;
+---
+<BaseLayout title={meta.page_title} lang="en" current_page={`/${meta.slug}/`}>
+  <div class="md3-section">
+    <h1 class="md3-headline-large">{meta.title}</h1>
+    <div class="md3-card-grid">
+      {items.map(item => (
+        <div class="md3-card">
+          <h2 class="md3-title-large">{item.data.title}</h2>
+          {item.data.description && <p class="md3-body-large">{item.data.description}</p>}
+          {item.data.url && <a href={item.data.url} class="md3-btn md3-btn-outlined" target="_blank" rel="noopener">View →</a>}
+        </div>
+      ))}
+    </div>
+  </div>
+</BaseLayout>
+

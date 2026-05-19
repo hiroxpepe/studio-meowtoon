@@ -3,14 +3,14 @@
 // IMPORTANT: DOM structure must match .hugo-nav a:first-child / a:last-child selectors in inline script.
 const { prev_href, next_href, list_href } = Astro.props;
 ---
-<div class="hugo-nav">
+<div class="hugo-nav" style="display:flex;gap:12px;justify-content:center;margin-top:2em;">
   {prev_href
-    ? <a href={prev_href}>◀️ Prev</a>
-    : <span></span>
+    ? <a href={prev_href} class="md3-btn md3-btn-outlined">← Previous</a>
+    : <span style="visibility:hidden;" class="md3-btn md3-btn-outlined">← Previous</span>
   }
-  <a href={list_href}>⤴️ List</a>
+  <a href={list_href} class="md3-btn md3-btn-tonal">All Episodes</a>
   {next_href
-    ? <a href={next_href}>Next ▶️</a>
-    : <span></span>
+    ? <a href={next_href} class="md3-btn md3-btn-outlined">Next →</a>
+    : <span style="visibility:hidden;" class="md3-btn md3-btn-outlined">Next →</span>
   }
 </div>

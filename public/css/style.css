@@ -1,4 +1,6 @@
-/* 4コマ画像をスマホで横幅最大に表示するCSS */
+/* Comic reader styles: .hugo-* classes are still actively used by
+   src/pages/[lang]/comic/[series]/[episode]/index.astro and components.
+   DO NOT remove. Font-size values use rem units relative to html breakpoints below. */
 .hugo-images p {
   margin: 0 !important;
   padding: 0 !important;
@@ -26,19 +28,14 @@
   padding-bottom: 0;
 }
 body {
+  font-family: var(--md-sys-typescale-font-family);
+  background: var(--md-sys-color-background);
+  color: var(--md-sys-color-on-background);
   margin: 0 !important;
   padding: 0 !important;
   touch-action: pan-y;
 }
-
-html { font-size: 0; }
-body { font-size: 0; }
-.hugo-header { font-weight: bold; margin-bottom: 1em; }
-.hugo-series { font-weight: bold; margin-bottom: 0.5em; }
-.hugo-episode { color: #888; margin-bottom: 0.5em; }
-.hugo-title { font-weight: bold; margin-bottom: 0.5em; }
-.hugo-description { color: #555; margin-bottom: 0.5em; line-height: 1.6; }
-.hugo-list { margin: 0; padding: 0; list-style: none; }
+a { color: var(--md-sys-color-primary); }
 
 /* PC用 */
 html { font-size: 30px; }
@@ -85,3 +82,69 @@ body { font-size: 1rem; }
     padding-bottom: 0.5rem;
   }
 }
+
+/* --- MD3 Layout --- */
+
+/* Mobile: lift content and footer above fixed nav bar */
+.md3-page-content { padding-bottom: 88px; }
+.md3-footer       { padding-bottom: 96px; }
+
+/* Tablet: shift content and footer right of nav rail */
+@media (min-width: 601px) {
+  .md3-page-content { padding-bottom: 0; margin-left: 80px; }
+  .md3-footer       { padding-bottom: 0; margin-left: 80px; }
+}
+
+/* Desktop: shift content and footer right of nav drawer */
+@media (min-width: 1241px) {
+  .md3-page-content { margin-left: 280px; }
+  .md3-footer       { margin-left: 280px; }
+}
+
+/* MD3 Card */
+.md3-card {
+  background: var(--md-sys-color-surface-variant);
+  border-radius: var(--md-sys-shape-corner-medium);
+  box-shadow: var(--md-sys-elevation-level1);
+  padding: 16px;
+}
+.md3-card-elevated {
+  background: var(--md-sys-color-surface);
+  box-shadow: var(--md-sys-elevation-level2);
+}
+
+/* MD3 Typography */
+.md3-display-large  { font-size: var(--md-sys-typescale-display-large-size);   line-height: var(--md-sys-typescale-display-large-line); }
+.md3-headline-large { font-size: var(--md-sys-typescale-headline-large-size);  line-height: var(--md-sys-typescale-headline-large-line); }
+.md3-headline-medium { font-size: var(--md-sys-typescale-headline-medium-size); }
+.md3-title-large    { font-size: var(--md-sys-typescale-title-large-size); }
+.md3-body-large     { font-size: var(--md-sys-typescale-body-large-size);      line-height: var(--md-sys-typescale-body-large-line); }
+.md3-label-large    { font-size: var(--md-sys-typescale-label-large-size); }
+
+/* MD3 Buttons */
+.md3-btn {
+  display: inline-flex; align-items: center; gap: 8px; padding: 10px 24px;
+  border-radius: var(--md-sys-shape-corner-full);
+  font-size: var(--md-sys-typescale-label-large-size);
+  font-weight: 500; text-decoration: none; cursor: pointer; border: none;
+}
+.md3-btn-filled   { background: var(--md-sys-color-primary); color: var(--md-sys-color-on-primary); }
+.md3-btn-tonal    { background: var(--md-sys-color-secondary-container); color: var(--md-sys-color-on-secondary-container); }
+.md3-btn-outlined { background: transparent; border: 1px solid var(--md-sys-color-outline); color: var(--md-sys-color-primary); }
+
+/* MD3 Footer */
+.md3-footer {
+  padding: 24px 16px; display: flex; gap: 16px; align-items: center;
+  border-top: 1px solid var(--md-sys-color-outline-variant); flex-wrap: wrap;
+  font-size: var(--md-sys-typescale-body-medium-size); color: var(--md-sys-color-on-surface-variant);
+}
+.md3-footer a { color: var(--md-sys-color-primary); text-decoration: none; }
+.md3-footer-copy { margin-left: auto; }
+
+/* MD3 Sections & Landing */
+.md3-section    { padding: 24px 16px; max-width: 1200px; margin: 0 auto; }
+.md3-hero       { padding: 48px 16px; text-align: center; }
+.md3-card-grid  { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; margin-top: 16px; }
+.md3-card-series img { width: 100%; border-radius: var(--md-sys-shape-corner-medium); }
+.md3-ephemeral-badge { color: var(--md-sys-color-error); font-size: var(--md-sys-typescale-label-medium-size); margin-left: 8px; }
+
