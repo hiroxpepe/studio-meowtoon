@@ -3,16 +3,132 @@
 import BaseLayout from '../layouts/base_layout.astro';
 ---
 <BaseLayout title="About" lang="en" current_page="/about/">
-  <div class="md3-section">
-    <h1 class="md3-headline-large">About</h1>
-    <div class="md3-card">
-      <h2 class="md3-title-large">STUDIO MeowToon</h2>
-      <p class="md3-body-large">One creator. Every day.</p>
-      <!-- Phase 21.5: add creator bio, social links -->
+  <section class="about-wrap">
+
+    <div class="about-identity-card">
+      <div class="about-icon">🐱</div>
+      <h1 class="about-name">STUDIO MeowToon</h1>
+      <p class="about-tagline">One creator. Every day.</p>
+      <div class="about-tags">
+        <span class="about-tag">Comic</span>
+        <span class="about-tag">Games</span>
+        <span class="about-tag">3D Assets</span>
+        <span class="about-tag">Books</span>
+      </div>
     </div>
-    <div class="md3-card" id="contact" style="margin-top: 16px;">
-      <h2 class="md3-title-large">Contact</h2>
-      <p class="md3-body-large">hello [at] meowtoon [dot] com</p>
+
+    <div class="about-contact-card" id="contact">
+      <div class="about-contact-header">
+        <span class="about-contact-icon">✉️</span>
+        <h2 class="about-contact-title">Contact</h2>
+      </div>
+      <p class="about-contact-addr">hello [at] meowtoon [dot] com</p>
     </div>
-  </div>
+
+  </section>
 </BaseLayout>
+
+<style>
+.about-wrap {
+  padding: 64px 24px 80px;
+  background: var(--md-sys-color-background);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+/* --- Identity card --- */
+.about-identity-card {
+  width: 100%;
+  max-width: 560px;
+  background: linear-gradient(135deg,
+    var(--md-sys-color-primary-container) 0%,
+    var(--md-sys-color-secondary-container) 100%
+  );
+  border-radius: 20px;
+  padding: 48px 40px 40px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.10);
+}
+
+.about-icon {
+  font-size: 56px;
+  line-height: 1;
+  margin-bottom: 20px;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.15));
+}
+
+.about-name {
+  font-family: 'Lexend', sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--md-sys-color-on-primary-container);
+  margin: 0 0 10px;
+  letter-spacing: -0.5px;
+}
+
+.about-tagline {
+  font-size: 15px;
+  color: var(--md-sys-color-on-secondary-container);
+  margin: 0 0 28px;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+.about-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.about-tag {
+  background: var(--md-sys-color-surface);
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 5px 14px;
+  border-radius: 9999px;
+  letter-spacing: 0.3px;
+}
+
+/* --- Contact card --- */
+.about-contact-card {
+  width: 100%;
+  max-width: 560px;
+  background: var(--md-sys-color-surface-variant);
+  border-radius: 16px;
+  padding: 28px 32px;
+  border-left: 5px solid var(--md-sys-color-primary);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+}
+
+.about-contact-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.about-contact-icon {
+  font-size: 22px;
+  line-height: 1;
+}
+
+.about-contact-title {
+  font-family: 'Lexend', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--md-sys-color-on-surface);
+  margin: 0;
+}
+
+.about-contact-addr {
+  font-size: 15px;
+  color: var(--md-sys-color-on-surface-variant);
+  margin: 0;
+  line-height: 1.6;
+  padding-left: 32px;
+}
+</style>

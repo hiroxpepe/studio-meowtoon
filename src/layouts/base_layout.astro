@@ -3,7 +3,10 @@
 // Props: title (required), lang (default 'en'), og_image (optional), current_page (for nav active state).
 import Navigation from '../components/navigation.astro';
 import Footer from '../components/footer.astro';
+import { getCollection } from 'astro:content';
 const { title, lang = 'en', og_image, current_page = '/' } = Astro.props;
+const works_entries = await getCollection('works').catch(() => []);
+const show_works = works_entries.length > 0;
 const page_title = `${title} | STUDIO MeowToon`;
 // import.meta.env.DEV is true in dev/preview mode; Astro.site is ALWAYS set (from astro.config.mjs)
 // even during local dev — so Astro.site ?? Astro.url.origin never falls back. Use DEV flag instead.
@@ -25,6 +28,9 @@ const og_url = new URL(Astro.url.pathname, base_url).href;
   {og_image_abs && <meta name="twitter:card" content="summary_large_image">}
   <link rel="stylesheet" href="/css/md3-tokens.css">
   <link rel="stylesheet" href="/css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@700;800&family=Noto+Sans:wght@500;800&display=swap" rel="stylesheet">
   {import.meta.env.PUBLIC_GA4_ID && (
     <>
       <script async src={`https://www.googletagmanager.com/gtag/js?id=${import.meta.env.PUBLIC_GA4_ID}`}></script>
@@ -38,7 +44,7 @@ const og_url = new URL(Astro.url.pathname, base_url).href;
   )}
 </head>
 <body>
-  <Navigation current_page={current_page} />
+  <Navigation current_page={current_page} show_works={show_works} />
   <main class="md3-page-content">
     <slot />
   </main>

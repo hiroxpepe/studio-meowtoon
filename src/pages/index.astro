@@ -1,10 +1,11 @@
 ---
-// Top page: landing page with Hero, Today's Discovery, Manga, and Works sections.
+// Top page: 3-column landscape series card grid, centered.
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/base_layout.astro';
 import { build_top_page_data } from '../lib/comic.js';
 import { get_latest_discovery } from '../lib/today_discovery.js';
-import { has_works, get_latest_work } from '../lib/works.js';
+import { has_works } from '../lib/works.js';
+import { series_descriptions } from '../lib/series_meta.js';
 
 const comic_entries     = await getCollection('comic');
 const discovery_entries = await getCollection('today_discovery');
@@ -13,53 +14,64 @@ const series_list       = build_top_page_data(comic_entries);
 const latest_discovery  = get_latest_discovery(discovery_entries);
 const DiscoveryContent  = latest_discovery ? (await latest_discovery.render()).Content : null;
 const works_categories  = ['game', 'asset', 'book', 'project'];
+const has_any_works     = works_categories.some(cat => has_works(works_entries, cat));
 ---
 <BaseLayout title="Home" lang="en" current_page="/" og_image={series_list[0]?.cover_src}>
 
-  <!-- Section 1: Hero -->
-  <section class="md3-hero">
-    <h1 class="md3-headline-large">One creator. Every day.</h1>
-    <p class="md3-body-large">Games · Manga · 3D Assets · Books · Projects</p>
-  </section>
+  {latest_discovery
+    ? (
+      <section class="kn-section kn-discovery-section">
+        <div class="kn-container" style="text-align:center">
+          <span class="kn-badge kn-badge--live">🔴 Today's Discovery</span>
+          <h1>{latest_discovery.data.title}</h1>
+          {DiscoveryContent && <div class="kn-discovery-body"><DiscoveryContent /></div>}
+          <a href="/today/" class="kn-btn">See all</a>
+        </div>
+      </section>
+    )
+    : (
+      <section class="kn-section kn-hero-section">
+        <div class="kn-container" style="text-align:center">
+          {series_list[0] && (
+            <img class="kn-hero-img" src={series_list[0].cover_src} alt="Comic" loading="eager">
+          )}
+          <h1>One creator.<br>One comic.<br>Every&nbsp;day.</h1>
+          <p class="kn-hero-sub">Games · Comic · 3D Assets · Books</p>
+          <a href="/ja/comic/" class="kn-btn">Read Comic</a>
+        </div>
+      </section>
+    )
+  }
 
-  <!-- Section 2: Today's Discovery (conditional) -->
-  {latest_discovery && (
-    <section class="md3-section">
-      <h2 class="md3-title-large">Today's Discovery <span class="md3-ephemeral-badge">🔴 Ephemeral</span></h2>
-      <div class="md3-card">
-        <time datetime={latest_discovery.data.date} class="md3-label-large">{latest_discovery.data.date}</time>
-        <h3 class="md3-title-large">{latest_discovery.data.title}</h3>
-        {DiscoveryContent && <DiscoveryContent />}
-        {latest_discovery.data.image && <img src={latest_discovery.data.image} alt={latest_discovery.data.title} loading="lazy">}
-      </div>
-      <a href="/today/" class="md3-btn md3-btn-outlined" style="margin-top:16px;display:inline-flex;">See archive →</a>
-    </section>
-  )}
-
-  <!-- Section 3: Latest Manga (always shown) -->
-  <section class="md3-section">
-    <h2 class="md3-title-large">Manga</h2>
-    <div class="md3-card-grid">
-      {series_list.map(s => (
-        <a href={s.href} class="md3-card md3-card-series" style="text-decoration:none;color:inherit;">
+  <section class="kn-section" style="background: var(--md-sys-color-background);">
+    <div class="kn-series-grid">
+      {series_list.map((s) => (
+        <a href={s.href} class="kn-series-card">
           <img src={s.cover_src} alt={s.display_title} loading="lazy">
-          <span class="md3-title-large">{s.display_title}</span>
+          <div class="kn-series-card-body">
+            <span class="kn-series-card-title">{s.display_title}</span>
+            <p class="kn-series-card-desc">{series_descriptions?.[s.series] ?? ''}</p>
+            <span class="kn-series-card-read">Read →</span>
+          </div>
         </a>
       ))}
     </div>
   </section>
 
-  <!-- Section 4: Works (per-category conditional) -->
-  {works_categories.some(cat => has_works(works_entries, cat)) && (
-    <section class="md3-section">
-      <h2 class="md3-title-large">Works</h2>
-      <div class="md3-card-grid">
-        {has_works(works_entries, 'game')    && <a href="/games/"    class="md3-card" style="text-decoration:none;">🎮 Games</a>}
-        {has_works(works_entries, 'asset')   && <a href="/assets/"   class="md3-card" style="text-decoration:none;">🎲 3D Assets</a>}
-        {has_works(works_entries, 'book')    && <a href="/books/"    class="md3-card" style="text-decoration:none;">📚 Books</a>}
-        {has_works(works_entries, 'project') && <a href="/projects/" class="md3-card" style="text-decoration:none;">💻 Projects</a>}
+  {has_any_works && (
+    <section class="kn-section" style="background: var(--md-sys-color-surface);">
+      <div class="kn-container" style="text-align:center">
+        <h2>Works</h2>
+        <div class="kn-cards--icon">
+          {has_works(works_entries, 'game')    && <a href="/games/"    class="kn-card--icon"><span class="kn-card-icon">🎮</span><span class="kn-card-label">Games</span></a>}
+          {has_works(works_entries, 'asset')   && <a href="/assets/"   class="kn-card--icon"><span class="kn-card-icon">🎲</span><span class="kn-card-label">3D Assets</span></a>}
+          {has_works(works_entries, 'book')    && <a href="/books/"    class="kn-card--icon"><span class="kn-card-icon">📚</span><span class="kn-card-label">Books</span></a>}
+          {has_works(works_entries, 'project') && <a href="/projects/" class="kn-card--icon"><span class="kn-card-icon">💻</span><span class="kn-card-label">Projects</span></a>}
+        </div>
+        <a href="/works/" class="kn-btn">See all works</a>
       </div>
     </section>
   )}
 
 </BaseLayout>
+

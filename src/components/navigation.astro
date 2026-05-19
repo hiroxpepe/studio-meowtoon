@@ -1,130 +1,178 @@
 ---
-// MD3 navigation component: renders bar (mobile), rail (tablet), or drawer (desktop) via CSS breakpoints only.
-const { current_page = '/' } = Astro.props;
+// Top navigation bar — kenney.nl style: fixed header, logo left, nav items right, hamburger on mobile.
+const { current_page = '/', show_works = true } = Astro.props;
 
 const nav_items = [
-  { icon: '🏠', label: 'Home',  href: '/' },
-  { icon: '📖', label: 'Manga', href: '/ja/comic/' },
-  { icon: '🎨', label: 'Works', href: '/works/' },
-  { icon: '👤', label: 'About', href: '/about/' },
+  { label: 'Home',  href: '/',         enabled: true },
+  { label: 'Comic', href: '/ja/comic/', enabled: true },
+  { label: 'Works', href: '/works/',    enabled: show_works },
+  { label: 'About', href: '/about/',    enabled: true },
 ];
 
 const is_active = (href) => current_page === href || (href !== '/' && current_page.startsWith(href));
 ---
 
-<!-- Mobile: Navigation Bar -->
-<nav class="md3-nav-bar" aria-label="Main navigation">
-  {nav_items.map(item => (
-    <a href={item.href} class={`md3-nav-bar-item ${is_active(item.href) ? 'active' : ''}`}>
-      <span class="md3-nav-icon">{item.icon}</span>
-      <span class="md3-nav-label">{item.label}</span>
-    </a>
-  ))}
-</nav>
+<header class="kn-header">
+  <div class="kn-header-inner">
+    <button class="kn-hamburger" id="kn-menu-toggle" aria-label="メニューを開く">&#9776;</button>
 
-<!-- Tablet: Navigation Rail -->
-<nav class="md3-nav-rail" aria-label="Main navigation">
-  {nav_items.map(item => (
-    <a href={item.href} class={`md3-nav-rail-item ${is_active(item.href) ? 'active' : ''}`}>
-      <span class="md3-nav-icon">{item.icon}</span>
-      <span class="md3-nav-label">{item.label}</span>
-    </a>
-  ))}
-</nav>
+    <a href="/" class="kn-logo">STUDIO MeowToon</a>
 
-<!-- Desktop: Navigation Drawer -->
-<nav class="md3-nav-drawer" aria-label="Main navigation">
-  <div class="md3-nav-drawer-header">STUDIO MeowToon</div>
+    <nav class="kn-topnav">
+      {nav_items.map(item => (
+        item.enabled
+          ? <a href={item.href} class={`kn-topnav-item ${is_active(item.href) ? 'active' : ''}`}>{item.label}</a>
+          : <span class="kn-topnav-item disabled">{item.label}</span>
+      ))}
+    </nav>
+  </div>
+</header>
+
+<!-- Mobile sidebar -->
+<div class="kn-sidebar" id="kn-sidebar">
+  <button class="kn-sidebar-close" id="kn-sidebar-close">&#10005;</button>
   {nav_items.map(item => (
-    <a href={item.href} class={`md3-nav-drawer-item ${is_active(item.href) ? 'active' : ''}`}>
-      <span class="md3-nav-icon">{item.icon}</span>
-      <span class="md3-nav-label">{item.label}</span>
-    </a>
+    item.enabled
+      ? <a href={item.href} class={`kn-sidebar-item ${is_active(item.href) ? 'active' : ''}`}>{item.label}</a>
+      : <span class="kn-sidebar-item disabled">{item.label}</span>
   ))}
-</nav>
+</div>
+<div class="kn-sidebar-overlay" id="kn-sidebar-overlay"></div>
 
 <style>
-  /* Mobile: show bar, hide rail + drawer */
-  .md3-nav-rail, .md3-nav-drawer { display: none; }
-  .md3-nav-bar {
-    display: flex;
-    position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
-    height: 80px;
+  /* ---- Header ---- */
+  .kn-header {
     background: var(--md-sys-color-surface);
-    border-top: 1px solid var(--md-sys-color-outline-variant);
-    justify-content: space-around;
+  }
+
+  .kn-header-inner {
+    display: flex;
     align-items: center;
+    height: 64px;
+    padding: 0 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+    gap: 8px;
   }
 
-  /* Tablet */
-  @media (min-width: 601px) {
-    .md3-nav-bar { display: none; }
-    .md3-nav-rail {
-      display: flex;
-      flex-direction: column;
-      position: fixed; top: 0; left: 0; bottom: 0; z-index: 100;
-      width: 80px;
-      background: var(--md-sys-color-surface);
-      border-right: 1px solid var(--md-sys-color-outline-variant);
-      padding-top: 12px;
-      align-items: center;
-      gap: 4px;
-    }
+  /* ---- Logo ---- */
+  .kn-logo {
+    font-family: 'Lexend', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--md-sys-color-on-surface);
+    text-decoration: none;
+    white-space: nowrap;
+    letter-spacing: -0.3px;
+    margin-right: 16px;
+  }
+  .kn-logo:hover { color: var(--md-sys-color-primary); text-decoration: none; }
+
+  /* ---- Desktop nav ---- */
+  .kn-topnav {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    flex: 1;
   }
 
-  /* Desktop */
-  @media (min-width: 1241px) {
-    .md3-nav-rail { display: none; }
-    .md3-nav-drawer {
-      display: flex;
-      flex-direction: column;
-      position: fixed; top: 0; left: 0; bottom: 0; z-index: 100;
-      width: 280px;
-      background: var(--md-sys-color-surface);
-      border-right: 1px solid var(--md-sys-color-outline-variant);
-      padding: 16px 0;
-      gap: 2px;
-    }
+  .kn-topnav-item {
+    padding: 8px 16px;
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--md-sys-color-on-surface-variant);
+    text-decoration: none;
+    transition: color 0.15s, border-color 0.15s;
+    white-space: nowrap;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+  }
+  .kn-topnav-item:hover { color: var(--md-sys-color-on-surface); text-decoration: none; }
+  .kn-topnav-item.active { color: var(--md-sys-color-primary); border-bottom-color: var(--md-sys-color-primary); }
+  .kn-topnav-item.disabled { opacity: 0.35; cursor: not-allowed; pointer-events: none; }
+
+  /* ---- Hamburger ---- */
+  .kn-hamburger {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    color: var(--md-sys-color-on-surface);
+    padding: 8px;
+    line-height: 1;
   }
 
-  .md3-nav-bar-item,
-  .md3-nav-rail-item,
-  .md3-nav-drawer-item {
+  /* ---- Mobile sidebar ---- */
+  .kn-sidebar {
+    position: fixed;
+    top: 0; left: -300px; bottom: 0;
+    width: 280px;
+    background: var(--md-sys-color-surface);
+    z-index: 300;
+    padding: 72px 12px 24px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    padding: 8px 12px;
-    text-decoration: none;
-    color: var(--md-sys-color-on-surface-variant);
-    font-size: var(--md-sys-typescale-label-medium-size);
-    border-radius: var(--md-sys-shape-corner-full);
+    gap: 2px;
+    transition: left 0.25s ease;
+    box-shadow: var(--md-sys-elevation-level3);
   }
+  .kn-sidebar.open { left: 0; }
 
-  .md3-nav-drawer-item {
-    flex-direction: row;
-    gap: 12px;
-    padding: 12px 24px;
-    border-radius: var(--md-sys-shape-corner-full);
-    margin: 0 8px;
-    font-size: var(--md-sys-typescale-label-large-size);
-  }
-
-  .md3-nav-drawer-header {
-    padding: 16px 24px;
-    font-size: var(--md-sys-typescale-title-large-size);
-    font-weight: 700;
+  .kn-sidebar-close {
+    position: absolute;
+    top: 14px; left: 14px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
     color: var(--md-sys-color-on-surface);
-    margin-bottom: 8px;
+    padding: 8px;
+    line-height: 1;
   }
 
-  .md3-nav-bar-item.active,
-  .md3-nav-rail-item.active,
-  .md3-nav-drawer-item.active {
-    color: var(--md-sys-color-primary);
-    background: var(--md-sys-color-secondary-container);
-    border-radius: var(--md-sys-shape-corner-full);
+  .kn-sidebar-item {
+    display: block;
+    padding: 14px 20px;
+    border-radius: var(--md-sys-shape-corner-medium);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--md-sys-color-on-surface-variant);
+    text-decoration: none;
+    transition: background 0.15s, color 0.15s;
   }
+  .kn-sidebar-item:hover { background: var(--md-sys-color-surface-variant); color: var(--md-sys-color-on-surface); text-decoration: none; }
+  .kn-sidebar-item.active { background: var(--md-sys-color-secondary-container); color: var(--md-sys-color-primary); }
+  .kn-sidebar-item.disabled { opacity: 0.35; cursor: not-allowed; pointer-events: none; }
 
-  .md3-nav-icon { font-size: 20px; }
+  .kn-sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 250;
+  }
+  .kn-sidebar-overlay.open { display: block; }
+
+  /* ---- Mobile breakpoint ---- */
+  @media (max-width: 950px) {
+    .kn-topnav    { display: none; }
+    .kn-hamburger { display: block; margin-right: 8px; }
+  }
 </style>
+
+<script>
+  const toggle  = document.getElementById('kn-menu-toggle');
+  const sidebar = document.getElementById('kn-sidebar');
+  const overlay = document.getElementById('kn-sidebar-overlay');
+  const closeBtn = document.getElementById('kn-sidebar-close');
+
+  const open  = () => { sidebar?.classList.add('open');    overlay?.classList.add('open'); };
+  const close = () => { sidebar?.classList.remove('open'); overlay?.classList.remove('open'); };
+
+  toggle?.addEventListener('click', open);
+  closeBtn?.addEventListener('click', close);
+  overlay?.addEventListener('click', close);
+</script>
+

@@ -25,3 +25,13 @@ export const series_covers = {
  * @type {string[]}
  */
 export const top_page_series = ['everyday', 'storyboard', 'lusiphite'];
+
+/**
+ * One-line descriptions for each series (used on the home page sections).
+ * @type {Record<string, string>}
+ */
+export const series_descriptions = {
+  everyday:   'A slice-of-life daily manga. New episodes every day.',
+  storyboard: 'A story-driven series exploring narrative and imagination.',
+  lusiphite:  'A fantasy adventure set in a world between light and shadow.',
+};

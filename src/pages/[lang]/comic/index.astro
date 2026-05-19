@@ -1,0 +1,31 @@
+---
+// Comic index page: lists all series for a given lang.
+import BaseLayout from '../../../layouts/base_layout.astro';
+import { top_page_series, series_titles, series_covers, series_descriptions } from '../../../lib/series_meta.js';
+
+export function getStaticPaths() {
+  return [
+    { params: { lang: 'ja' } },
+    { params: { lang: 'en' } },
+  ];
+}
+
+const { lang } = Astro.params;
+---
+<BaseLayout title="Comic" lang={lang} current_page={`/${lang}/comic/`}>
+  <section class="kn-section" style="background: var(--md-sys-color-background);">
+    <h1 style="font-family:'Lexend',sans-serif;font-size:32px;font-weight:800;margin:0 0 32px;color:var(--md-sys-color-on-surface);">Comic</h1>
+    <div class="kn-series-grid">
+      {top_page_series.map(series => (
+        <a href={`/${lang}/comic/${series}/`} class="kn-series-card">
+          <img src={series_covers[series]} alt={series_titles[series]} loading="lazy">
+          <div class="kn-series-card-body">
+            <span class="kn-series-card-title">{series_titles[series]}</span>
+            <p class="kn-series-card-desc">{series_descriptions?.[series] ?? ''}</p>
+            <span class="kn-series-card-read">Read →</span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
