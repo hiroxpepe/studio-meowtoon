@@ -12,7 +12,8 @@
   },
   "dependencies": {
     "astro": "^5.0.0",
-    "@astrojs/sitemap": "^3.0.0"
+    "@astrojs/sitemap": "^3.0.0",
+    "@tabler/icons-webfont": "^3.30.0"
   },
   "devDependencies": {
     "vitest": "^2.0.0",

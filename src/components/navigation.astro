@@ -1,178 +1,318 @@
 ---
-// Top navigation bar — kenney.nl style: fixed header, logo left, nav items right, hamburger on mobile.
-const { current_page = '/', show_works = true } = Astro.props;
+// MD3 Adaptive Navigation:
+//   Mobile  (≤600px)    : Top App Bar + Bottom Navigation Bar
+//   Tablet  (601–1240px): Top App Bar + Navigation Rail (left 80px)
+//   Desktop (≥1241px)   : Top App Bar + Navigation Drawer (left 256px)
+//
+// Icons: Tabler Icons webfont (npm, via base_layout.astro import)
+// Verified icon names: ti-home / ti-books / ti-sparkles /
+//   ti-briefcase / ti-user / ti-menu-2 / ti-search / ti-x
+//
+// TODO Phase 2: Rail hamburger → modal drawer expansion
+// TODO Phase 3: focustrap for sidebar a11y
+
+const { current_page = '/', show_works = false } = Astro.props;
 
 const nav_items = [
-  { label: 'Home',  href: '/',         enabled: true },
-  { label: 'Comic', href: '/ja/comic/', enabled: true },
-  { label: 'Works', href: '/works/',    enabled: show_works },
-  { label: 'About', href: '/about/',    enabled: true },
+  { label: 'Home',  href: '/',           icon: 'ti-home' },
+  { label: 'Comic', href: '/ja/comic/',  icon: 'ti-books' },
+  { label: 'Today', href: '/today/',     icon: 'ti-sparkles' },
+  ...(show_works ? [{ label: 'Works', href: '/works/', icon: 'ti-briefcase' }] : []),
+  { label: 'About', href: '/about/',     icon: 'ti-user' },
 ];
 
-const is_active = (href) => current_page === href || (href !== '/' && current_page.startsWith(href));
+const is_active = (href) =>
+  href === '/' ? current_page === '/' : current_page.startsWith(href);
 ---
 
-<header class="kn-header">
-  <div class="kn-header-inner">
-    <button class="kn-hamburger" id="kn-menu-toggle" aria-label="メニューを開く">&#9776;</button>
-
-    <a href="/" class="kn-logo">STUDIO MeowToon</a>
-
-    <nav class="kn-topnav">
-      {nav_items.map(item => (
-        item.enabled
-          ? <a href={item.href} class={`kn-topnav-item ${is_active(item.href) ? 'active' : ''}`}>{item.label}</a>
-          : <span class="kn-topnav-item disabled">{item.label}</span>
-      ))}
-    </nav>
+<!-- Top App Bar (all breakpoints) -->
+<header class="m3-top-bar" role="banner">
+  <div class="m3-top-bar-inner">
+    <!-- Hamburger: mobile のみ表示 (CSS で制御) -->
+    <button class="m3-icon-btn m3-top-bar-menu" id="m3-menu-btn"
+            aria-label="メニューを開く" aria-expanded="false">
+      <i class="ti ti-menu-2" aria-hidden="true"></i>
+    </button>
+    <a href="/" class="m3-top-bar-brand">STUDIO MeowToon</a>
+    <div class="m3-top-bar-actions">
+      <button class="m3-icon-btn" aria-label="検索">
+        <i class="ti ti-search" aria-hidden="true"></i>
+      </button>
+    </div>
   </div>
 </header>
 
-<!-- Mobile sidebar -->
-<div class="kn-sidebar" id="kn-sidebar">
-  <button class="kn-sidebar-close" id="kn-sidebar-close">&#10005;</button>
+<!-- Navigation Rail (tablet) — ハンバーガーなし（機能しないボタンは出さない） -->
+<nav class="m3-nav-rail" aria-label="サイトナビゲーション（タブレット）">
   {nav_items.map(item => (
-    item.enabled
-      ? <a href={item.href} class={`kn-sidebar-item ${is_active(item.href) ? 'active' : ''}`}>{item.label}</a>
-      : <span class="kn-sidebar-item disabled">{item.label}</span>
+    <a href={item.href}
+       class={`m3-rail-item${is_active(item.href) ? ' active' : ''}`}
+       aria-current={is_active(item.href) ? 'page' : undefined}>
+      <span class="m3-rail-indicator">
+        <i class={`ti ${item.icon}`} aria-hidden="true"></i>
+      </span>
+      <span class="m3-rail-label">{item.label}</span>
+    </a>
+  ))}
+</nav>
+
+<!-- Navigation Drawer (desktop) -->
+<nav class="m3-nav-drawer" aria-label="サイトナビゲーション（デスクトップ）">
+  <a href="/" class="m3-drawer-brand">STUDIO MeowToon</a>
+  {nav_items.map(item => (
+    <a href={item.href}
+       class={`m3-drawer-item${is_active(item.href) ? ' active' : ''}`}
+       aria-current={is_active(item.href) ? 'page' : undefined}>
+      <i class={`ti ${item.icon}`} aria-hidden="true"></i>
+      {item.label}
+    </a>
+  ))}
+</nav>
+
+<!-- Mobile sidebar overlay -->
+<div class="m3-sidebar-overlay" id="m3-overlay" aria-hidden="true"></div>
+
+<!-- Mobile sidebar (hamburger から開く) -->
+<div class="m3-mobile-sidebar" id="m3-sidebar"
+     role="dialog" aria-modal="true" aria-label="ナビゲーション">
+  <button class="m3-icon-btn m3-sidebar-close" id="m3-close-btn" aria-label="閉じる">
+    <i class="ti ti-x" aria-hidden="true"></i>
+  </button>
+  <a href="/" class="m3-drawer-brand" style="margin-bottom:8px">STUDIO MeowToon</a>
+  {nav_items.map(item => (
+    <a href={item.href}
+       class={`m3-drawer-item${is_active(item.href) ? ' active' : ''}`}
+       aria-current={is_active(item.href) ? 'page' : undefined}>
+      <i class={`ti ${item.icon}`} aria-hidden="true"></i>
+      {item.label}
+    </a>
   ))}
 </div>
-<div class="kn-sidebar-overlay" id="kn-sidebar-overlay"></div>
+
+<!-- Bottom Navigation Bar (mobile のみ) -->
+<nav class="m3-bottom-nav" aria-label="サイトナビゲーション（モバイル）">
+  {nav_items.map(item => (
+    <a href={item.href}
+       class={`m3-bot-item${is_active(item.href) ? ' active' : ''}`}
+       aria-current={is_active(item.href) ? 'page' : undefined}>
+      <span class="m3-bot-indicator">
+        <i class={`ti ${item.icon}`} aria-hidden="true"></i>
+      </span>
+      <span class="m3-bot-label">{item.label}</span>
+    </a>
+  ))}
+</nav>
 
 <style>
-  /* ---- Header ---- */
-  .kn-header {
-    background: var(--md-sys-color-surface);
+  /* ── CSS Variables ── */
+  :root {
+    --m3-top-bar-height:  64px;
+    --m3-rail-width:      80px;
+    --m3-drawer-width:    256px;
+    --m3-bot-nav-height:  80px;
   }
 
-  .kn-header-inner {
-    display: flex;
-    align-items: center;
-    height: 64px;
-    padding: 0 24px;
-    max-width: 1400px;
-    margin: 0 auto;
-    gap: 8px;
+  /* ── Top App Bar ── */
+  .m3-top-bar {
+    position: fixed; top: 0; left: 0; right: 0;
+    height: var(--m3-top-bar-height);
+    background: var(--md-sys-color-surface-container-low);
+    border-bottom: 1px solid var(--md-sys-color-outline-variant);
+    z-index: 100;
   }
-
-  /* ---- Logo ---- */
-  .kn-logo {
-    font-family: 'Lexend', sans-serif;
-    font-size: 18px;
-    font-weight: 800;
+  .m3-top-bar-inner {
+    display: flex; align-items: center;
+    height: 100%; padding: 0 4px;
+    max-width: 1400px; margin: 0 auto;
+  }
+  .m3-icon-btn {
+    width: 48px; height: 48px;
+    border-radius: var(--md-sys-shape-corner-full);
+    border: none; background: transparent;
+    display: flex; align-items: center; justify-content: center;
     color: var(--md-sys-color-on-surface);
-    text-decoration: none;
-    white-space: nowrap;
-    letter-spacing: -0.3px;
-    margin-right: 16px;
+    cursor: pointer; flex-shrink: 0; font-size: 24px;
+    transition: background 0.15s;
   }
-  .kn-logo:hover { color: var(--md-sys-color-primary); text-decoration: none; }
+  .m3-icon-btn:hover { background: rgba(0,0,0,.06); }
 
-  /* ---- Desktop nav ---- */
-  .kn-topnav {
-    display: flex;
-    align-items: center;
-    gap: 2px;
-    flex: 1;
+  /* FOUC 防止: デフォルト非表示 → breakpoint で表示 */
+  .m3-top-bar-menu { display: none; }
+
+  .m3-top-bar-brand {
+    flex: 1; text-align: center;
+    font-family: var(--md-sys-typescale-font-family-brand);
+    font-size: var(--md-sys-typescale-title-large-size);
+    font-weight: 700; color: var(--md-sys-color-on-surface);
+    text-decoration: none; letter-spacing: -0.3px;
   }
+  .m3-top-bar-brand:hover { color: var(--md-sys-color-primary); text-decoration: none; }
+  .m3-top-bar-actions { display: flex; }
 
-  .kn-topnav-item {
-    padding: 8px 16px;
-    font-family: 'Noto Sans', sans-serif;
-    font-size: 15px;
-    font-weight: 800;
-    color: var(--md-sys-color-on-surface-variant);
-    text-decoration: none;
-    transition: color 0.15s, border-color 0.15s;
-    white-space: nowrap;
-    cursor: pointer;
-    border-bottom: 2px solid transparent;
-  }
-  .kn-topnav-item:hover { color: var(--md-sys-color-on-surface); text-decoration: none; }
-  .kn-topnav-item.active { color: var(--md-sys-color-primary); border-bottom-color: var(--md-sys-color-primary); }
-  .kn-topnav-item.disabled { opacity: 0.35; cursor: not-allowed; pointer-events: none; }
-
-  /* ---- Hamburger ---- */
-  .kn-hamburger {
+  /* ── Navigation Rail (tablet only) ── */
+  .m3-nav-rail {
     display: none;
-    background: none;
-    border: none;
-    font-size: 22px;
-    cursor: pointer;
-    color: var(--md-sys-color-on-surface);
-    padding: 8px;
-    line-height: 1;
+    position: fixed; top: var(--m3-top-bar-height); left: 0; bottom: 0;
+    width: var(--m3-rail-width);
+    background: var(--md-sys-color-surface-container-low);
+    border-right: 1px solid var(--md-sys-color-outline-variant);
+    flex-direction: column; align-items: center;
+    padding: 12px 0 16px; z-index: 90; overflow-y: auto;
   }
-
-  /* ---- Mobile sidebar ---- */
-  .kn-sidebar {
-    position: fixed;
-    top: 0; left: -300px; bottom: 0;
-    width: 280px;
-    background: var(--md-sys-color-surface);
-    z-index: 300;
-    padding: 72px 12px 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    transition: left 0.25s ease;
-    box-shadow: var(--md-sys-elevation-level3);
+  .m3-rail-item {
+    width: 72px; display: flex; flex-direction: column;
+    align-items: center; gap: 4px; padding: 4px 0;
+    text-decoration: none; color: var(--md-sys-color-on-surface-variant);
   }
-  .kn-sidebar.open { left: 0; }
-
-  .kn-sidebar-close {
-    position: absolute;
-    top: 14px; left: 14px;
-    background: none;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-    color: var(--md-sys-color-on-surface);
-    padding: 8px;
-    line-height: 1;
+  .m3-rail-item:hover { color: var(--md-sys-color-on-surface); text-decoration: none; }
+  .m3-rail-indicator {
+    width: 56px; height: 32px;
+    border-radius: var(--md-sys-shape-corner-full);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; transition: background 0.2s;
   }
-
-  .kn-sidebar-item {
-    display: block;
-    padding: 14px 20px;
-    border-radius: var(--md-sys-shape-corner-medium);
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--md-sys-color-on-surface-variant);
-    text-decoration: none;
-    transition: background 0.15s, color 0.15s;
+  .m3-rail-item:hover .m3-rail-indicator { background: rgba(0,0,0,.06); }
+  .m3-rail-item.active .m3-rail-indicator {
+    background: var(--md-sys-color-secondary-container);
   }
-  .kn-sidebar-item:hover { background: var(--md-sys-color-surface-variant); color: var(--md-sys-color-on-surface); text-decoration: none; }
-  .kn-sidebar-item.active { background: var(--md-sys-color-secondary-container); color: var(--md-sys-color-primary); }
-  .kn-sidebar-item.disabled { opacity: 0.35; cursor: not-allowed; pointer-events: none; }
+  .m3-rail-item.active .m3-rail-indicator i {
+    color: var(--md-sys-color-on-secondary-container);
+  }
+  .m3-rail-label {
+    font-size: var(--md-sys-typescale-label-medium-size);
+    font-weight: 500; text-align: center;
+  }
+  .m3-rail-item.active .m3-rail-label { color: var(--md-sys-color-on-surface); }
 
-  .kn-sidebar-overlay {
+  /* ── Navigation Drawer (desktop only) ── */
+  .m3-nav-drawer {
     display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.4);
-    z-index: 250;
+    position: fixed; top: var(--m3-top-bar-height); left: 0; bottom: 0;
+    width: var(--m3-drawer-width);
+    background: var(--md-sys-color-surface-container-low);
+    border-right: 1px solid var(--md-sys-color-outline-variant);
+    flex-direction: column; padding: 16px 12px; gap: 2px;
+    z-index: 90; overflow-y: auto;
   }
-  .kn-sidebar-overlay.open { display: block; }
+  .m3-drawer-brand {
+    font-family: var(--md-sys-typescale-font-family-brand);
+    font-size: 18px; font-weight: 700;
+    color: var(--md-sys-color-on-surface); text-decoration: none;
+    padding: 8px 16px 20px; display: block; flex-shrink: 0;
+  }
+  .m3-drawer-brand:hover { color: var(--md-sys-color-primary); text-decoration: none; }
+  .m3-drawer-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 16px; border-radius: var(--md-sys-shape-corner-full);
+    font-size: var(--md-sys-typescale-label-large-size); font-weight: 500;
+    color: var(--md-sys-color-on-surface-variant);
+    text-decoration: none; transition: background 0.15s, color 0.15s;
+  }
+  .m3-drawer-item i { font-size: 22px; flex-shrink: 0; }
+  .m3-drawer-item:hover {
+    background: rgba(0,0,0,.06);
+    color: var(--md-sys-color-on-surface);
+    text-decoration: none;
+  }
+  .m3-drawer-item.active {
+    background: var(--md-sys-color-secondary-container);
+    color: var(--md-sys-color-on-secondary-container);
+  }
 
-  /* ---- Mobile breakpoint ---- */
-  @media (max-width: 950px) {
-    .kn-topnav    { display: none; }
-    .kn-hamburger { display: block; margin-right: 8px; }
+  /* ── Mobile Sidebar ── */
+  .m3-mobile-sidebar {
+    position: fixed; top: 0; left: -300px; bottom: 0; width: 280px;
+    background: var(--md-sys-color-surface-container-low);
+    border-right: 1px solid var(--md-sys-color-outline-variant);
+    z-index: 200; padding: 64px 12px 24px;
+    display: flex; flex-direction: column; gap: 2px;
+    /* transform で GPU 加速アニメーション */
+    transform: translateX(0);
+    transition: transform 0.25s ease;
+    overflow-y: auto;
+  }
+  /* open 時は left:-300px を transform で補正 */
+  .m3-mobile-sidebar { transform: translateX(-300px); left: 0; }
+  .m3-mobile-sidebar.open { transform: translateX(0); }
+  .m3-sidebar-close { position: absolute; top: 8px; left: 8px; }
+  .m3-sidebar-overlay {
+    display: none; position: fixed; inset: 0;
+    background: var(--md-sys-color-scrim); z-index: 190;
+  }
+  .m3-sidebar-overlay.open { display: block; }
+
+  /* ── Bottom Navigation Bar (mobile only) ── */
+  /* FOUC 防止: デフォルト非表示 → mobile breakpoint で表示 */
+  .m3-bottom-nav {
+    display: none;
+    position: fixed; bottom: 0; left: 0; right: 0;
+    height: var(--m3-bot-nav-height);
+    background: var(--md-sys-color-surface-container-low);
+    border-top: 1px solid var(--md-sys-color-outline-variant);
+    z-index: 100;
+  }
+  .m3-bot-item {
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 4px; text-decoration: none;
+    color: var(--md-sys-color-on-surface-variant);
+    padding: 12px 0 16px;
+  }
+  .m3-bot-item:hover { text-decoration: none; }
+  .m3-bot-indicator {
+    width: 64px; height: 32px;
+    border-radius: var(--md-sys-shape-corner-full);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; transition: background 0.2s;
+  }
+  .m3-bot-item.active .m3-bot-indicator {
+    background: var(--md-sys-color-secondary-container);
+  }
+  .m3-bot-item.active .m3-bot-indicator i {
+    color: var(--md-sys-color-on-secondary-container);
+  }
+  .m3-bot-label {
+    font-size: var(--md-sys-typescale-label-medium-size); font-weight: 500;
+  }
+  .m3-bot-item.active .m3-bot-label { color: var(--md-sys-color-on-surface); }
+
+  /* ── Breakpoints ── */
+  /* Mobile (≤600px): hamburger + bottom nav を表示 */
+  @media (max-width: 600px) {
+    .m3-top-bar-menu { display: flex; }
+    .m3-bottom-nav   { display: flex; }
+  }
+  /* Tablet (601–1240px): rail を表示 */
+  @media (min-width: 601px) and (max-width: 1240px) {
+    .m3-nav-rail { display: flex; }
+  }
+  /* Desktop (≥1241px): drawer を表示 */
+  @media (min-width: 1241px) {
+    .m3-nav-drawer { display: flex; }
   }
 </style>
 
 <script>
-  const toggle  = document.getElementById('kn-menu-toggle');
-  const sidebar = document.getElementById('kn-sidebar');
-  const overlay = document.getElementById('kn-sidebar-overlay');
-  const closeBtn = document.getElementById('kn-sidebar-close');
+  const menuBtn  = document.getElementById('m3-menu-btn');
+  const sidebar  = document.getElementById('m3-sidebar');
+  const overlay  = document.getElementById('m3-overlay');
+  const closeBtn = document.getElementById('m3-close-btn');
 
-  const open  = () => { sidebar?.classList.add('open');    overlay?.classList.add('open'); };
-  const close = () => { sidebar?.classList.remove('open'); overlay?.classList.remove('open'); };
+  const open  = () => {
+    sidebar?.classList.add('open');
+    overlay?.classList.add('open');
+    menuBtn?.setAttribute('aria-expanded', 'true');
+    closeBtn?.focus();
+  };
+  const close = () => {
+    sidebar?.classList.remove('open');
+    overlay?.classList.remove('open');
+    menuBtn?.setAttribute('aria-expanded', 'false');
+    menuBtn?.focus();
+  };
 
-  toggle?.addEventListener('click', open);
+  menuBtn?.addEventListener('click', open);
   closeBtn?.addEventListener('click', close);
   overlay?.addEventListener('click', close);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
 </script>
-

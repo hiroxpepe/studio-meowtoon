@@ -1,122 +1,175 @@
-/* Material Design 3 design tokens — generated from seed color. Replace placeholder values after D1 resolution. */
-
+/* Material Design 3 tokens — seed #B5005B (Rose Pink). */
+/* Google Fonts 不使用。フォントは system-ui にフォールバック。 */
 :root {
-  --md-sys-color-primary:              #8B4513;
+  /* ── Primary ── */
+  --md-sys-color-primary:              #B5005B;
   --md-sys-color-on-primary:           #FFFFFF;
-  --md-sys-color-primary-container:    #FFDBC9;
-  --md-sys-color-on-primary-container: #340F00;
-  --md-sys-color-secondary:            #765849;
+  --md-sys-color-primary-container:    #FFD9E3;
+  --md-sys-color-on-primary-container: #3E001D;
+
+  /* ── Secondary ── */
+  --md-sys-color-secondary:            #74565F;
   --md-sys-color-on-secondary:         #FFFFFF;
-  --md-sys-color-secondary-container:  #FFDBC9;
-  --md-sys-color-on-secondary-container: #2C160B;
-  --md-sys-color-surface:              #FFF8F6;
-  --md-sys-color-on-surface:           #221A17;
-  --md-sys-color-surface-variant:      #F4DED7;
-  --md-sys-color-on-surface-variant:   #52443F;
-  --md-sys-color-outline:              #85736D;
-  --md-sys-color-outline-variant:      #D7C2BB;
+  --md-sys-color-secondary-container:  #FFD9E3;
+  --md-sys-color-on-secondary-container: #2B151C;
+
+  /* ── Tertiary ── */
+  --md-sys-color-tertiary:             #7C5635;
+  --md-sys-color-on-tertiary:          #FFFFFF;
+  --md-sys-color-tertiary-container:   #FFDCBC;
+  --md-sys-color-on-tertiary-container: #2E1500;
+
+  /* ── Error ── */
   --md-sys-color-error:                #BA1A1A;
   --md-sys-color-on-error:             #FFFFFF;
-  --md-sys-color-background:           #FFF8F6;
-  --md-sys-color-on-background:        #221A17;
+  --md-sys-color-error-container:      #FFDAD6;
+  --md-sys-color-on-error-container:   #410002;
+
+  /* ── Background / Surface ── */
+  --md-sys-color-background:           #FFFBFF;
+  --md-sys-color-on-background:        #201A1B;
+  --md-sys-color-surface:              #FFFBFF;
+  --md-sys-color-on-surface:           #201A1B;
+  --md-sys-color-surface-variant:      #F2DDE2;
+  --md-sys-color-on-surface-variant:   #514347;
+
+  /* ── Surface container tones ── */
+  --md-sys-color-surface-container-lowest:  #FFFFFF;
+  --md-sys-color-surface-container-low:     #FEF4F6;
+  --md-sys-color-surface-container:         #F9EAED;
+  --md-sys-color-surface-container-high:    #EDD8DC;
+  --md-sys-color-surface-container-highest: #E2CDD1;
+
+  /* ── Outline ── */
+  --md-sys-color-outline:              #847376;
+  --md-sys-color-outline-variant:      #D5C2C6;
+
+  /* ── Inverse / Scrim ── */
+  --md-sys-color-inverse-surface:      #352F30;
+  --md-sys-color-inverse-on-surface:   #FBEDEF;
+  --md-sys-color-inverse-primary:      #FFB1C6;
+  --md-sys-color-scrim:                rgba(0,0,0,0.4);
+
+  /* ── Shape ── */
+  --md-sys-shape-corner-none:          0px;
+  --md-sys-shape-corner-extra-small:   4px;
+  --md-sys-shape-corner-small:         8px;
+  --md-sys-shape-corner-medium:        12px;
+  --md-sys-shape-corner-large:         16px;
+  --md-sys-shape-corner-extra-large:   28px;
+  --md-sys-shape-corner-full:          9999px;
+
+  /* ── Elevation: MD3 Tonal (no box-shadow) ── */
+  --md-sys-elevation-level0: none;
+  --md-sys-elevation-level1: none;
+  --md-sys-elevation-level2: none;
+  --md-sys-elevation-level3: none;
+
+  /* ── Typography ── */
+  /* Google Fonts 削除済み。system-ui を使用。 */
+  --md-sys-typescale-font-family:       system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --md-sys-typescale-font-family-brand: system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --md-sys-typescale-display-large-size:   57px;
+  --md-sys-typescale-display-large-line:   64px;
+  --md-sys-typescale-headline-large-size:  32px;
+  --md-sys-typescale-headline-large-line:  40px;
+  --md-sys-typescale-headline-medium-size: 28px;
+  --md-sys-typescale-headline-medium-line: 36px;
+  --md-sys-typescale-headline-small-size:  24px;
+  --md-sys-typescale-headline-small-line:  32px;
+  --md-sys-typescale-title-large-size:     22px;
+  --md-sys-typescale-title-large-line:     28px;
+  --md-sys-typescale-title-medium-size:    16px;
+  --md-sys-typescale-title-medium-line:    24px;
+  --md-sys-typescale-title-small-size:     14px;
+  --md-sys-typescale-body-large-size:      16px;
+  --md-sys-typescale-body-large-line:      24px;
+  --md-sys-typescale-body-medium-size:     14px;
+  --md-sys-typescale-body-medium-line:     20px;
+  --md-sys-typescale-body-small-size:      12px;
+  --md-sys-typescale-label-large-size:     14px;
+  --md-sys-typescale-label-large-line:     20px;
+  --md-sys-typescale-label-medium-size:    12px;
+  --md-sys-typescale-label-small-size:     11px;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --md-sys-color-primary:              #FFB59A;
-    --md-sys-color-on-primary:           #531E00;
-    --md-sys-color-primary-container:    #742E00;
-    --md-sys-color-on-primary-container: #FFDBC9;
-    --md-sys-color-secondary:            #E6BEAE;
-    --md-sys-color-on-secondary:         #432B1E;
-    --md-sys-color-secondary-container:  #5C4132;
-    --md-sys-color-on-secondary-container: #FFDBC9;
-    --md-sys-color-surface:              #1A110E;
-    --md-sys-color-on-surface:           #F0DEDA;
-    --md-sys-color-surface-variant:      #52443F;
-    --md-sys-color-on-surface-variant:   #D7C2BB;
-    --md-sys-color-outline:              #A08C85;
-    --md-sys-color-outline-variant:      #52443F;
+    --md-sys-color-primary:              #FFB1C6;
+    --md-sys-color-on-primary:           #62003A;
+    --md-sys-color-primary-container:    #8A0050;
+    --md-sys-color-on-primary-container: #FFD9E3;
+    --md-sys-color-secondary:            #E3BDC7;
+    --md-sys-color-on-secondary:         #422930;
+    --md-sys-color-secondary-container:  #5B3F47;
+    --md-sys-color-on-secondary-container: #FFD9E3;
     --md-sys-color-error:                #FFB4AB;
     --md-sys-color-on-error:             #690005;
-    --md-sys-color-background:           #1A110E;
-    --md-sys-color-on-background:        #F0DEDA;
+    --md-sys-color-background:           #181113;
+    --md-sys-color-on-background:        #EFDFE3;
+    --md-sys-color-surface:              #181113;
+    --md-sys-color-on-surface:           #EFDFE3;
+    --md-sys-color-surface-variant:      #514347;
+    --md-sys-color-on-surface-variant:   #D5C2C6;
+    --md-sys-color-surface-container-lowest:  #120D0E;
+    --md-sys-color-surface-container-low:     #201A1B;
+    --md-sys-color-surface-container:         #251F20;
+    --md-sys-color-surface-container-high:    #2F292A;
+    --md-sys-color-surface-container-highest: #3A3435;
+    --md-sys-color-outline:              #9E8C90;
+    --md-sys-color-outline-variant:      #514347;
+    --md-sys-color-inverse-surface:      #EFDFE3;
+    --md-sys-color-inverse-on-surface:   #352F30;
+    --md-sys-color-inverse-primary:      #B5005B;
   }
 }
 
-/* Manual theme override — higher specificity than media query */
 html[data-theme="dark"] {
-  --md-sys-color-primary:              #FFB59A;
-  --md-sys-color-on-primary:           #531E00;
-  --md-sys-color-primary-container:    #742E00;
-  --md-sys-color-on-primary-container: #FFDBC9;
-  --md-sys-color-secondary:            #E6BEAE;
-  --md-sys-color-on-secondary:         #432B1E;
-  --md-sys-color-secondary-container:  #5C4132;
-  --md-sys-color-on-secondary-container: #FFDBC9;
-  --md-sys-color-surface:              #1A110E;
-  --md-sys-color-on-surface:           #F0DEDA;
-  --md-sys-color-surface-variant:      #52443F;
-  --md-sys-color-on-surface-variant:   #D7C2BB;
-  --md-sys-color-outline:              #A08C85;
-  --md-sys-color-outline-variant:      #52443F;
+  --md-sys-color-primary:              #FFB1C6;
+  --md-sys-color-on-primary:           #62003A;
+  --md-sys-color-primary-container:    #8A0050;
+  --md-sys-color-on-primary-container: #FFD9E3;
+  --md-sys-color-secondary:            #E3BDC7;
+  --md-sys-color-on-secondary:         #422930;
+  --md-sys-color-secondary-container:  #5B3F47;
+  --md-sys-color-on-secondary-container: #FFD9E3;
   --md-sys-color-error:                #FFB4AB;
   --md-sys-color-on-error:             #690005;
-  --md-sys-color-background:           #1A110E;
-  --md-sys-color-on-background:        #F0DEDA;
+  --md-sys-color-background:           #181113;
+  --md-sys-color-on-background:        #EFDFE3;
+  --md-sys-color-surface:              #181113;
+  --md-sys-color-on-surface:           #EFDFE3;
+  --md-sys-color-surface-variant:      #514347;
+  --md-sys-color-on-surface-variant:   #D5C2C6;
+  --md-sys-color-surface-container-lowest:  #120D0E;
+  --md-sys-color-surface-container-low:     #201A1B;
+  --md-sys-color-surface-container:         #251F20;
+  --md-sys-color-surface-container-high:    #2F292A;
+  --md-sys-color-surface-container-highest: #3A3435;
+  --md-sys-color-outline:              #9E8C90;
+  --md-sys-color-outline-variant:      #514347;
 }
+
 html[data-theme="light"] {
-  --md-sys-color-primary:              #8B4513;
+  --md-sys-color-primary:              #B5005B;
   --md-sys-color-on-primary:           #FFFFFF;
-  --md-sys-color-primary-container:    #FFDBC9;
-  --md-sys-color-on-primary-container: #340F00;
-  --md-sys-color-secondary:            #765849;
-  --md-sys-color-on-secondary:         #FFFFFF;
-  --md-sys-color-secondary-container:  #FFDBC9;
-  --md-sys-color-on-secondary-container: #2C160B;
-  --md-sys-color-surface:              #FFF8F6;
-  --md-sys-color-on-surface:           #221A17;
-  --md-sys-color-surface-variant:      #F4DED7;
-  --md-sys-color-on-surface-variant:   #52443F;
-  --md-sys-color-outline:              #85736D;
-  --md-sys-color-outline-variant:      #D7C2BB;
-  --md-sys-color-error:                #BA1A1A;
-  --md-sys-color-on-error:             #FFFFFF;
-  --md-sys-color-background:           #FFF8F6;
-  --md-sys-color-on-background:        #221A17;
-}
-
-:root {
-  --md-sys-typescale-display-large-size:    57px;
-  --md-sys-typescale-display-large-line:    64px;
-  --md-sys-typescale-headline-large-size:   32px;
-  --md-sys-typescale-headline-large-line:   40px;
-  --md-sys-typescale-headline-medium-size:  28px;
-  --md-sys-typescale-headline-medium-line:  36px;
-  --md-sys-typescale-title-large-size:      22px;
-  --md-sys-typescale-title-large-line:      28px;
-  --md-sys-typescale-title-medium-size:     16px;
-  --md-sys-typescale-body-large-size:       16px;
-  --md-sys-typescale-body-large-line:       24px;
-  --md-sys-typescale-body-medium-size:      14px;
-  --md-sys-typescale-label-large-size:      14px;
-  --md-sys-typescale-label-medium-size:     12px;
-  --md-sys-typescale-font-family: system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
-}
-
-:root {
-  --md-sys-shape-corner-none:        0px;
-  --md-sys-shape-corner-extra-small: 4px;
-  --md-sys-shape-corner-small:       8px;
-  --md-sys-shape-corner-medium:      12px;
-  --md-sys-shape-corner-large:       16px;
-  --md-sys-shape-corner-extra-large: 28px;
-  --md-sys-shape-corner-full:        9999px;
-}
-
-:root {
-  --md-sys-elevation-level0: none;
-  --md-sys-elevation-level1: 0 1px 2px rgba(0,0,0,.3), 0 1px 3px 1px rgba(0,0,0,.15);
-  --md-sys-elevation-level2: 0 1px 2px rgba(0,0,0,.3), 0 2px 6px 2px rgba(0,0,0,.15);
-  --md-sys-elevation-level3: 0 4px 8px 3px rgba(0,0,0,.15), 0 1px 3px rgba(0,0,0,.3);
+  --md-sys-color-primary-container:    #FFD9E3;
+  --md-sys-color-on-primary-container: #3E001D;
+  --md-sys-color-secondary:            #74565F;
+  --md-sys-color-secondary-container:  #FFD9E3;
+  --md-sys-color-on-secondary-container: #2B151C;
+  --md-sys-color-background:           #FFFBFF;
+  --md-sys-color-on-background:        #201A1B;
+  --md-sys-color-surface:              #FFFBFF;
+  --md-sys-color-on-surface:           #201A1B;
+  --md-sys-color-surface-variant:      #F2DDE2;
+  --md-sys-color-on-surface-variant:   #514347;
+  --md-sys-color-surface-container-lowest:  #FFFFFF;
+  --md-sys-color-surface-container-low:     #FEF4F6;
+  --md-sys-color-surface-container:         #F9EAED;
+  --md-sys-color-surface-container-high:    #EDD8DC;
+  --md-sys-color-surface-container-highest: #E2CDD1;
+  --md-sys-color-outline:              #847376;
+  --md-sys-color-outline-variant:      #D5C2C6;
 }
