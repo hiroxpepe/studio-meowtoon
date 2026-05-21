@@ -3,21 +3,21 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "dev":             "astro dev",
-    "build":           "astro build",
-    "preview":         "astro preview",
-    "test":            "vitest run",
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "test": "vitest run",
     "migrate:content": "node scripts/migrate_content.mjs",
-    "migrate:images":  "node scripts/migrate_images.mjs"
+    "migrate:images": "node scripts/migrate_images.mjs"
   },
   "dependencies": {
-    "astro": "^5.0.0",
     "@astrojs/sitemap": "^3.0.0",
-    "@tabler/icons-webfont": "^3.30.0"
+    "@tabler/icons-webfont": "^3.44.0",
+    "astro": "^5.0.0"
   },
   "devDependencies": {
-    "vitest": "^2.0.0",
+    "fast-glob": "^3.3.0",
     "gray-matter": "^4.0.3",
-    "fast-glob": "^3.3.0"
+    "vitest": "^2.0.0"
   }
 }
