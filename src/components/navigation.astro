@@ -1,23 +1,22 @@
 ---
-// MD3 Adaptive Navigation:
-//   Mobile  (≤600px)    : Top App Bar + Bottom Navigation Bar
-//   Tablet  (601–1240px): Top App Bar + Navigation Rail (left 80px)
-//   Desktop (≥1241px)   : Top App Bar + Navigation Drawer (left 256px)
+// MD3 Adaptive Navigation (Top App Bar 撤去版):
+//   Mobile  (≤600px)    : Bottom Navigation Bar
+//   Tablet  (601–1240px): Navigation Rail (left 80px)
+//   Desktop (≥1241px)   : Navigation Drawer (left 256px)
 //
 // Icons: Tabler Icons webfont (npm, via base_layout.astro import)
 // Verified icon names: ti-home / ti-books / ti-sparkles /
-//   ti-briefcase / ti-user / ti-menu-2 / ti-search / ti-x
+//   ti-briefcase / ti-user
 //
 // TODO Phase 2: Rail hamburger → modal drawer expansion
-// TODO Phase 3: focustrap for sidebar a11y
 
-const { current_page = '/', show_works = false } = Astro.props;
+const { current_page = '/' } = Astro.props;
 
+// 全デバイス共通 4項目。Works/Contact は廃止。
 const nav_items = [
   { label: 'Home',  href: '/',           icon: 'ti-home' },
   { label: 'Comic', href: '/ja/comic/',  icon: 'ti-books' },
   { label: 'Today', href: '/today/',     icon: 'ti-sparkles' },
-  ...(show_works ? [{ label: 'Works', href: '/works/', icon: 'ti-briefcase' }] : []),
   { label: 'About', href: '/about/',     icon: 'ti-user' },
 ];
 
@@ -25,25 +24,9 @@ const is_active = (href) =>
   href === '/' ? current_page === '/' : current_page.startsWith(href);
 ---
 
-<!-- Top App Bar (all breakpoints) -->
-<header class="m3-top-bar" role="banner">
-  <div class="m3-top-bar-inner">
-    <!-- Hamburger: mobile のみ表示 (CSS で制御) -->
-    <button class="m3-icon-btn m3-top-bar-menu" id="m3-menu-btn"
-            aria-label="メニューを開く" aria-expanded="false">
-      <i class="ti ti-menu-2" aria-hidden="true"></i>
-    </button>
-    <a href="/" class="m3-top-bar-brand">STUDIO MeowToon</a>
-    <div class="m3-top-bar-actions">
-      <button class="m3-icon-btn" aria-label="検索">
-        <i class="ti ti-search" aria-hidden="true"></i>
-      </button>
-    </div>
-  </div>
-</header>
-
-<!-- Navigation Rail (tablet) — ハンバーガーなし（機能しないボタンは出さない） -->
+<!-- Navigation Rail (tablet) -->
 <nav class="m3-nav-rail" aria-label="サイトナビゲーション（タブレット）">
+  <a href="/" class="m3-rail-brand">SM</a>
   {nav_items.map(item => (
     <a href={item.href}
        class={`m3-rail-item${is_active(item.href) ? ' active' : ''}`}
@@ -69,26 +52,6 @@ const is_active = (href) =>
   ))}
 </nav>
 
-<!-- Mobile sidebar overlay -->
-<div class="m3-sidebar-overlay" id="m3-overlay" aria-hidden="true"></div>
-
-<!-- Mobile sidebar (hamburger から開く) -->
-<div class="m3-mobile-sidebar" id="m3-sidebar"
-     role="dialog" aria-modal="true" aria-label="ナビゲーション">
-  <button class="m3-icon-btn m3-sidebar-close" id="m3-close-btn" aria-label="閉じる">
-    <i class="ti ti-x" aria-hidden="true"></i>
-  </button>
-  <a href="/" class="m3-drawer-brand" style="margin-bottom:8px">STUDIO MeowToon</a>
-  {nav_items.map(item => (
-    <a href={item.href}
-       class={`m3-drawer-item${is_active(item.href) ? ' active' : ''}`}
-       aria-current={is_active(item.href) ? 'page' : undefined}>
-      <i class={`ti ${item.icon}`} aria-hidden="true"></i>
-      {item.label}
-    </a>
-  ))}
-</div>
-
 <!-- Bottom Navigation Bar (mobile のみ) -->
 <nav class="m3-bottom-nav" aria-label="サイトナビゲーション（モバイル）">
   {nav_items.map(item => (
@@ -106,59 +69,31 @@ const is_active = (href) =>
 <style>
   /* ── CSS Variables ── */
   :root {
-    --m3-top-bar-height:  64px;
     --m3-rail-width:      80px;
     --m3-drawer-width:    256px;
     --m3-bot-nav-height:  80px;
   }
 
-  /* ── Top App Bar ── */
-  .m3-top-bar {
-    position: fixed; top: 0; left: 0; right: 0;
-    height: var(--m3-top-bar-height);
-    background: var(--md-sys-color-surface-container-low);
-    border-bottom: 1px solid var(--md-sys-color-outline-variant);
-    z-index: 100;
-  }
-  .m3-top-bar-inner {
-    display: flex; align-items: center;
-    height: 100%; padding: 0 4px;
-    max-width: 1400px; margin: 0 auto;
-  }
-  .m3-icon-btn {
-    width: 48px; height: 48px;
-    border-radius: var(--md-sys-shape-corner-full);
-    border: none; background: transparent;
-    display: flex; align-items: center; justify-content: center;
-    color: var(--md-sys-color-on-surface);
-    cursor: pointer; flex-shrink: 0; font-size: 24px;
-    transition: background 0.15s;
-  }
-  .m3-icon-btn:hover { background: rgba(0,0,0,.06); }
-
-  /* FOUC 防止: デフォルト非表示 → breakpoint で表示 */
-  .m3-top-bar-menu { display: none; }
-
-  .m3-top-bar-brand {
-    flex: 1; text-align: center;
-    font-family: var(--md-sys-typescale-font-family-brand);
-    font-size: var(--md-sys-typescale-title-large-size);
-    font-weight: 700; color: var(--md-sys-color-on-surface);
-    text-decoration: none; letter-spacing: -0.3px;
-  }
-  .m3-top-bar-brand:hover { color: var(--md-sys-color-primary); text-decoration: none; }
-  .m3-top-bar-actions { display: flex; }
-
   /* ── Navigation Rail (tablet only) ── */
   .m3-nav-rail {
     display: none;
-    position: fixed; top: var(--m3-top-bar-height); left: 0; bottom: 0;
+    position: fixed; top: 0; left: 0; bottom: 0;
     width: var(--m3-rail-width);
     background: var(--md-sys-color-surface-container-low);
     border-right: 1px solid var(--md-sys-color-outline-variant);
     flex-direction: column; align-items: center;
     padding: 12px 0 16px; z-index: 90; overflow-y: auto;
   }
+  .m3-rail-brand {
+    font-family: var(--md-sys-typescale-font-family-brand);
+    font-size: 18px; font-weight: 700;
+    color: var(--md-sys-color-primary);
+    text-decoration: none;
+    padding: 8px 0 16px;
+    display: block;
+    flex-shrink: 0;
+  }
+  .m3-rail-brand:hover { text-decoration: none; opacity: 0.8; }
   .m3-rail-item {
     width: 72px; display: flex; flex-direction: column;
     align-items: center; gap: 4px; padding: 4px 0;
@@ -187,7 +122,7 @@ const is_active = (href) =>
   /* ── Navigation Drawer (desktop only) ── */
   .m3-nav-drawer {
     display: none;
-    position: fixed; top: var(--m3-top-bar-height); left: 0; bottom: 0;
+    position: fixed; top: 0; left: 0; bottom: 0;
     width: var(--m3-drawer-width);
     background: var(--md-sys-color-surface-container-low);
     border-right: 1px solid var(--md-sys-color-outline-variant);
@@ -219,30 +154,7 @@ const is_active = (href) =>
     color: var(--md-sys-color-on-secondary-container);
   }
 
-  /* ── Mobile Sidebar ── */
-  .m3-mobile-sidebar {
-    position: fixed; top: 0; left: -300px; bottom: 0; width: 280px;
-    background: var(--md-sys-color-surface-container-low);
-    border-right: 1px solid var(--md-sys-color-outline-variant);
-    z-index: 200; padding: 64px 12px 24px;
-    display: flex; flex-direction: column; gap: 2px;
-    /* transform で GPU 加速アニメーション */
-    transform: translateX(0);
-    transition: transform 0.25s ease;
-    overflow-y: auto;
-  }
-  /* open 時は left:-300px を transform で補正 */
-  .m3-mobile-sidebar { transform: translateX(-300px); left: 0; }
-  .m3-mobile-sidebar.open { transform: translateX(0); }
-  .m3-sidebar-close { position: absolute; top: 8px; left: 8px; }
-  .m3-sidebar-overlay {
-    display: none; position: fixed; inset: 0;
-    background: var(--md-sys-color-scrim); z-index: 190;
-  }
-  .m3-sidebar-overlay.open { display: block; }
-
   /* ── Bottom Navigation Bar (mobile only) ── */
-  /* FOUC 防止: デフォルト非表示 → mobile breakpoint で表示 */
   .m3-bottom-nav {
     display: none;
     position: fixed; bottom: 0; left: 0; right: 0;
@@ -277,42 +189,13 @@ const is_active = (href) =>
   .m3-bot-item.active .m3-bot-label { color: var(--md-sys-color-on-surface); }
 
   /* ── Breakpoints ── */
-  /* Mobile (≤600px): hamburger + bottom nav を表示 */
   @media (max-width: 600px) {
-    .m3-top-bar-menu { display: flex; }
-    .m3-bottom-nav   { display: flex; }
+    .m3-bottom-nav { display: flex; }
   }
-  /* Tablet (601–1240px): rail を表示 */
   @media (min-width: 601px) and (max-width: 1240px) {
     .m3-nav-rail { display: flex; }
   }
-  /* Desktop (≥1241px): drawer を表示 */
   @media (min-width: 1241px) {
     .m3-nav-drawer { display: flex; }
   }
 </style>
-
-<script>
-  const menuBtn  = document.getElementById('m3-menu-btn');
-  const sidebar  = document.getElementById('m3-sidebar');
-  const overlay  = document.getElementById('m3-overlay');
-  const closeBtn = document.getElementById('m3-close-btn');
-
-  const open  = () => {
-    sidebar?.classList.add('open');
-    overlay?.classList.add('open');
-    menuBtn?.setAttribute('aria-expanded', 'true');
-    closeBtn?.focus();
-  };
-  const close = () => {
-    sidebar?.classList.remove('open');
-    overlay?.classList.remove('open');
-    menuBtn?.setAttribute('aria-expanded', 'false');
-    menuBtn?.focus();
-  };
-
-  menuBtn?.addEventListener('click', open);
-  closeBtn?.addEventListener('click', close);
-  overlay?.addEventListener('click', close);
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
-</script>

@@ -1,14 +1,14 @@
 ---
-// Custom 404 page for Cloudflare Pages.
+// 404 page. Cloudflare Pages serves this file for unknown URLs.
+// MD3 統一: md3-headline-large を使用。
 import BaseLayout from '../layouts/base_layout.astro';
 ---
-<BaseLayout title="Page Not Found" lang="en" current_page="/404/">
-  <div class="md3-section">
+<BaseLayout title="404 — Page Not Found" lang="ja">
+  <section class="md3-section" style="text-align:center;">
     <h1 class="md3-headline-large">404 — Page Not Found</h1>
-    <p class="md3-body-large">
-      お探しのページは見つかりませんでした。<br>
-      The page you're looking for doesn't exist.
+    <p class="md3-body-large" style="margin:24px 0;">
+      お探しのページが見つかりませんでした。
     </p>
-    <a href="/" class="md3-btn md3-btn-filled">← Back to Home</a>
-  </div>
+    <p><a href="/" class="md3-btn md3-btn-tonal">⤴ Top</a></p>
+  </section>
 </BaseLayout>

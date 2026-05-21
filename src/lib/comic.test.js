@@ -224,25 +224,42 @@ describe('build_episode_paths', () => {
 });
 
 // --- build_episode_nav ---
+// v0.19.3: 戻り値に prev_episode / next_episode を追加
 
 describe('build_episode_nav', () => {
-  it('middle episode 002 returns correct prev/next/list hrefs', () => {
+  it('middle episode 002 returns prev/next/list hrefs + prev/next episode numbers', () => {
     const nav = build_episode_nav(fixture_entries, 'ja', 'everyday', '002');
     expect(nav).toEqual({
       prev_href: '/ja/comic/everyday/001/',
       next_href: '/ja/comic/everyday/003/',
       list_href: '/ja/comic/everyday/',
+      prev_episode: '001',
+      next_episode: '003',
     });
   });
 
-  it('first episode 001 has prev_href null', () => {
+  it('first episode 001 has prev_href null and prev_episode null', () => {
     const nav = build_episode_nav(fixture_entries, 'ja', 'everyday', '001');
     expect(nav.prev_href).toBeNull();
+    expect(nav.prev_episode).toBeNull();
   });
 
-  it('last episode 003 has next_href null', () => {
+  it('first episode 001 still has next_href and next_episode set', () => {
+    const nav = build_episode_nav(fixture_entries, 'ja', 'everyday', '001');
+    expect(nav.next_href).toBe('/ja/comic/everyday/002/');
+    expect(nav.next_episode).toBe('002');
+  });
+
+  it('last episode 003 has next_href null and next_episode null', () => {
     const nav = build_episode_nav(fixture_entries, 'ja', 'everyday', '003');
     expect(nav.next_href).toBeNull();
+    expect(nav.next_episode).toBeNull();
+  });
+
+  it('last episode 003 still has prev_href and prev_episode set', () => {
+    const nav = build_episode_nav(fixture_entries, 'ja', 'everyday', '003');
+    expect(nav.prev_href).toBe('/ja/comic/everyday/002/');
+    expect(nav.prev_episode).toBe('002');
   });
 
   it('list_href always has trailing slash', () => {
@@ -256,9 +273,11 @@ describe('build_episode_nav', () => {
     expect(nav.next_href).toMatch(/\/$/);
   });
 
-  it('single-episode series (lusiphite/001) has both prev_href and next_href null', () => {
+  it('single-episode series (lusiphite/001) has all prev/next null', () => {
     const nav = build_episode_nav(fixture_entries, 'ja', 'lusiphite', '001');
     expect(nav.prev_href).toBeNull();
     expect(nav.next_href).toBeNull();
+    expect(nav.prev_episode).toBeNull();
+    expect(nav.next_episode).toBeNull();
   });
 });

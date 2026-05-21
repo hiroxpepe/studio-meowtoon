@@ -1,10 +1,17 @@
 ---
 // Episode page: displays comic panel images with navigation.
+//
+// 重要な変更 (v0.19.3):
+//   - クラスを .md3-comic-* / .md3-episode-nav-* に統一
+//   - swipe/keyboard JS のセレクタを .md3-episode-nav-prev / -next に変更
+//     （first-child / last-child の DOM 順序依存から脱却）
+//   - 上の EpisodeNav を削除（下のみ）
+//   - build_episode_nav の戻り値 prev_episode / next_episode を EpisodeNav に渡す
+//
+// 全画像ロード完了で .ready クラスを付けて一括フェードイン表示する。
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../../../../layouts/base_layout.astro';
 import EpisodeNav from '../../../../../components/episode_nav.astro';
-import ReactionsSlot from '../../../../../components/reactions_slot.astro';
-import CommentsSlot from '../../../../../components/comments_slot.astro';
 import { get_episode, build_episode_paths, build_episode_nav } from '../../../../../lib/comic.js';
 
 export async function getStaticPaths() {
@@ -19,27 +26,54 @@ const { title, description, images } = current.data;
 const nav = build_episode_nav(all_entries, lang, series, episode);
 ---
 <BaseLayout title={title} lang={lang} og_image={images[0]} current_page={`/${lang}/comic/`}>
-  <div class="md3-section">
-    <div class="hugo-episode md3-label-large">Episode {episode}</div>
-    <h1 class="hugo-title md3-title-large">{title}</h1>
-    <div class="hugo-images">
-      {images.map(src => (
-        <img src={src} alt="comic panel" loading="lazy">
-      ))}
-    </div>
-    {description && (
-      <div class="hugo-description md3-body-large">{description}</div>
-    )}
-    <ReactionsSlot />
-    <CommentsSlot />
-    <EpisodeNav
-      prev_href={nav.prev_href}
-      next_href={nav.next_href}
-      list_href={nav.list_href}
-    />
+  <div class="md3-comic-meta">
+    <span class="md3-label-large">Episode {episode}</span>
+    <h1 class="md3-title-large">{title}</h1>
   </div>
+
+  <div class="md3-comic-images" id="comic-images">
+    <div class="md3-progress" aria-label="Loading"></div>
+    {images.map(src => (
+      <img src={src} alt="comic panel" loading="eager">
+    ))}
+  </div>
+
+  {description && (
+    <p class="md3-comic-description">{description}</p>
+  )}
+
+  <EpisodeNav
+    prev_href={nav.prev_href}
+    next_href={nav.next_href}
+    list_href={nav.list_href}
+    prev_episode={nav.prev_episode}
+    next_episode={nav.next_episode}
+  />
+
   <script>
+  // 全画像ロード完了で .ready 付与 → 画像を一括フェードイン
+  (function() {
+    const container = document.getElementById('comic-images');
+    if (!container) return;
+    const imgs = container.querySelectorAll('img');
+    if (imgs.length === 0) { container.classList.add('ready'); return; }
+    let loaded = 0;
+    const onDone = () => {
+      loaded++;
+      if (loaded >= imgs.length) container.classList.add('ready');
+    };
+    imgs.forEach(img => {
+      if (img.complete) {
+        onDone();
+      } else {
+        img.addEventListener('load',  onDone, { once: true });
+        img.addEventListener('error', onDone, { once: true });
+      }
+    });
+  })();
+
   // Swipe navigation: right swipe = prev, left swipe = next.
+  // セレクタは .md3-episode-nav-prev / -next を使用 (クラス指定で意図明示)
   let touchStartX = null;
   let touchStartY = null;
   document.body.addEventListener('touchstart', function(e) {
@@ -53,10 +87,10 @@ const nav = build_episode_nav(all_entries, lang, series, episode);
     if (Math.abs(dx) > Math.abs(dy) * 0.7 && Math.abs(dx) > 40) {
       e.preventDefault();
       if (dx > 0) {
-        let prev = document.querySelector('.hugo-nav a:first-child');
+        let prev = document.querySelector('.md3-episode-nav-prev');
         if (prev && prev.getAttribute('href')) location.href = prev.getAttribute('href');
       } else {
-        let next = document.querySelector('.hugo-nav a:last-child');
+        let next = document.querySelector('.md3-episode-nav-next');
         if (next && next.getAttribute('href')) location.href = next.getAttribute('href');
       }
     }
@@ -66,10 +100,10 @@ const nav = build_episode_nav(all_entries, lang, series, episode);
   // Keyboard navigation: arrow keys.
   document.addEventListener('keydown', function(e) {
     if (e.key === 'ArrowLeft') {
-      let prev = document.querySelector('.hugo-nav a:first-child');
+      let prev = document.querySelector('.md3-episode-nav-prev');
       if (prev && prev.getAttribute('href')) location.href = prev.getAttribute('href');
     } else if (e.key === 'ArrowRight') {
-      let next = document.querySelector('.hugo-nav a:last-child');
+      let next = document.querySelector('.md3-episode-nav-next');
       if (next && next.getAttribute('href')) location.href = next.getAttribute('href');
     }
   });

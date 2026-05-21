@@ -1,5 +1,6 @@
 ---
 // Series list page: shows all episodes for a given lang/series.
+// MD3 統一: md3-headline-large, md3-episode-list を使用。
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../../../layouts/base_layout.astro';
 import { get_all_episodes, build_series_paths } from '../../../../lib/comic.js';
@@ -16,17 +17,17 @@ const episodes = get_all_episodes(all_entries, lang, series);
 const display_title = series_titles[series] ?? series;
 ---
 <BaseLayout title={display_title} lang={lang} og_image={series_covers[series]} current_page={`/${lang}/comic/`}>
-  <div class="md3-section">
-    <h1 class="md3-headline-large">{display_title}</h1>
-    <ul class="hugo-list">
+  <section class="md3-section">
+    <h1 class="md3-headline-large">{display_title} - Episode List</h1>
+    <ul class="md3-episode-list">
       {episodes.map(ep => (
-        <li style="padding: 8px 0; border-bottom: 1px solid var(--md-sys-color-outline-variant);">
+        <li>
           <a href={`/${lang}/comic/${series}/${ep.data.episode}/`}>
             {ep.data.episode} {ep.data.title}
           </a>
         </li>
       ))}
     </ul>
-    <div style="margin-top:2em;"><a href="/" class="md3-btn md3-btn-tonal">← Home</a></div>
-  </div>
+    <p style="margin-top:2em;"><a href="/" class="md3-btn md3-btn-tonal">⤴ Top</a></p>
+  </section>
 </BaseLayout>

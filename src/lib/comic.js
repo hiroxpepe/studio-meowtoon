@@ -130,18 +130,30 @@ export function build_episode_paths(entries) {
 }
 
 /**
- * Builds prev/next/list hrefs for episode navigation.
+ * Builds prev/next/list hrefs + episode numbers for episode navigation.
+ *
+ * v0.19.3 拡張: prev_episode / next_episode を返す
+ * (episode_nav.astro でラベル "Ep.001" 表示に使用)
+ *
  * @param {Object[]} entries
  * @param {string} lang
  * @param {string} series
  * @param {string} episode_id
- * @returns {{ prev_href: string|null, next_href: string|null, list_href: string }}
+ * @returns {{
+ *   prev_href: string|null,
+ *   next_href: string|null,
+ *   list_href: string,
+ *   prev_episode: string|null,
+ *   next_episode: string|null
+ * }}
  */
 export function build_episode_nav(entries, lang, series, episode_id) {
   const prev = get_prev_episode(entries, lang, series, episode_id);
   const next = get_next_episode(entries, lang, series, episode_id);
-  const list_href  = `/${lang}/comic/${series}/`;
-  const prev_href  = prev ? `/${lang}/comic/${series}/${prev.data.episode}/` : null;
-  const next_href  = next ? `/${lang}/comic/${series}/${next.data.episode}/` : null;
-  return { prev_href, next_href, list_href };
+  const list_href     = `/${lang}/comic/${series}/`;
+  const prev_href     = prev ? `/${lang}/comic/${series}/${prev.data.episode}/` : null;
+  const next_href     = next ? `/${lang}/comic/${series}/${next.data.episode}/` : null;
+  const prev_episode  = prev ? prev.data.episode : null;
+  const next_episode  = next ? next.data.episode : null;
+  return { prev_href, next_href, list_href, prev_episode, next_episode };
 }

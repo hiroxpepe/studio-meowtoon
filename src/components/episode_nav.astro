@@ -1,16 +1,89 @@
 ---
 // Episode navigation component: prev/list/next links for the comic reader.
-// IMPORTANT: DOM structure must match .hugo-nav a:first-child / a:last-child selectors in inline script.
-const { prev_href, next_href, list_href } = Astro.props;
+//
+// 重要な変更 (v0.19.3):
+//   - クラス名を .md3-episode-nav 体系に統一
+//   - .md3-episode-nav-prev / -list / -next クラスを追加（JS依存解消）
+//   - 前後ボタンにエピソード番号を表示
+//   - 中央ボタンに "List" (Mobile) / "Episode List" (Tablet+) を表示
+//   - 無効ナビ (prev/next が null) は要素自体を表示しない
+//
+// swipe/keyboard JS は .md3-episode-nav-prev / .md3-episode-nav-next を使用。
+// first-child / last-child セレクタは廃止（DOM順序依存から脱却）。
+const { prev_href, next_href, list_href, prev_episode, next_episode } = Astro.props;
 ---
-<div class="hugo-nav" style="display:flex;gap:12px;justify-content:center;margin-top:2em;">
-  {prev_href
-    ? <a href={prev_href} class="md3-btn md3-btn-outlined">← Previous</a>
-    : <span style="visibility:hidden;" class="md3-btn md3-btn-outlined">← Previous</span>
-  }
-  <a href={list_href} class="md3-btn md3-btn-tonal">All Episodes</a>
-  {next_href
-    ? <a href={next_href} class="md3-btn md3-btn-outlined">Next →</a>
-    : <span style="visibility:hidden;" class="md3-btn md3-btn-outlined">Next →</span>
-  }
+<div class="md3-episode-nav">
+  {prev_href && (
+    <a class="md3-episode-nav-prev" href={prev_href}
+       aria-label={`Previous episode ${prev_episode}`}>
+      <span class="nav-icon">←</span>
+      <span class="nav-label">Ep.{prev_episode}</span>
+    </a>
+  )}
+  <a class="md3-episode-nav-list" href={list_href} aria-label="Episode list">
+    <span class="nav-icon">≡</span>
+    <span class="nav-label nav-label-short">List</span>
+    <span class="nav-label nav-label-full">Episode List</span>
+  </a>
+  {next_href && (
+    <a class="md3-episode-nav-next" href={next_href}
+       aria-label={`Next episode ${next_episode}`}>
+      <span class="nav-label">Ep.{next_episode}</span>
+      <span class="nav-icon">→</span>
+    </a>
+  )}
 </div>
+
+<style>
+  .md3-episode-nav {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 8px;
+    max-width: 640px;
+    margin: 24px auto 16px;
+    padding: 0 1em;
+  }
+  .md3-episode-nav a {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 48px;
+    padding: 8px 12px;
+    border-radius: var(--md-sys-shape-corner-full);
+    font-size: var(--md-sys-typescale-label-large-size);
+    font-weight: 500;
+    text-decoration: none;
+    background: var(--md-sys-color-secondary-container);
+    color: var(--md-sys-color-on-secondary-container);
+    transition: background 0.15s;
+  }
+  .md3-episode-nav a:hover {
+    background: var(--md-sys-color-primary-container);
+    color: var(--md-sys-color-on-primary-container);
+    text-decoration: none;
+  }
+  .md3-episode-nav-list {
+    background: var(--md-sys-color-primary) !important;
+    color: var(--md-sys-color-on-primary) !important;
+  }
+  .md3-episode-nav-list:hover {
+    background: var(--md-sys-color-primary-container) !important;
+    color: var(--md-sys-color-on-primary-container) !important;
+  }
+  .nav-icon { font-size: 20px; line-height: 1; }
+  .nav-label { font-size: var(--md-sys-typescale-label-large-size); }
+
+  /* Mobile: 中央ボタンは短縮 "List" */
+  .nav-label-full  { display: none; }
+  .nav-label-short { display: inline; }
+
+  /* Tablet+ : 中央ボタンは "Episode List" */
+  @media (min-width: 601px) {
+    .md3-episode-nav { padding: 0; }
+    .nav-label-full  { display: inline; }
+    .nav-label-short { display: none; }
+  }
+</style>

@@ -1,47 +1,8 @@
 /* ================================================================
-   Comic reader: .hugo-* は html font-size の rem 単位を使用。
-   DO NOT remove — comic reader depends on these.
-================================================================ */
-.hugo-images p {
-  margin:0!important;padding:0!important;display:block!important;
-  width:100%!important;box-sizing:border-box!important;
-}
-.hugo-images {
-  max-width:640px!important;width:100%!important;
-  margin:0 auto!important;padding:0!important;box-sizing:border-box!important;
-}
-.hugo-images img {
-  display:block!important;width:100%!important;max-width:640px!important;
-  height:auto!important;margin:0 auto!important;border:none!important;
-  box-sizing:border-box!important;background:#fff!important;
-  object-fit:contain!important;padding-top:0;padding-bottom:0;
-}
-html { font-size: 30px; }
-.hugo-header    { font-size: 1rem; }
-.hugo-series    { font-size: 1rem; }
-.hugo-episode   { font-size: 1rem; }
-.hugo-title     { font-size: 1rem; }
-.hugo-description { font-size: 0.75rem; }
-.hugo-list      { font-size: 1rem; }
-.hugo-images img { padding-top: 1rem; padding-bottom: 1rem; }
-@media (max-width: 900px) {
-  html { font-size: 26px; }
-  .hugo-images img { padding-top: 0.5rem; padding-bottom: 0.5rem; }
-}
-@media (max-width: 600px) {
-  html { font-size: 16px; }
-  .hugo-images img { padding-top: 0.5rem; padding-bottom: 0.5rem; }
-  .hugo-images {
-    max-width:calc(100% + 48px)!important;width:calc(100% + 48px)!important;
-    margin-left:-24px!important;margin-right:-24px!important;padding:0!important;
-  }
-  .hugo-images img { max-width:100%!important;width:100%!important;margin:0!important; }
-}
-
-/* ================================================================
    Base
 ================================================================ */
 *,*::before,*::after { box-sizing: border-box; }
+html { font-size: 16px; }
 body {
   font-family: var(--md-sys-typescale-font-family);
   background: var(--md-sys-color-background);
@@ -55,12 +16,12 @@ a:hover { text-decoration: underline; }
 img { max-width: 100%; height: auto; display: block; }
 
 /* ================================================================
-   MD3 Adaptive Navigation offset
-   Mobile  ≤600px     : Top App Bar 64px + Bottom Nav 80px
+   MD3 Adaptive Navigation offset (Top App Bar 撤去)
+   Mobile  ≤600px     : Bottom Nav 80px
    Tablet  601–1240px : Rail 80px
    Desktop ≥1241px    : Drawer 256px
 ================================================================ */
-.md3-page-content { padding-top: 64px; padding-bottom: 80px; min-height: 100vh; }
+.md3-page-content { padding-top: 0; padding-bottom: 80px; min-height: 100vh; }
 .md3-footer       { padding-bottom: 80px; }
 @media (min-width: 601px) {
   .md3-page-content { padding-bottom: 0; margin-left: 80px; }
@@ -140,30 +101,140 @@ img { max-width: 100%; height: auto; display: block; }
 .md3-ephemeral-badge { color:var(--md-sys-color-error);font-size:var(--md-sys-typescale-label-medium-size);font-weight:500;margin-left:8px;vertical-align:middle; }
 
 /* ================================================================
-   Episode list
+   MD3 Comic Reader
+   Mobile  : 100vw（フルブリード）
+   Tablet+ : 640px・中央寄せ
 ================================================================ */
-.hugo-list { list-style:none;margin:0;padding:0; }
-.hugo-list li { padding:12px 0;border-bottom:1px solid var(--md-sys-color-outline-variant);transition:background 0.15s; }
-.hugo-list li:last-child { border-bottom:none; }
-.hugo-list li a { display:block;padding:4px 8px;border-radius:var(--md-sys-shape-corner-small);color:var(--md-sys-color-on-surface);font-size:var(--md-sys-typescale-body-large-size);transition:background 0.15s,color 0.15s; }
-.hugo-list li a:hover { background:var(--md-sys-color-surface-container-high);color:var(--md-sys-color-primary);text-decoration:none; }
+/* 4コマのエピNo・タイトル: 画像幅の左端に配置
+   Mobile  : 画像はフルブリードなので 1em パディングで読みやすく
+   Tablet+ : 画像と同じ max-width:640px で左端 */
+.md3-comic-meta {
+  max-width: 640px;
+  margin: 24px auto 8px;
+  padding: 0 1em;
+  text-align: left;
+}
+.md3-comic-meta .md3-label-large {
+  display: block;
+  color: var(--md-sys-color-on-surface-variant);
+  margin-bottom: 4px;
+}
+.md3-comic-meta .md3-title-large {
+  display: block;
+  color: var(--md-sys-color-on-surface);
+  margin: 0 0 16px;
+}
+@media (min-width: 601px) {
+  .md3-comic-meta {
+    padding: 0;
+  }
+}
+
+/* 画像コンテナ: モバイルでフルブリード、タブレット以上で 640px */
+.md3-comic-images {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0;
+  position: relative;
+  min-height: 200px;  /* ローディング時の高さ確保 */
+}
+.md3-comic-images p { margin: 0; padding: 0; display: block; width: 100%; }
+.md3-comic-images img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+  border: none;
+  background: #fff;
+  object-fit: contain;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  /* 一括表示: 全画像ロード完了で .ready クラス付与 */
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.md3-comic-images.ready img {
+  opacity: 1;
+}
+@media (min-width: 601px) {
+  .md3-comic-images {
+    max-width: 640px;
+  }
+  .md3-comic-images img {
+    max-width: 640px;
+  }
+}
+
+/* MD3 Linear Progress Indicator (画像ロード中) */
+.md3-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--md-sys-color-primary-container);
+  overflow: hidden;
+  z-index: 1;
+}
+.md3-progress::before {
+  content: '';
+  display: block;
+  height: 100%;
+  width: 40%;
+  background: var(--md-sys-color-primary);
+  animation: md3-progress-slide 1.5s infinite ease-in-out;
+}
+@keyframes md3-progress-slide {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(350%); }
+}
+.md3-comic-images.ready .md3-progress { display: none; }
+
+/* 4コマの説明文: 画像幅の左端に配置
+   Mobile  : 1em パディングで読みやすく
+   Tablet+ : 画像と同じ max-width:640px で左端 */
+.md3-comic-description {
+  max-width: 640px;
+  margin: 16px auto;
+  padding: 0 1em;
+  font-size: var(--md-sys-typescale-body-medium-size);
+  color: var(--md-sys-color-on-surface-variant);
+  text-align: left;
+  line-height: 1.7;
+}
+@media (min-width: 601px) {
+  .md3-comic-description {
+    padding: 0;
+  }
+}
+
+/* ================================================================
+   MD3 Episode List
+================================================================ */
+.md3-episode-list { list-style:none;margin:0;padding:0; }
+.md3-episode-list li { padding:12px 0;border-bottom:1px solid var(--md-sys-color-outline-variant);transition:background 0.15s; }
+.md3-episode-list li:last-child { border-bottom:none; }
+.md3-episode-list li a { display:block;padding:4px 8px;border-radius:var(--md-sys-shape-corner-small);color:var(--md-sys-color-on-surface);font-size:var(--md-sys-typescale-body-large-size);transition:background 0.15s,color 0.15s; }
+.md3-episode-list li a:hover { background:var(--md-sys-color-surface-container-high);color:var(--md-sys-color-primary);text-decoration:none; }
 
 /* ================================================================
    Footer
+   v0.19.3: About / Contact 削除済み (コピーライトのみ)。
+   text-align:center + flex 解除。.md3-footer-sep は孤児化したため削除。
 ================================================================ */
 .md3-footer {
-  padding:28px 24px;display:flex;gap:16px;align-items:center;flex-wrap:wrap;
-  border-top:1px solid var(--md-sys-color-outline-variant);
-  font-size:var(--md-sys-typescale-body-medium-size);color:var(--md-sys-color-on-surface-variant);
+  padding: 28px 24px;
+  text-align: center;
+  border-top: 1px solid var(--md-sys-color-outline-variant);
+  font-size: var(--md-sys-typescale-body-medium-size);
+  color: var(--md-sys-color-on-surface-variant);
 }
-.md3-footer a { color:var(--md-sys-color-on-surface-variant); }
-.md3-footer a:hover { color:var(--md-sys-color-primary); }
-.md3-footer-copy { margin-left:auto;font-size:var(--md-sys-typescale-label-medium-size); }
-.md3-footer-sep { opacity:0.5; }
+.md3-footer-copy {
+  font-size: var(--md-sys-typescale-label-medium-size);
+}
 
 /* ================================================================
    Home page (kn-*) — Tonal Elevation
-   font-family: Lexend 削除。var(--md-sys-typescale-font-family-brand) = system-ui を使用。
 ================================================================ */
 .kn-section { position:relative;text-align:center;padding:64px 48px; }
 .kn-container { max-width:800px;margin:0 auto; }
@@ -182,7 +253,6 @@ img { max-width: 100%; height: auto; display: block; }
 .kn-series-section--yellow  { background:var(--md-sys-color-secondary-container);color:var(--md-sys-color-on-secondary-container); }
 .kn-series-section--surface { background:var(--md-sys-color-surface);            color:var(--md-sys-color-on-surface); }
 
-/* Lexend → font-family-brand (system-ui) */
 .kn-section h1,.kn-series-section h1 {
   font-family:var(--md-sys-typescale-font-family-brand);
   font-size:44px;line-height:1.15;margin:0 0 16px;
@@ -196,7 +266,6 @@ img { max-width: 100%; height: auto; display: block; }
 .kn-hero-sub { font-size:16px;color:var(--md-sys-color-on-surface-variant);margin:-8px 0 8px; }
 .kn-cover    { max-width:280px;width:100%;height:auto;border-radius:8px;display:block;margin:0 auto 32px; }
 
-/* CTA Button */
 .kn-btn {
   font-family:var(--md-sys-typescale-font-family);
   display:inline-block;
@@ -210,7 +279,6 @@ img { max-width: 100%; height: auto; display: block; }
 .kn-btn.light { background:var(--md-sys-color-surface);color:var(--md-sys-color-on-surface);border-color:var(--md-sys-color-outline-variant); }
 .kn-btn.light:hover { background:var(--md-sys-color-primary-container);color:var(--md-sys-color-on-primary-container); }
 
-/* Works icon cards — Tonal Elevation */
 .kn-cards--icon { display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));max-width:580px;margin:32px auto;gap:16px;text-align:center; }
 .kn-card--icon {
   display:flex;flex-direction:column;align-items:center;justify-content:center;
@@ -223,12 +291,10 @@ img { max-width: 100%; height: auto; display: block; }
 .kn-card-icon  { font-size:40px;display:block; }
 .kn-card-label { font-size:14px;font-weight:700;color:var(--md-sys-color-on-surface-variant); }
 
-/* Badges */
 .kn-badge { display:inline-flex;align-items:center;gap:6px;padding:5px 16px;border-radius:9999px;font-size:14px;font-weight:700;margin-bottom:20px; }
 .kn-badge--live { background:var(--md-sys-color-error);color:var(--md-sys-color-on-error); }
 .kn-discovery-body { font-size:16px;max-width:600px;margin:-8px auto 32px;line-height:1.7;text-align:left;color:var(--md-sys-color-on-primary-container); }
 
-/* Series card grid — Tonal Elevation */
 .kn-series-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:1000px;margin:0 auto; }
 .kn-series-card {
   display:flex;flex-direction:column;
@@ -246,9 +312,6 @@ img { max-width: 100%; height: auto; display: block; }
 .kn-series-card-desc { font-size:13px;color:var(--md-sys-color-on-surface-variant);line-height:1.5;flex:1;margin:0; }
 .kn-series-card-read { font-size:13px;font-weight:700;color:var(--md-sys-color-primary);margin-top:8px; }
 
-/* ================================================================
-   Responsive
-================================================================ */
 @media screen and (max-width: 950px) {
   .kn-section        { padding:48px 24px; }
   .kn-hero-section   { padding:24px 24px 60px; }
@@ -262,11 +325,3 @@ img { max-width: 100%; height: auto; display: block; }
 @media screen and (max-width: 600px) {
   .kn-series-grid { grid-template-columns:1fr; }
 }
-
-/* ================================================================
-   kn-* センタリング補正
-   md3-page-content の margin-left（Rail:80px / Drawer:256px）により
-   可視エリアが縮まる。kn-series-grid / kn-container は
-   max-width + margin:0 auto で可視エリア内に自然にセンタリングされる。
-   負のマージンによるフルブリードは行わない（レイアウト崩壊の原因）。
-================================================================ */
