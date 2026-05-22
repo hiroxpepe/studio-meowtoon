@@ -835,7 +835,7 @@ Resolve D2 (catchphrase) before finalizing Hero copy; use placeholder `"One crea
     </section>
   )}
   ```
-- [ ] 14.9 Verify Today's Discovery section is **absent** from rendered HTML when `discovery_entries` is empty
+- [x] 14.9 Verify Today's Discovery section is **absent** from rendered HTML when `discovery_entries` is empty
   (temporarily remove `.gitkeep` and check, then restore)
 - [x] 14.10 Verify Works section is **absent** when no works entries exist
 - [x] 14.11 Verify Works section shows only categories with `has_works === true`
@@ -871,8 +871,8 @@ Resolve D2 (catchphrase) before finalizing Hero copy; use placeholder `"One crea
     </div>
   </BaseLayout>
   ```
-- [ ] 15.2 Add creator name, brief bio (1–2 sentences), and social links before launch
-- [ ] 15.3 Add contact info (email or form link)
+- [x] 15.2 Add creator name, brief bio (1–2 sentences), and social links before launch
+- [x] 15.3 Add contact info (email or form link)
 - [x] 15.4 Verify `current_page="/about/"` causes the About nav item to show `active` state
 - [x] 15.5 Run `npm run build` → verify `/about/index.html` exists in `dist/`
 
@@ -1059,14 +1059,14 @@ for a Japanese user who typo'd a `/ja/comic/...` URL.
 
 **Goal**: Ensure minimum launch content is in place per 企画書 v6 §16.
 
-- [ ] 21.1 Write first `today_discovery` post:
+- [x] 21.1 Write first `today_discovery` post:
   create `src/content/today_discovery/YYYY-MM-DD.md` with today's date,
   `date: YYYY-MM-DD`, `title: "..."`, and 1–3 sentences of discovery body
-- [ ] 21.2 Run `npm run dev` → verify Today's Discovery card appears on homepage
-- [ ] 21.3 Verify Today's Discovery card shows date, title, body correctly
+- [x] 21.2 Run `npm run dev` → verify Today's Discovery card appears on homepage
+- [x] 21.3 Verify Today's Discovery card shows date, title, body correctly
 - [ ] 21.4 Confirm at least 1 quality-checked manga episode is in `src/content/comic/ja/`
   (all 193 are already migrated; "quality-checked" = author has reviewed for publication)
-- [ ] 21.5 Complete About page content: add real creator bio, social links, contact info (Phase 15.2–15.3)
+- [x] 21.5 Complete About page content: add real creator bio, social links, contact info (Phase 15.2–15.3)
 - [ ] 21.6 Run `npm run test` → all 67 tests GREEN
 - [ ] 21.7 Run `npm run build` → zero errors
 
@@ -1152,4 +1152,3 @@ Phase 2 API design is **intentionally deferred** to Phase 2 — no pre-designed 
 ---
 
 *develop_plan_v2.md · 2026-05-18 · 22 phases · 188 checklist items · TDD RED/GREEN fully separated*
-*Based on 企画書 v6 · Gemini 3.1 Pro review incorporated*
