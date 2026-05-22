@@ -25,7 +25,7 @@ const has_any_works     = works_categories.some(cat => has_works(works_entries, 
           <span class="kn-badge kn-badge--live">🔴 Today's Discovery</span>
           <h1>{latest_discovery.data.title}</h1>
           {DiscoveryContent && <div class="kn-discovery-body"><DiscoveryContent /></div>}
-          <a href="/today/" class="kn-btn">See all</a>
+          <a href="/today/" class="md3-btn md3-btn-tonal">See all</a>
         </div>
       </section>
     )
@@ -37,7 +37,7 @@ const has_any_works     = works_categories.some(cat => has_works(works_entries, 
           )}
           <h1>One creator.<br>One comic.<br>Every&nbsp;day.</h1>
           <p class="kn-hero-sub">Games · Comic · 3D Assets · Books</p>
-          <a href="/ja/comic/" class="kn-btn">Read Comic</a>
+          <a href="/ja/comic/" class="md3-btn md3-btn-filled">Read Comic</a>
         </div>
       </section>
     )
@@ -68,10 +68,9 @@ const has_any_works     = works_categories.some(cat => has_works(works_entries, 
           {has_works(works_entries, 'book')    && <a href="/books/"    class="kn-card--icon"><span class="kn-card-icon">📚</span><span class="kn-card-label">Books</span></a>}
           {has_works(works_entries, 'project') && <a href="/projects/" class="kn-card--icon"><span class="kn-card-icon">💻</span><span class="kn-card-label">Projects</span></a>}
         </div>
-        <a href="/works/" class="kn-btn">See all works</a>
+        <a href="/works/" class="md3-btn md3-btn-tonal">See all works</a>
       </div>
     </section>
   )}
 
 </BaseLayout>
-

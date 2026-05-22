@@ -1,134 +1,166 @@
 ---
-// About page: creator information.
+// About page: creator profile + connect links (MD3 統一).
+// 旧 about-* クラス・グラデーション・box-shadow を全廃。
+// Lexend フォント削除。Tabler Icons 使用。
 import BaseLayout from '../layouts/base_layout.astro';
 ---
 <BaseLayout title="About" lang="en" current_page="/about/">
-  <section class="about-wrap">
+  <section class="about-page">
 
-    <div class="about-identity-card">
-      <div class="about-icon">🐱</div>
-      <h1 class="about-name">STUDIO MeowToon</h1>
-      <p class="about-tagline">One creator. Every day.</p>
-      <div class="about-tags">
-        <span class="about-tag">Comic</span>
-        <span class="about-tag">Games</span>
-        <span class="about-tag">3D Assets</span>
-        <span class="about-tag">Books</span>
-      </div>
+    <!-- Identity -->
+    <div class="about-avatar">MT</div>
+    <h1 class="md3-headline-large about-name">STUDIO MeowToon</h1>
+    <p class="about-role">4-panel comic creator</p>
+    <p class="about-bio">
+      One creator. One comic. Every day.<br>
+      Drawing about the small surprises of daily life.
+    </p>
+
+    <div class="about-divider"></div>
+
+    <!-- Connect -->
+    <p class="about-section-title">Connect</p>
+    <div class="about-link-list">
+      <a href="https://x.com/studio_meowtoon" class="about-link-row" target="_blank" rel="noopener">
+        <span class="about-link-icon"><i class="ti ti-brand-x" aria-hidden="true"></i></span>
+        <span class="about-link-body">
+          <span class="about-link-label">X (Twitter)</span>
+          <span class="about-link-sub">@studio_meowtoon</span>
+        </span>
+        <i class="ti ti-external-link about-link-arrow" aria-hidden="true"></i>
+      </a>
+      <a href="https://instagram.com/studio.meowtoon" class="about-link-row" target="_blank" rel="noopener">
+        <span class="about-link-icon"><i class="ti ti-brand-instagram" aria-hidden="true"></i></span>
+        <span class="about-link-body">
+          <span class="about-link-label">Instagram</span>
+          <span class="about-link-sub">@studio.meowtoon</span>
+        </span>
+        <i class="ti ti-external-link about-link-arrow" aria-hidden="true"></i>
+      </a>
+      <a href="https://github.com/hiroxpepe" class="about-link-row" target="_blank" rel="noopener">
+        <span class="about-link-icon"><i class="ti ti-brand-github" aria-hidden="true"></i></span>
+        <span class="about-link-body">
+          <span class="about-link-label">GitHub</span>
+          <span class="about-link-sub">hiroxpepe</span>
+        </span>
+        <i class="ti ti-external-link about-link-arrow" aria-hidden="true"></i>
+      </a>
     </div>
 
-    <div class="about-contact-card" id="contact">
-      <div class="about-contact-header">
-        <span class="about-contact-icon">✉️</span>
-        <h2 class="about-contact-title">Contact</h2>
-      </div>
-      <p class="about-contact-addr">hello [at] meowtoon [dot] com</p>
+    <div class="about-divider"></div>
+
+    <!-- Email -->
+    <p class="about-section-title">Email</p>
+    <div class="about-link-list">
+      <a href="mailto:hello@meowtoon.com" class="about-link-row">
+        <span class="about-link-icon"><i class="ti ti-mail" aria-hidden="true"></i></span>
+        <span class="about-link-body">
+          <span class="about-link-label">hello@meowtoon.com</span>
+          <span class="about-link-sub">For business inquiries</span>
+        </span>
+        <i class="ti ti-arrow-right about-link-arrow" aria-hidden="true"></i>
+      </a>
     </div>
 
   </section>
 </BaseLayout>
 
 <style>
-.about-wrap {
-  padding: 64px 24px 80px;
-  background: var(--md-sys-color-background);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-}
+  .about-page {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
 
-/* --- Identity card --- */
-.about-identity-card {
-  width: 100%;
-  max-width: 560px;
-  background: linear-gradient(135deg,
-    var(--md-sys-color-primary-container) 0%,
-    var(--md-sys-color-secondary-container) 100%
-  );
-  border-radius: 20px;
-  padding: 48px 40px 40px;
-  text-align: center;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.10);
-}
+  /* Avatar */
+  .about-avatar {
+    width: 80px; height: 80px;
+    border-radius: var(--md-sys-shape-corner-full);
+    background: var(--md-sys-color-primary-container);
+    color: var(--md-sys-color-primary);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px; font-weight: 500;
+    margin-bottom: 16px;
+  }
 
-.about-icon {
-  font-size: 56px;
-  line-height: 1;
-  margin-bottom: 20px;
-  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.15));
-}
+  .about-name { margin-bottom: 4px; }
 
-.about-name {
-  font-family: 'Lexend', sans-serif;
-  font-size: 28px;
-  font-weight: 800;
-  color: var(--md-sys-color-on-primary-container);
-  margin: 0 0 10px;
-  letter-spacing: -0.5px;
-}
+  .about-role {
+    font-size: var(--md-sys-typescale-body-large-size);
+    color: var(--md-sys-color-on-surface-variant);
+    margin-bottom: 16px;
+  }
 
-.about-tagline {
-  font-size: 15px;
-  color: var(--md-sys-color-on-secondary-container);
-  margin: 0 0 28px;
-  line-height: 1.5;
-  font-weight: 500;
-}
+  .about-bio {
+    font-size: var(--md-sys-typescale-body-large-size);
+    line-height: 1.7;
+    color: var(--md-sys-color-on-surface);
+    margin-bottom: 0;
+  }
 
-.about-tags {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 8px;
-}
+  .about-divider {
+    height: 1px;
+    background: var(--md-sys-color-outline-variant);
+    margin: 24px 0;
+  }
 
-.about-tag {
-  background: var(--md-sys-color-surface);
-  color: var(--md-sys-color-on-surface-variant);
-  font-size: 12px;
-  font-weight: 700;
-  padding: 5px 14px;
-  border-radius: 9999px;
-  letter-spacing: 0.3px;
-}
+  .about-section-title {
+    font-size: var(--md-sys-typescale-label-medium-size);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--md-sys-color-on-surface-variant);
+    margin-bottom: 8px;
+  }
 
-/* --- Contact card --- */
-.about-contact-card {
-  width: 100%;
-  max-width: 560px;
-  background: var(--md-sys-color-surface-variant);
-  border-radius: 16px;
-  padding: 28px 32px;
-  border-left: 5px solid var(--md-sys-color-primary);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
-}
+  /* Link list */
+  .about-link-list {
+    display: flex;
+    flex-direction: column;
+  }
+  .about-link-list .about-link-row {
+    border-bottom: 1px solid var(--md-sys-color-outline-variant);
+  }
+  .about-link-list .about-link-row:last-child { border-bottom: none; }
 
-.about-contact-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 12px;
-}
+  .about-link-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 0;
+    text-decoration: none;
+    transition: background 0.15s;
+  }
+  .about-link-row:hover { text-decoration: none; }
 
-.about-contact-icon {
-  font-size: 22px;
-  line-height: 1;
-}
+  .about-link-icon {
+    width: 36px; height: 36px;
+    border-radius: var(--md-sys-shape-corner-full);
+    background: var(--md-sys-color-surface-container);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    color: var(--md-sys-color-primary);
+    flex-shrink: 0;
+  }
 
-.about-contact-title {
-  font-family: 'Lexend', sans-serif;
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--md-sys-color-on-surface);
-  margin: 0;
-}
+  .about-link-body {
+    display: flex; flex-direction: column; gap: 2px;
+    flex: 1;
+  }
+  .about-link-label {
+    font-size: var(--md-sys-typescale-body-large-size);
+    font-weight: 500;
+    color: var(--md-sys-color-on-surface);
+  }
+  .about-link-sub {
+    font-size: var(--md-sys-typescale-label-medium-size);
+    color: var(--md-sys-color-on-surface-variant);
+  }
+  .about-link-arrow {
+    font-size: 16px;
+    color: var(--md-sys-color-on-surface-variant);
+    flex-shrink: 0;
+  }
 
-.about-contact-addr {
-  font-size: 15px;
-  color: var(--md-sys-color-on-surface-variant);
-  margin: 0;
-  line-height: 1.6;
-  padding-left: 32px;
-}
+  @media (max-width: 600px) {
+    .about-page { padding: 24px 16px 80px; }
+  }
 </style>

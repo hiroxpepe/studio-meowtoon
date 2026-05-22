@@ -220,11 +220,11 @@ img { max-width: 100%; height: auto; display: block; }
 /* ================================================================
    Footer
    v0.19.3: About / Contact 削除済み (コピーライトのみ)。
-   text-align:center + flex 解除。.md3-footer-sep は孤児化したため削除。
+   text-align:right。.md3-footer-sep は孤児化したため削除。
 ================================================================ */
 .md3-footer {
   padding: 28px 24px;
-  text-align: center;
+  text-align: right;
   border-top: 1px solid var(--md-sys-color-outline-variant);
   font-size: var(--md-sys-typescale-body-medium-size);
   color: var(--md-sys-color-on-surface-variant);
@@ -265,19 +265,6 @@ img { max-width: 100%; height: auto; display: block; }
 .kn-hero-img { max-width:420px;width:100%;height:auto;border-radius:12px;display:block;margin:40px auto 32px; }
 .kn-hero-sub { font-size:16px;color:var(--md-sys-color-on-surface-variant);margin:-8px 0 8px; }
 .kn-cover    { max-width:280px;width:100%;height:auto;border-radius:8px;display:block;margin:0 auto 32px; }
-
-.kn-btn {
-  font-family:var(--md-sys-typescale-font-family);
-  display:inline-block;
-  background:linear-gradient(0deg,var(--md-sys-color-secondary) 0%,var(--md-sys-color-primary) 100%);
-  color:var(--md-sys-color-on-primary);padding:10px 48px;border:none;border-radius:6px;
-  border-bottom:3px solid var(--md-sys-color-on-primary-container);
-  font-size:16px;font-weight:800;text-decoration:none;cursor:pointer;
-  transition:background 0.15s,color 0.15s;margin-top:32px;
-}
-.kn-btn:hover { background:var(--md-sys-color-primary-container);color:var(--md-sys-color-on-primary-container);border-color:var(--md-sys-color-outline);text-decoration:none; }
-.kn-btn.light { background:var(--md-sys-color-surface);color:var(--md-sys-color-on-surface);border-color:var(--md-sys-color-outline-variant); }
-.kn-btn.light:hover { background:var(--md-sys-color-primary-container);color:var(--md-sys-color-on-primary-container); }
 
 .kn-cards--icon { display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));max-width:580px;margin:32px auto;gap:16px;text-align:center; }
 .kn-card--icon {

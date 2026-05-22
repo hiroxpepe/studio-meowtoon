@@ -16,20 +16,19 @@ const { prev_href, next_href, list_href, prev_episode, next_episode } = Astro.pr
   {prev_href && (
     <a class="md3-episode-nav-prev" href={prev_href}
        aria-label={`Previous episode ${prev_episode}`}>
-      <span class="nav-icon">←</span>
+      <i class="ti ti-arrow-left" aria-hidden="true"></i>
       <span class="nav-label">Ep.{prev_episode}</span>
     </a>
   )}
   <a class="md3-episode-nav-list" href={list_href} aria-label="Episode list">
-    <span class="nav-icon">≡</span>
-    <span class="nav-label nav-label-short">List</span>
-    <span class="nav-label nav-label-full">Episode List</span>
+    <i class="ti ti-list" aria-hidden="true"></i>
+    <span class="nav-label">List</span>
   </a>
   {next_href && (
     <a class="md3-episode-nav-next" href={next_href}
        aria-label={`Next episode ${next_episode}`}>
       <span class="nav-label">Ep.{next_episode}</span>
-      <span class="nav-icon">→</span>
+      <i class="ti ti-arrow-right" aria-hidden="true"></i>
     </a>
   )}
 </div>
@@ -75,15 +74,9 @@ const { prev_href, next_href, list_href, prev_episode, next_episode } = Astro.pr
   }
   .nav-icon { font-size: 20px; line-height: 1; }
   .nav-label { font-size: var(--md-sys-typescale-label-large-size); }
+  .md3-episode-nav a i { font-size: 18px; }
 
-  /* Mobile: 中央ボタンは短縮 "List" */
-  .nav-label-full  { display: none; }
-  .nav-label-short { display: inline; }
-
-  /* Tablet+ : 中央ボタンは "Episode List" */
   @media (min-width: 601px) {
     .md3-episode-nav { padding: 0; }
-    .nav-label-full  { display: inline; }
-    .nav-label-short { display: none; }
   }
 </style>
