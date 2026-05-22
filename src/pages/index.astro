@@ -1,6 +1,6 @@
 ---
 // Top page: 3-column landscape series card grid, centered.
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import BaseLayout from '../layouts/base_layout.astro';
 import { build_top_page_data } from '../lib/comic.js';
 import { get_latest_discovery } from '../lib/today_discovery.js';
@@ -12,7 +12,7 @@ const discovery_entries = await getCollection('today_discovery');
 const works_entries     = await getCollection('works');
 const series_list       = build_top_page_data(comic_entries);
 const latest_discovery  = get_latest_discovery(discovery_entries);
-const DiscoveryContent  = latest_discovery ? (await latest_discovery.render()).Content : null;
+const DiscoveryContent  = latest_discovery ? (await render(latest_discovery)).Content : null;
 const works_categories  = ['game', 'asset', 'book', 'project'];
 const has_any_works     = works_categories.some(cat => has_works(works_entries, cat));
 ---

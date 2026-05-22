@@ -106,8 +106,9 @@ img { max-width: 100%; height: auto; display: block; }
    Tablet+ : 640px・中央寄せ
 ================================================================ */
 /* 4コマのエピNo・タイトル: 画像幅の左端に配置
-   Mobile  : 画像はフルブリードなので 1em パディングで読みやすく
-   Tablet+ : 画像と同じ max-width:640px で左端 */
+   Mobile      (≤600px)    : 1em パディングで読みやすく
+   Tablet 狭   (601–719px) : 可視幅 < 640px のため 1em パディング
+   Tablet 広+  (≥720px)    : 可視幅 ≥ 640px のためパディング不要 */
 .md3-comic-meta {
   max-width: 640px;
   margin: 24px auto 8px;
@@ -124,7 +125,7 @@ img { max-width: 100%; height: auto; display: block; }
   color: var(--md-sys-color-on-surface);
   margin: 0 0 16px;
 }
-@media (min-width: 601px) {
+@media (min-width: 720px) {
   .md3-comic-meta {
     padding: 0;
   }
@@ -191,8 +192,9 @@ img { max-width: 100%; height: auto; display: block; }
 .md3-comic-images.ready .md3-progress { display: none; }
 
 /* 4コマの説明文: 画像幅の左端に配置
-   Mobile  : 1em パディングで読みやすく
-   Tablet+ : 画像と同じ max-width:640px で左端 */
+   Mobile      (≤600px)    : 1em パディングで読みやすく
+   Tablet 狭   (601–719px) : 可視幅 < 640px のため 1em パディング
+   Tablet 広+  (≥720px)    : 可視幅 ≥ 640px のためパディング不要 */
 .md3-comic-description {
   max-width: 640px;
   margin: 16px auto;
@@ -202,7 +204,7 @@ img { max-width: 100%; height: auto; display: block; }
   text-align: left;
   line-height: 1.7;
 }
-@media (min-width: 601px) {
+@media (min-width: 720px) {
   .md3-comic-description {
     padding: 0;
   }
