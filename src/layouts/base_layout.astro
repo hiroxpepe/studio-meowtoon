@@ -8,12 +8,13 @@ import '@tabler/icons-webfont/dist/tabler-icons.min.css';
 
 import Navigation from '../components/navigation.astro';
 import Footer from '../components/footer.astro';
+import { site } from '../config/site.js';
 import { getCollection } from 'astro:content';
 
 const { title, lang = 'en', og_image, current_page = '/' } = Astro.props;
 const works_entries = await getCollection('works').catch(() => []);
 const show_works = works_entries.length > 0;
-const page_title = `${title} | STUDIO MeowToon`;
+const page_title = `${title} | ${site.name}`;
 const base_url = import.meta.env.DEV ? Astro.url.origin : Astro.site;
 const og_image_abs = og_image ? new URL(og_image, base_url).href : undefined;
 const og_url = new URL(Astro.url.pathname, base_url).href;
@@ -27,7 +28,7 @@ const og_url = new URL(Astro.url.pathname, base_url).href;
   <meta property="og:title" content={page_title}>
   <meta property="og:type" content="website">
   <meta property="og:url" content={og_url}>
-  <meta property="og:site_name" content="STUDIO MeowToon">
+  <meta property="og:site_name" content={site.name}>
   {og_image_abs && <meta property="og:image" content={og_image_abs}>}
   {og_image_abs && <meta name="twitter:card" content="summary_large_image">}
   <link rel="stylesheet" href="/css/md3-tokens.css">

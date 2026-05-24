@@ -1,7 +1,7 @@
 # Koleco
 
-> **The creator's brain, made public.**
-> One site. Every comic, discovery, game, and sound you make — collected and shown to the world.
+> **The creator's brain, in public.**
+> One site. Every comic, daily note, game, and sound you make — all kept and shown to the world.
 
 [![Astro](https://img.shields.io/badge/Astro-v5-orange?logo=astro)](https://astro.build/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
@@ -14,16 +14,20 @@
 
 ## What is Koleco?
 
-**Koleco** (Esperanto: *kolekto* — collection) is a static personal creator site.
-Not a blog. Not a template. A living, growing **collection of everything one creator makes**.
+**Koleco** (Esperanto: *kolekto* — collection) is a static personal site for one creator.
+It is not a blog. It is not a template. It is one place where one creator keeps
+**everything they make**, and the place keeps growing as they keep making things.
 
-Comics drawn every day. Discoveries shared every day. 3D games shipped over time. Sound albums recorded along the way. All in one place, under your own domain, with zero backend.
+Comics drawn each day. Daily notes shared each day. 3D games shipped over time.
+Sound albums recorded along the way. All in one site, under your own domain,
+with no backend.
 
-The premise is simple: **a creator's output is their brain made public.** Koleco is where that happens.
+The idea is simple: **what a creator makes is their mind, in public.**
+Koleco is where that happens.
 
 ---
 
-## Four content types. One creative base.
+## Four kinds of content. One creative base.
 
 ```mermaid
 mindmap
@@ -50,22 +54,22 @@ mindmap
 
 ## Why static-first?
 
-Most creator platforms own your content. Koleco does not.
+Most creator platforms keep your content inside their system. Koleco does not.
 
 | Property | What it means |
 |---|---|
-| Zero backend | Pure static HTML — no server, no database, no lock-in |
-| Own your domain | Deploy to Cloudflare Pages, Vercel, or any CDN |
-| Own your content | Markdown files in `src/content/` — plain text, forever readable |
-| TDD-tested core | All utility functions in `src/lib/` tested with Vitest |
-| MD3 design system | Material Design 3 tokens — consistent, themeable, yours |
-| Snake_case throughout | `comic.js`, `today_discovery.js`, `series_meta.js` — zero ambiguity |
+| Zero backend | Static HTML only — no server, no database, no lock-in |
+| Your own domain | Deploy to Cloudflare Pages, Vercel, or any CDN |
+| Your own content | Markdown files in `src/content/` — plain text, easy to read forever |
+| TDD-tested core | All helper functions in `src/lib/` are tested with Vitest |
+| MD3 design system | Material Design 3 tokens — same look across pages, easy to re-theme |
+| `snake_case` everywhere | `comic.js`, `today_discovery.js`, `series_meta.js` — clear names |
 
 ---
 
 ## A 30-second example
 
-You write a comic episode:
+You write one comic episode:
 
 ```yaml
 ---
@@ -80,7 +84,8 @@ images:
 ---
 ```
 
-Koleco builds a full episode page with swipe navigation, keyboard shortcuts, loading indicator, and adaptive MD3 navigation — automatically.
+Koleco builds the full episode page for you — with swipe navigation, keyboard
+shortcuts, a loading indicator, and adaptive MD3 navigation.
 
 ---
 
@@ -104,7 +109,8 @@ flowchart LR
 
 ## Adaptive navigation
 
-Koleco renders three navigation patterns from a single component — no JavaScript framework needed.
+One component shows three navigation patterns based on screen width.
+No extra JavaScript framework is needed.
 
 ```mermaid
 flowchart TD
@@ -159,8 +165,8 @@ classDiagram
 |---|---|
 | Framework | [Astro v5](https://astro.build/) — static output, Content Layer API |
 | Design | Material Design 3 — Rose Pink seed `#B5005B` |
-| Icons | [Tabler Icons](https://tabler.io/icons) — webfont, npm |
-| Testing | [Vitest](https://vitest.dev/) — TDD, pure function unit tests |
+| Icons | [Tabler Icons](https://tabler.io/icons) — webfont, from npm |
+| Testing | [Vitest](https://vitest.dev/) — TDD, unit tests on pure functions |
 | Hosting | [Cloudflare Pages](https://pages.cloudflare.com/) — free tier |
 | Content | Markdown — Astro Content Collections with Zod schema |
 | Conventions | `snake_case`, JSDoc, single-responsibility, TDD Red-first |
@@ -177,18 +183,18 @@ src/
 │   └── footer.astro          # Copyright footer
 ├── content/
 │   ├── comic/                # {lang}/{series}/{episode}.md
-│   ├── today_discovery/      # YYYY-MM-DD.md  (_archive/ excluded from build)
+│   ├── today_discovery/      # YYYY-MM-DD.md  (_archive/ is not built)
 │   └── works/                # {category}/{slug}.md
 ├── layouts/
 │   └── base_layout.astro     # OGP, GA4, font imports
 ├── lib/
-│   ├── comic.js              # Episode helpers — all TDD-tested
-│   ├── today_discovery.js    # Discovery helpers — all TDD-tested
-│   ├── works.js              # Works helpers — all TDD-tested
-│   ├── series_meta.js        # Series titles, covers, top-page order
-│   └── fixtures/             # Synthetic test data (no Astro runtime needed)
+│   ├── comic.js              # Episode helpers — TDD-tested
+│   ├── today_discovery.js    # Discovery helpers — TDD-tested
+│   ├── works.js              # Works helpers — TDD-tested
+│   ├── series_meta.js        # Series titles, covers, home-page order
+│   └── fixtures/             # Fake test data (no Astro runtime needed)
 └── pages/
-    ├── index.astro            # Homepage
+    ├── index.astro            # Home page
     ├── about.astro            # Creator profile + social links
     ├── 404.astro              # Custom 404
     ├── [lang]/comic/          # Comic reader pages
@@ -207,10 +213,10 @@ docs/
 
 ## Getting started
 
-### Prerequisites
+### What you need
 
-- Node.js 20.x or later
-- npm 10.x or later
+- Node.js 20.x or newer
+- npm 10.x or newer
 
 ### Install
 
@@ -220,7 +226,7 @@ cd koleco
 npm install
 ```
 
-### Develop
+### Run in dev mode
 
 ```bash
 npm run dev
@@ -228,25 +234,26 @@ npm run dev
 
 Open `http://localhost:4321`.
 
-### Test
+### Run the tests
 
 ```bash
 npm run test
 ```
 
-All tests run against pure utility functions in `src/lib/` — no browser, no Astro runtime needed.
+All tests run against pure helper functions in `src/lib/` — no browser, no
+Astro runtime needed.
 
-### Build
+### Build for production
 
 ```bash
 npm run build
 ```
 
-Outputs static HTML to `dist/`. Zero errors = ready to deploy.
+Static HTML is written to `dist/`. If there are no errors, it is ready to deploy.
 
 ---
 
-## Content conventions
+## How to write content
 
 ### Comic episode
 
@@ -276,11 +283,12 @@ title: "Starlings fly as one"
 tags: ["Nature"]
 ---
 
-Body text — 1 to 3 sentences.
+Body text — 1 to 3 short sentences.
 ```
 
-Archive old entries to `src/content/today_discovery/_archive/`.
-The glob pattern `*.md` loads only root-level files — archived entries are never built.
+To hide old entries, move them to `src/content/today_discovery/_archive/`.
+The `*.md` glob loads only top-level files, so anything inside `_archive/` is
+never built.
 
 ### Works
 
@@ -299,7 +307,7 @@ description: "One-line description"
 
 ## Design system
 
-Koleco uses **Material Design 3** with a custom Rose Pink seed color.
+Koleco uses **Material Design 3** with a Rose Pink seed color.
 
 ```
 Seed color:  #B5005B
@@ -308,27 +316,30 @@ Secondary:   #74565F
 Surface:     #FEF4F6
 ```
 
-All tokens live in `public/css/md3-tokens.css`. To swap the theme:
+All tokens live in `public/css/md3-tokens.css`. To change the theme:
 
 1. Pick a new seed color at [m3.material.io/theme-builder](https://m3.material.io/theme-builder)
-2. Replace token values in `public/css/md3-tokens.css`
-3. Run `npm run build` to verify
+2. Paste the new token values into `public/css/md3-tokens.css`
+3. Run `npm run build` to check that it still builds
 
-Light mode only. Dark mode is intentionally deferred to v2.
+Light mode only. Dark mode is on hold for v2.
 
 ---
 
-## Forking this project
+## How to make this site your own
 
-Koleco is a personal site, but the structure is designed to be reused. To make it yours:
+Koleco is one creator's site, but the layout is made to be reused. To turn it
+into your own site:
 
-1. Replace `src/content/` with your own Markdown
-2. Update `src/lib/series_meta.js` — series titles, covers, top-page order
-3. Edit `src/pages/about.astro` — your bio, social links, email
-4. Update `public/css/md3-tokens.css` — your seed color
-5. Edit `src/components/navigation.astro` — your nav items
-6. Set `site` in `astro.config.mjs` to your domain
-7. Connect to Cloudflare Pages and push to deploy
+1. **Edit `src/config/site.js`** — your site name, creator profile, bio, social handles, and contact email
+2. **Copy `.env.example` to `.env`** and set `PUBLIC_SITE_URL` to your real domain (and `PUBLIC_GA4_ID` if you want Google Analytics 4)
+3. **Replace `src/content/`** with your own Markdown — comics, today_discovery entries, and works
+4. **Edit `src/lib/series_meta.js`** — your series titles, cover images, and the order they appear on the home page
+5. **Edit `public/css/md3-tokens.css`** — your own seed color, if you want a different theme
+6. **Edit `src/components/navigation.astro`** — your own nav items, if the defaults do not fit
+7. **Edit `src/content/privacy/`** — replace the sample `germio.md` with one Markdown file per app you want to host a Privacy Policy for, then give `/privacy/{slug}/` to the app store. See `docs/privacy_policy_design.md` for the full schema and the reasons behind it
+8. **Edit `package.json`** — change `name` to your repository name
+9. **Connect to Cloudflare Pages and push** to deploy
 
 ---
 

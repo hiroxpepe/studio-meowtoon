@@ -1,7 +1,7 @@
 # Aggregated Sources (Astro, JS, CSS, Markdown)
 
-Repository: C:\Users\F4176\Documents\Projects\studio-meowtoon
-Date: 2026-05-19 18:29:31Z
+Repository: C:\Users\hiroxpepe\Projects\koleco
+Date: 2026-05-24 18:20:01Z
 
 ## FILE: astro.config.mjs
 
@@ -2201,7 +2201,7 @@ Resolve D2 (catchphrase) before finalizing Hero copy; use placeholder `"One crea
     </section>
   )}
   ```
-- [ ] 14.9 Verify Today's Discovery section is **absent** from rendered HTML when `discovery_entries` is empty
+- [x] 14.9 Verify Today's Discovery section is **absent** from rendered HTML when `discovery_entries` is empty
   (temporarily remove `.gitkeep` and check, then restore)
 - [x] 14.10 Verify Works section is **absent** when no works entries exist
 - [x] 14.11 Verify Works section shows only categories with `has_works === true`
@@ -2237,8 +2237,8 @@ Resolve D2 (catchphrase) before finalizing Hero copy; use placeholder `"One crea
     </div>
   </BaseLayout>
   ```
-- [ ] 15.2 Add creator name, brief bio (1–2 sentences), and social links before launch
-- [ ] 15.3 Add contact info (email or form link)
+- [x] 15.2 Add creator name, brief bio (1–2 sentences), and social links before launch
+- [x] 15.3 Add contact info (email or form link)
 - [x] 15.4 Verify `current_page="/about/"` causes the About nav item to show `active` state
 - [x] 15.5 Run `npm run build` → verify `/about/index.html` exists in `dist/`
 
@@ -2425,14 +2425,14 @@ for a Japanese user who typo'd a `/ja/comic/...` URL.
 
 **Goal**: Ensure minimum launch content is in place per 企画書 v6 §16.
 
-- [ ] 21.1 Write first `today_discovery` post:
+- [x] 21.1 Write first `today_discovery` post:
   create `src/content/today_discovery/YYYY-MM-DD.md` with today's date,
   `date: YYYY-MM-DD`, `title: "..."`, and 1–3 sentences of discovery body
-- [ ] 21.2 Run `npm run dev` → verify Today's Discovery card appears on homepage
-- [ ] 21.3 Verify Today's Discovery card shows date, title, body correctly
+- [x] 21.2 Run `npm run dev` → verify Today's Discovery card appears on homepage
+- [x] 21.3 Verify Today's Discovery card shows date, title, body correctly
 - [ ] 21.4 Confirm at least 1 quality-checked manga episode is in `src/content/comic/ja/`
   (all 193 are already migrated; "quality-checked" = author has reviewed for publication)
-- [ ] 21.5 Complete About page content: add real creator bio, social links, contact info (Phase 15.2–15.3)
+- [x] 21.5 Complete About page content: add real creator bio, social links, contact info (Phase 15.2–15.3)
 - [ ] 21.6 Run `npm run test` → all 67 tests GREEN
 - [ ] 21.7 Run `npm run build` → zero errors
 
@@ -2518,7 +2518,6 @@ Phase 2 API design is **intentionally deferred** to Phase 2 — no pre-designed 
 ---
 
 *develop_plan_v2.md · 2026-05-18 · 22 phases · 188 checklist items · TDD RED/GREEN fully separated*
-*Based on 企画書 v6 · Gemini 3.1 Pro review incorporated*
 ```
 
 ## FILE: package.json
@@ -2529,21 +2528,22 @@ Phase 2 API design is **intentionally deferred** to Phase 2 — no pre-designed 
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "dev":             "astro dev",
-    "build":           "astro build",
-    "preview":         "astro preview",
-    "test":            "vitest run",
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "test": "vitest run",
     "migrate:content": "node scripts/migrate_content.mjs",
-    "migrate:images":  "node scripts/migrate_images.mjs"
+    "migrate:images": "node scripts/migrate_images.mjs"
   },
   "dependencies": {
-    "astro": "^5.0.0",
-    "@astrojs/sitemap": "^3.0.0"
+    "@astrojs/sitemap": "^3.0.0",
+    "@tabler/icons-webfont": "^3.44.0",
+    "astro": "^5.0.0"
   },
   "devDependencies": {
-    "vitest": "^2.0.0",
+    "fast-glob": "^3.3.0",
     "gray-matter": "^4.0.3",
-    "fast-glob": "^3.3.0"
+    "vitest": "^2.0.0"
   }
 }
 ```
@@ -2551,326 +2551,763 @@ Phase 2 API design is **intentionally deferred** to Phase 2 — no pre-designed 
 ## FILE: public\css\md3-tokens.css
 
 ```css
-/* Material Design 3 design tokens — generated from seed color. Replace placeholder values after D1 resolution. */
-
+/* Material Design 3 tokens — seed #B5005B (Rose Pink). */
+/* ライトモード固定（ダークモード廃止）。 */
 :root {
-  --md-sys-color-primary:              #8B4513;
+  /* ── Primary ── */
+  --md-sys-color-primary:              #B5005B;
   --md-sys-color-on-primary:           #FFFFFF;
-  --md-sys-color-primary-container:    #FFDBC9;
-  --md-sys-color-on-primary-container: #340F00;
-  --md-sys-color-secondary:            #765849;
+  --md-sys-color-primary-container:    #FFD9E3;
+  --md-sys-color-on-primary-container: #3E001D;
+
+  /* ── Secondary ── */
+  --md-sys-color-secondary:            #74565F;
   --md-sys-color-on-secondary:         #FFFFFF;
-  --md-sys-color-secondary-container:  #FFDBC9;
-  --md-sys-color-on-secondary-container: #2C160B;
-  --md-sys-color-surface:              #FFF8F6;
-  --md-sys-color-on-surface:           #221A17;
-  --md-sys-color-surface-variant:      #F4DED7;
-  --md-sys-color-on-surface-variant:   #52443F;
-  --md-sys-color-outline:              #85736D;
-  --md-sys-color-outline-variant:      #D7C2BB;
+  --md-sys-color-secondary-container:  #FFD9E3;
+  --md-sys-color-on-secondary-container: #2B151C;
+
+  /* ── Tertiary ── */
+  --md-sys-color-tertiary:             #7C5635;
+  --md-sys-color-on-tertiary:          #FFFFFF;
+  --md-sys-color-tertiary-container:   #FFDCBC;
+  --md-sys-color-on-tertiary-container: #2E1500;
+
+  /* ── Error ── */
   --md-sys-color-error:                #BA1A1A;
   --md-sys-color-on-error:             #FFFFFF;
-  --md-sys-color-background:           #FFF8F6;
-  --md-sys-color-on-background:        #221A17;
-}
+  --md-sys-color-error-container:      #FFDAD6;
+  --md-sys-color-on-error-container:   #410002;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --md-sys-color-primary:              #FFB59A;
-    --md-sys-color-on-primary:           #531E00;
-    --md-sys-color-primary-container:    #742E00;
-    --md-sys-color-on-primary-container: #FFDBC9;
-    --md-sys-color-secondary:            #E6BEAE;
-    --md-sys-color-on-secondary:         #432B1E;
-    --md-sys-color-secondary-container:  #5C4132;
-    --md-sys-color-on-secondary-container: #FFDBC9;
-    --md-sys-color-surface:              #1A110E;
-    --md-sys-color-on-surface:           #F0DEDA;
-    --md-sys-color-surface-variant:      #52443F;
-    --md-sys-color-on-surface-variant:   #D7C2BB;
-    --md-sys-color-outline:              #A08C85;
-    --md-sys-color-outline-variant:      #52443F;
-    --md-sys-color-error:                #FFB4AB;
-    --md-sys-color-on-error:             #690005;
-    --md-sys-color-background:           #1A110E;
-    --md-sys-color-on-background:        #F0DEDA;
-  }
-}
+  /* ── Background / Surface ── */
+  --md-sys-color-background:           #FFFBFF;
+  --md-sys-color-on-background:        #201A1B;
+  --md-sys-color-surface:              #FFFBFF;
+  --md-sys-color-on-surface:           #201A1B;
+  --md-sys-color-surface-variant:      #F2DDE2;
+  --md-sys-color-on-surface-variant:   #514347;
 
-:root {
-  --md-sys-typescale-display-large-size:    57px;
-  --md-sys-typescale-display-large-line:    64px;
-  --md-sys-typescale-headline-large-size:   32px;
-  --md-sys-typescale-headline-large-line:   40px;
-  --md-sys-typescale-headline-medium-size:  28px;
-  --md-sys-typescale-headline-medium-line:  36px;
-  --md-sys-typescale-title-large-size:      22px;
-  --md-sys-typescale-title-large-line:      28px;
-  --md-sys-typescale-title-medium-size:     16px;
-  --md-sys-typescale-body-large-size:       16px;
-  --md-sys-typescale-body-large-line:       24px;
-  --md-sys-typescale-body-medium-size:      14px;
-  --md-sys-typescale-label-large-size:      14px;
-  --md-sys-typescale-label-medium-size:     12px;
-  --md-sys-typescale-font-family: system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
-}
+  /* ── Surface container tones ── */
+  --md-sys-color-surface-container-lowest:  #FFFFFF;
+  --md-sys-color-surface-container-low:     #FEF4F6;
+  --md-sys-color-surface-container:         #F9EAED;
+  --md-sys-color-surface-container-high:    #EDD8DC;
+  --md-sys-color-surface-container-highest: #E2CDD1;
 
-:root {
-  --md-sys-shape-corner-none:        0px;
-  --md-sys-shape-corner-extra-small: 4px;
-  --md-sys-shape-corner-small:       8px;
-  --md-sys-shape-corner-medium:      12px;
-  --md-sys-shape-corner-large:       16px;
-  --md-sys-shape-corner-extra-large: 28px;
-  --md-sys-shape-corner-full:        9999px;
-}
+  /* ── Outline ── */
+  --md-sys-color-outline:              #847376;
+  --md-sys-color-outline-variant:      #D5C2C6;
 
-:root {
+  /* ── Inverse / Scrim ── */
+  --md-sys-color-inverse-surface:      #352F30;
+  --md-sys-color-inverse-on-surface:   #FBEDEF;
+  --md-sys-color-inverse-primary:      #FFB1C6;
+  --md-sys-color-scrim:                rgba(0,0,0,0.4);
+
+  /* ── Shape ── */
+  --md-sys-shape-corner-none:          0px;
+  --md-sys-shape-corner-extra-small:   4px;
+  --md-sys-shape-corner-small:         8px;
+  --md-sys-shape-corner-medium:        12px;
+  --md-sys-shape-corner-large:         16px;
+  --md-sys-shape-corner-extra-large:   28px;
+  --md-sys-shape-corner-full:          9999px;
+
+  /* ── Elevation: MD3 Tonal (no box-shadow) ── */
   --md-sys-elevation-level0: none;
-  --md-sys-elevation-level1: 0 1px 2px rgba(0,0,0,.3), 0 1px 3px 1px rgba(0,0,0,.15);
-  --md-sys-elevation-level2: 0 1px 2px rgba(0,0,0,.3), 0 2px 6px 2px rgba(0,0,0,.15);
-  --md-sys-elevation-level3: 0 4px 8px 3px rgba(0,0,0,.15), 0 1px 3px rgba(0,0,0,.3);
+  --md-sys-elevation-level1: none;
+  --md-sys-elevation-level2: none;
+  --md-sys-elevation-level3: none;
+
+  /* ── Typography ── */
+  --md-sys-typescale-font-family:       system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --md-sys-typescale-font-family-brand: system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --md-sys-typescale-display-large-size:   57px;
+  --md-sys-typescale-display-large-line:   64px;
+  --md-sys-typescale-headline-large-size:  32px;
+  --md-sys-typescale-headline-large-line:  40px;
+  --md-sys-typescale-headline-medium-size: 28px;
+  --md-sys-typescale-headline-medium-line: 36px;
+  --md-sys-typescale-headline-small-size:  24px;
+  --md-sys-typescale-headline-small-line:  32px;
+  --md-sys-typescale-title-large-size:     22px;
+  --md-sys-typescale-title-large-line:     28px;
+  --md-sys-typescale-title-medium-size:    16px;
+  --md-sys-typescale-title-medium-line:    24px;
+  --md-sys-typescale-title-small-size:     14px;
+  --md-sys-typescale-body-large-size:      16px;
+  --md-sys-typescale-body-large-line:      24px;
+  --md-sys-typescale-body-medium-size:     14px;
+  --md-sys-typescale-body-medium-line:     20px;
+  --md-sys-typescale-body-small-size:      12px;
+  --md-sys-typescale-label-large-size:     14px;
+  --md-sys-typescale-label-large-line:     20px;
+  --md-sys-typescale-label-medium-size:    12px;
+  --md-sys-typescale-label-small-size:     11px;
 }
 ```
 
 ## FILE: public\css\style.css
 
 ```css
-/* Comic reader styles: .hugo-* classes are still actively used by
-   src/pages/[lang]/comic/[series]/[episode]/index.astro and components.
-   DO NOT remove. Font-size values use rem units relative to html breakpoints below. */
-.hugo-images p {
-  margin: 0 !important;
-  padding: 0 !important;
-  display: block !important;
-  width: 100vw !important;
-  box-sizing: border-box !important;
-}
-.hugo-images {
-  width: 100vw !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  box-sizing: border-box !important;
-}
-.hugo-images img {
-  display: block !important;
-  width: 100vw !important;
-  max-width: 100vw !important;
-  height: auto !important;
-  margin: 0 !important;
-  border: none !important;
-  box-sizing: border-box !important;
-  background:#ffff !important;
-  object-fit: cover !important;
-  padding-top: 0;
-  padding-bottom: 0;
-}
+/* ================================================================
+   Base
+================================================================ */
+*,*::before,*::after { box-sizing: border-box; }
+html { font-size: 16px; }
 body {
   font-family: var(--md-sys-typescale-font-family);
   background: var(--md-sys-color-background);
   color: var(--md-sys-color-on-background);
-  margin: 0 !important;
-  padding: 0 !important;
-  touch-action: pan-y;
+  font-size: var(--md-sys-typescale-body-large-size);
+  line-height: var(--md-sys-typescale-body-large-line);
+  margin: 0; padding: 0; touch-action: pan-y;
 }
-a { color: var(--md-sys-color-primary); }
+a { color: var(--md-sys-color-primary); text-decoration: none; }
+a:hover { text-decoration: underline; }
+img { max-width: 100%; height: auto; display: block; }
 
-/* PC用 */
-html { font-size: 30px; }
-body { font-size: 1rem; }
-.hugo-header { font-size: 1rem;}
-.hugo-series { font-size: 1rem;}
-.hugo-episode { font-size: 1rem;}
-.hugo-title { font-size: 1rem;}
-.hugo-description { font-size: 0.75rem;}
-.hugo-list { font-size: 1rem; }
-.hugo-images img {
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-}
-
-/* タブレット用 */
-@media (max-width: 900px) {
-  html { font-size: 26px; }
-  body { font-size: 1rem; }
-  .hugo-header { font-size: 1rem; }
-  .hugo-series { font-size: 1rem; }
-  .hugo-episode { font-size: 1rem; }
-  .hugo-title { font-size: 1rem; }
-  .hugo-description { font-size: 0.75rem; }
-  .hugo-list { font-size: 1rem; }
-  .hugo-images img {
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-  }
-}
-
-/* スマホ用 */
-@media (max-width: 600px) {
-  html { font-size: 16px; }
-  body { font-size: 1rem; }
-  .hugo-header { font-size: 1rem; }
-  .hugo-series { font-size: 1rem; }
-  .hugo-episode { font-size: 1rem; }
-  .hugo-title { font-size: 1rem; }
-  .hugo-description { font-size: 0.75rem; }
-  .hugo-list { font-size: 1rem; }
-  .hugo-images img {
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-  }
-}
-
-/* --- MD3 Layout --- */
-
-/* Mobile: lift content and footer above fixed nav bar */
-.md3-page-content { padding-bottom: 88px; }
-.md3-footer       { padding-bottom: 96px; }
-
-/* Tablet: shift content and footer right of nav rail */
+/* ================================================================
+   MD3 Adaptive Navigation offset (Top App Bar 撤去)
+   Mobile  ≤600px     : Bottom Nav 80px
+   Tablet  601–1240px : Rail 80px
+   Desktop ≥1241px    : Drawer 256px
+================================================================ */
+.md3-page-content { padding-top: 0; padding-bottom: 80px; min-height: 100vh; }
+.md3-footer       { padding-bottom: 80px; }
 @media (min-width: 601px) {
   .md3-page-content { padding-bottom: 0; margin-left: 80px; }
   .md3-footer       { padding-bottom: 0; margin-left: 80px; }
 }
-
-/* Desktop: shift content and footer right of nav drawer */
 @media (min-width: 1241px) {
-  .md3-page-content { margin-left: 280px; }
-  .md3-footer       { margin-left: 280px; }
+  .md3-page-content { margin-left: 256px; }
+  .md3-footer       { margin-left: 256px; }
 }
 
-/* MD3 Card */
-.md3-card {
-  background: var(--md-sys-color-surface-variant);
-  border-radius: var(--md-sys-shape-corner-medium);
-  box-shadow: var(--md-sys-elevation-level1);
-  padding: 16px;
-}
-.md3-card-elevated {
-  background: var(--md-sys-color-surface);
-  box-shadow: var(--md-sys-elevation-level2);
-}
+/* ================================================================
+   MD3 Typography
+================================================================ */
+.md3-display-large   { font-size:var(--md-sys-typescale-display-large-size);   line-height:var(--md-sys-typescale-display-large-line);   font-weight:400; letter-spacing:-0.25px; }
+.md3-headline-large  { font-size:var(--md-sys-typescale-headline-large-size);  line-height:var(--md-sys-typescale-headline-large-line);  font-weight:400; }
+.md3-headline-medium { font-size:var(--md-sys-typescale-headline-medium-size); line-height:var(--md-sys-typescale-headline-medium-line); font-weight:400; }
+.md3-title-large     { font-size:var(--md-sys-typescale-title-large-size);     line-height:var(--md-sys-typescale-title-large-line);     font-weight:500; }
+.md3-body-large      { font-size:var(--md-sys-typescale-body-large-size);      line-height:var(--md-sys-typescale-body-large-line); }
+.md3-label-large     { font-size:var(--md-sys-typescale-label-large-size);     font-weight:500; letter-spacing:0.1px; }
 
-/* MD3 Typography */
-.md3-display-large  { font-size: var(--md-sys-typescale-display-large-size);   line-height: var(--md-sys-typescale-display-large-line); }
-.md3-headline-large { font-size: var(--md-sys-typescale-headline-large-size);  line-height: var(--md-sys-typescale-headline-large-line); }
-.md3-headline-medium { font-size: var(--md-sys-typescale-headline-medium-size); }
-.md3-title-large    { font-size: var(--md-sys-typescale-title-large-size); }
-.md3-body-large     { font-size: var(--md-sys-typescale-body-large-size);      line-height: var(--md-sys-typescale-body-large-line); }
-.md3-label-large    { font-size: var(--md-sys-typescale-label-large-size); }
-
-/* MD3 Buttons */
+/* ================================================================
+   MD3 Buttons
+================================================================ */
 .md3-btn {
-  display: inline-flex; align-items: center; gap: 8px; padding: 10px 24px;
-  border-radius: var(--md-sys-shape-corner-full);
-  font-size: var(--md-sys-typescale-label-large-size);
-  font-weight: 500; text-decoration: none; cursor: pointer; border: none;
+  display:inline-flex;align-items:center;gap:8px;padding:10px 24px;
+  border-radius:var(--md-sys-shape-corner-full);
+  font-size:var(--md-sys-typescale-label-large-size);
+  font-weight:500;text-decoration:none;cursor:pointer;
+  border:none;transition:background 0.2s;
 }
-.md3-btn-filled   { background: var(--md-sys-color-primary); color: var(--md-sys-color-on-primary); }
-.md3-btn-tonal    { background: var(--md-sys-color-secondary-container); color: var(--md-sys-color-on-secondary-container); }
-.md3-btn-outlined { background: transparent; border: 1px solid var(--md-sys-color-outline); color: var(--md-sys-color-primary); }
+.md3-btn:hover { text-decoration:none;opacity:0.92; }
+.md3-btn-filled   { background:var(--md-sys-color-primary);             color:var(--md-sys-color-on-primary); }
+.md3-btn-tonal    { background:var(--md-sys-color-secondary-container); color:var(--md-sys-color-on-secondary-container); }
+.md3-btn-outlined { background:transparent;border:1px solid var(--md-sys-color-outline);color:var(--md-sys-color-primary); }
 
-/* MD3 Footer */
+/* ================================================================
+   MD3 Cards — Tonal Elevation (no box-shadow)
+================================================================ */
+.md3-card {
+  background:var(--md-sys-color-surface-container);
+  border-radius:var(--md-sys-shape-corner-medium);
+  padding:16px;transition:background 0.2s;
+}
+.md3-card:hover { background:var(--md-sys-color-surface-container-high); }
+.md3-card-elevated {
+  background:var(--md-sys-color-surface-container-low);
+  transition:background 0.2s;
+}
+.md3-card-elevated:hover { background:var(--md-sys-color-surface-container); }
+.md3-card-series {
+  padding:0;overflow:hidden;display:flex;flex-direction:row;
+  color:var(--md-sys-color-on-surface);align-items:stretch;
+  background:var(--md-sys-color-surface-container);
+  border-radius:var(--md-sys-shape-corner-medium);transition:background 0.2s;
+}
+.md3-card-series:hover { background:var(--md-sys-color-surface-container-high); }
+.md3-card-series img { width:100px;flex-shrink:0;aspect-ratio:3/4;object-fit:cover;border-radius:0; }
+.md3-card-series .md3-title-large { padding:16px 20px;display:flex;align-items:center;color:var(--md-sys-color-on-surface); }
+
+/* ================================================================
+   MD3 Section
+================================================================ */
+.md3-section { padding:32px 24px;max-width:1200px;margin:0 auto; }
+.md3-section h1,.md3-section h2 { margin-top:0;margin-bottom:20px;color:var(--md-sys-color-on-surface); }
+.md3-card-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px;margin-top:20px; }
+.md3-card-grid--list { grid-template-columns:1fr;max-width:540px;margin-left:auto;margin-right:auto; }
+
+/* ================================================================
+   Hero
+================================================================ */
+.md3-hero {
+  padding:80px 24px 64px;text-align:center;
+  background:linear-gradient(160deg,var(--md-sys-color-primary-container) 0%,var(--md-sys-color-background) 60%);
+}
+.md3-hero h1 { margin:0 0 16px;color:var(--md-sys-color-on-surface);font-weight:300;font-size:clamp(2rem,5vw,3.5rem);line-height:1.15; }
+.md3-hero p  { margin:0;color:var(--md-sys-color-on-surface-variant);font-size:var(--md-sys-typescale-title-large-size); }
+.md3-ephemeral-badge { color:var(--md-sys-color-error);font-size:var(--md-sys-typescale-label-medium-size);font-weight:500;margin-left:8px;vertical-align:middle; }
+
+/* ================================================================
+   MD3 Comic Reader
+   Mobile  : 100vw（フルブリード）
+   Tablet+ : 640px・中央寄せ
+================================================================ */
+/* 4コマのエピNo・タイトル: 画像幅の左端に配置
+   Mobile      (≤600px)    : 1em パディングで読みやすく
+   Tablet 狭   (601–719px) : 可視幅 < 640px のため 1em パディング
+   Tablet 広+  (≥720px)    : 可視幅 ≥ 640px のためパディング不要 */
+.md3-comic-meta {
+  max-width: 640px;
+  margin: 24px auto 8px;
+  padding: 0 1em;
+  text-align: left;
+}
+.md3-comic-meta .md3-label-large {
+  display: block;
+  color: var(--md-sys-color-on-surface-variant);
+  margin-bottom: 4px;
+}
+.md3-comic-meta .md3-title-large {
+  display: block;
+  color: var(--md-sys-color-on-surface);
+  margin: 0 0 16px;
+}
+@media (min-width: 720px) {
+  .md3-comic-meta {
+    padding: 0;
+  }
+}
+
+/* 画像コンテナ: モバイルでフルブリード、タブレット以上で 640px */
+.md3-comic-images {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0;
+  position: relative;
+  min-height: 200px;  /* ローディング時の高さ確保 */
+}
+.md3-comic-images p { margin: 0; padding: 0; display: block; width: 100%; }
+.md3-comic-images img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+  border: none;
+  background: #fff;
+  object-fit: contain;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  /* 一括表示: 全画像ロード完了で .ready クラス付与 */
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.md3-comic-images.ready img {
+  opacity: 1;
+}
+@media (min-width: 601px) {
+  .md3-comic-images {
+    max-width: 640px;
+  }
+  .md3-comic-images img {
+    max-width: 640px;
+  }
+}
+
+/* MD3 Linear Progress Indicator (画像ロード中) */
+.md3-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--md-sys-color-primary-container);
+  overflow: hidden;
+  z-index: 1;
+}
+.md3-progress::before {
+  content: '';
+  display: block;
+  height: 100%;
+  width: 40%;
+  background: var(--md-sys-color-primary);
+  animation: md3-progress-slide 1.5s infinite ease-in-out;
+}
+@keyframes md3-progress-slide {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(350%); }
+}
+.md3-comic-images.ready .md3-progress { display: none; }
+
+/* 4コマの説明文: 画像幅の左端に配置
+   Mobile      (≤600px)    : 1em パディングで読みやすく
+   Tablet 狭   (601–719px) : 可視幅 < 640px のため 1em パディング
+   Tablet 広+  (≥720px)    : 可視幅 ≥ 640px のためパディング不要 */
+.md3-comic-description {
+  max-width: 640px;
+  margin: 16px auto;
+  padding: 0 1em;
+  font-size: var(--md-sys-typescale-body-medium-size);
+  color: var(--md-sys-color-on-surface-variant);
+  text-align: left;
+  line-height: 1.7;
+}
+@media (min-width: 720px) {
+  .md3-comic-description {
+    padding: 0;
+  }
+}
+
+/* ================================================================
+   MD3 Episode List
+================================================================ */
+.md3-episode-list { list-style:none;margin:0;padding:0; }
+.md3-episode-list li { padding:12px 0;border-bottom:1px solid var(--md-sys-color-outline-variant);transition:background 0.15s; }
+.md3-episode-list li:last-child { border-bottom:none; }
+.md3-episode-list li a { display:block;padding:4px 8px;border-radius:var(--md-sys-shape-corner-small);color:var(--md-sys-color-on-surface);font-size:var(--md-sys-typescale-body-large-size);transition:background 0.15s,color 0.15s; }
+.md3-episode-list li a:hover { background:var(--md-sys-color-surface-container-high);color:var(--md-sys-color-primary);text-decoration:none; }
+
+/* ================================================================
+   Footer
+   v0.19.3: About / Contact 削除済み (コピーライトのみ)。
+   text-align:right。.md3-footer-sep は孤児化したため削除。
+================================================================ */
 .md3-footer {
-  padding: 24px 16px; display: flex; gap: 16px; align-items: center;
-  border-top: 1px solid var(--md-sys-color-outline-variant); flex-wrap: wrap;
-  font-size: var(--md-sys-typescale-body-medium-size); color: var(--md-sys-color-on-surface-variant);
+  padding: 28px 24px;
+  text-align: right;
+  border-top: 1px solid var(--md-sys-color-outline-variant);
+  font-size: var(--md-sys-typescale-body-medium-size);
+  color: var(--md-sys-color-on-surface-variant);
 }
-.md3-footer a { color: var(--md-sys-color-primary); text-decoration: none; }
-.md3-footer-copy { margin-left: auto; }
+.md3-footer-copy {
+  font-size: var(--md-sys-typescale-label-medium-size);
+}
 
-/* MD3 Sections & Landing */
-.md3-section    { padding: 24px 16px; max-width: 1200px; margin: 0 auto; }
-.md3-hero       { padding: 48px 16px; text-align: center; }
-.md3-card-grid  { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; margin-top: 16px; }
-.md3-card-series img { width: 100%; border-radius: var(--md-sys-shape-corner-medium); }
-.md3-ephemeral-badge { color: var(--md-sys-color-error); font-size: var(--md-sys-typescale-label-medium-size); margin-left: 8px; }
+/* ================================================================
+   Home page (kn-*) — Tonal Elevation
+================================================================ */
+.kn-section { position:relative;text-align:center;padding:64px 48px; }
+.kn-container { max-width:800px;margin:0 auto; }
+.kn-hero-section { padding:40px 24px 80px;background:var(--md-sys-color-background); }
+.kn-discovery-section {
+  padding:64px 48px;
+  background:linear-gradient(160deg,var(--md-sys-color-primary) 0%,var(--md-sys-color-primary-container) 100%);
+}
+.kn-discovery-section h1 { color:var(--md-sys-color-on-primary); }
+.kn-series-section {
+  position:relative;text-align:center;padding:160px 48px;
+  border-radius:56px 56px 0 0;margin-top:-56px;
+}
+.kn-series-section--purple  { background:var(--md-sys-color-primary);            color:var(--md-sys-color-on-primary); }
+.kn-series-section--default { background:var(--md-sys-color-background);         color:var(--md-sys-color-on-background); }
+.kn-series-section--yellow  { background:var(--md-sys-color-secondary-container);color:var(--md-sys-color-on-secondary-container); }
+.kn-series-section--surface { background:var(--md-sys-color-surface);            color:var(--md-sys-color-on-surface); }
 
+.kn-section h1,.kn-series-section h1 {
+  font-family:var(--md-sys-typescale-font-family-brand);
+  font-size:44px;line-height:1.15;margin:0 0 16px;
+}
+.kn-section h2,.kn-series-section h2 {
+  font-family:var(--md-sys-typescale-font-family-brand);
+  font-size:28px;line-height:1.25;margin:0 0 16px;
+}
+.kn-section p,.kn-series-section p { font-size:16px;line-height:1.7;margin-bottom:16px; }
+.kn-hero-img { max-width:420px;width:100%;height:auto;border-radius:12px;display:block;margin:40px auto 32px; }
+.kn-hero-sub { font-size:16px;color:var(--md-sys-color-on-surface-variant);margin:-8px 0 8px; }
+.kn-cover    { max-width:280px;width:100%;height:auto;border-radius:8px;display:block;margin:0 auto 32px; }
+
+.kn-cards--icon { display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));max-width:580px;margin:32px auto;gap:16px;text-align:center; }
+.kn-card--icon {
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:28px 16px 20px;gap:10px;
+  background:var(--md-sys-color-surface-container);
+  border-radius:var(--md-sys-shape-corner-small);
+  text-decoration:none;color:var(--md-sys-color-on-surface);transition:background 0.15s;
+}
+.kn-card--icon:hover { background:var(--md-sys-color-surface-container-high);text-decoration:none; }
+.kn-card-icon  { font-size:40px;display:block; }
+.kn-card-label { font-size:14px;font-weight:700;color:var(--md-sys-color-on-surface-variant); }
+
+.kn-badge { display:inline-flex;align-items:center;gap:6px;padding:5px 16px;border-radius:9999px;font-size:14px;font-weight:700;margin-bottom:20px; }
+.kn-badge--live { background:var(--md-sys-color-error);color:var(--md-sys-color-on-error); }
+.kn-discovery-body { font-size:16px;max-width:600px;margin:-8px auto 32px;line-height:1.7;text-align:left;color:var(--md-sys-color-on-primary-container); }
+
+.kn-series-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:1000px;margin:0 auto; }
+.kn-series-card {
+  display:flex;flex-direction:column;
+  background:var(--md-sys-color-surface-container);
+  border-radius:var(--md-sys-shape-corner-medium);
+  overflow:hidden;text-decoration:none;color:inherit;transition:background 0.2s;
+}
+.kn-series-card:hover { background:var(--md-sys-color-surface-container-high);text-decoration:none; }
+.kn-series-card img { width:100%;aspect-ratio:16/9;object-fit:cover;display:block; }
+.kn-series-card-body { padding:16px 18px 20px;display:flex;flex-direction:column;gap:6px;flex:1;text-align:left; }
+.kn-series-card-title {
+  font-family:var(--md-sys-typescale-font-family-brand);
+  font-size:18px;font-weight:700;color:var(--md-sys-color-on-surface);margin:0;
+}
+.kn-series-card-desc { font-size:13px;color:var(--md-sys-color-on-surface-variant);line-height:1.5;flex:1;margin:0; }
+.kn-series-card-read { font-size:13px;font-weight:700;color:var(--md-sys-color-primary);margin-top:8px; }
+
+@media screen and (max-width: 950px) {
+  .kn-section        { padding:48px 24px; }
+  .kn-hero-section   { padding:24px 24px 60px; }
+  .kn-series-section { padding:96px 24px; }
+  .kn-section h1,.kn-series-section h1 { font-size:32px; }
+  .kn-section h2,.kn-series-section h2 { font-size:22px; }
+  .kn-cover     { max-width:200px; }
+  .kn-hero-img  { max-width:300px; }
+  .kn-series-grid { grid-template-columns:repeat(2,1fr); }
+}
+@media screen and (max-width: 600px) {
+  .kn-series-grid { grid-template-columns:1fr; }
+}
 ```
 
 ## FILE: README.md
 
 ```markdown
-# studio-meowtoon
+# Koleco
 
-A static Japanese comic website for STUDIO MeowToon.
-Built with **Astro v5** (static output). Deployed to **Cloudflare Pages** via GitHub push.
+> **The creator's brain, made public.**
+> One site. Every comic, discovery, game, and sound you make — collected and shown to the world.
+
+[![Astro](https://img.shields.io/badge/Astro-v5-orange?logo=astro)](https://astro.build/)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
+[![TDD](https://img.shields.io/badge/tested_with-Vitest-yellow)](https://vitest.dev/)
+[![Cloudflare Pages](https://img.shields.io/badge/deploy-Cloudflare_Pages-orange)](https://pages.cloudflare.com/)
+
+🌐 **Live:** [studio.meowtoon.com](https://studio.meowtoon.com)
 
 ---
 
-## Commands
+## What is Koleco?
 
-| Command | Description |
+**Koleco** (Esperanto: *kolekto* — collection) is a static personal creator site.
+Not a blog. Not a template. A living, growing **collection of everything one creator makes**.
+
+Comics drawn every day. Discoveries shared every day. 3D games shipped over time. Sound albums recorded along the way. All in one place, under your own domain, with zero backend.
+
+The premise is simple: **a creator's output is their brain made public.** Koleco is where that happens.
+
+---
+
+## Four content types. One creative base.
+
+```mermaid
+mindmap
+  root((Koleco))
+    Comic
+      4-panel series
+      episode navigation
+      swipe + keyboard
+    Today
+      daily discovery post
+      archive of 30
+      tags
+    Works
+      games
+      3D assets
+      sound albums
+    About
+      bio
+      social links
+      contact
+```
+
+---
+
+## Why static-first?
+
+Most creator platforms own your content. Koleco does not.
+
+| Property | What it means |
 |---|---|
-| `npm run dev` | Start local dev server at `http://localhost:4321` |
-| `npm run build` | Build static site to `dist/` |
-| `npm run preview` | Preview built site at `http://localhost:4321` |
-| `npm run test` | Run all unit tests (Vitest) |
+| Zero backend | Pure static HTML — no server, no database, no lock-in |
+| Own your domain | Deploy to Cloudflare Pages, Vercel, or any CDN |
+| Own your content | Markdown files in `src/content/` — plain text, forever readable |
+| TDD-tested core | All utility functions in `src/lib/` tested with Vitest |
+| MD3 design system | Material Design 3 tokens — consistent, themeable, yours |
+| Snake_case throughout | `comic.js`, `today_discovery.js`, `series_meta.js` — zero ambiguity |
 
-## Deploy
+---
 
-Push to the `develop` branch → Cloudflare Pages automatically builds and deploys.
+## A 30-second example
 
-Build command: `npm run build`
-Output directory: `dist`
+You write a comic episode:
 
-## Project Structure
-
-```
-studio-meowtoon/
-├── src/
-│   ├── content/
-│   │   └── comic/
-│   │       └── ja/
-│   │           ├── everyday/    ← 96 episode .md files
-│   │           ├── storyboard/  ← 96 episode .md files
-│   │           └── lusiphite/   ← 1 episode .md file
-│   ├── lib/
-│   │   ├── comic.js             ← utility + page helper functions
-│   │   ├── comic.test.js        ← 40 unit tests
-│   │   ├── series_meta.js       ← series titles, covers, order
-│   │   └── fixtures/
-│   │       └── fixture_entries.js
-│   ├── layouts/
-│   │   └── base_layout.astro    ← base HTML + OGP
-│   ├── components/
-│   │   └── episode_nav.astro    ← prev/list/next navigation
-│   ├── pages/
-│   │   ├── index.astro
-│   │   ├── 404.astro
-│   │   └── [lang]/comic/[series]/
-│   │       ├── index.astro           ← series list
-│   │       └── [episode]/index.astro ← episode page
-│   └── content.config.js        ← Astro v5 content collection schema
-├── public/
-│   ├── css/style.css
-│   └── images/
-│       ├── comic/               ← 772 episode images
-│       └── works/               ← series cover images
-├── docs/
-│   ├── develop_plan_v1.md       ← full migration plan
-│   └── adr.md                   ← architecture decision records
-└── specs/
-    └── app_spec.md
+```yaml
+---
+episode: "097"
+title: "The Monday Cat"
+description: "Monday arrives. Cat disagrees."
+images:
+  - /images/comic/everyday/097/01.png
+  - /images/comic/everyday/097/02.png
+  - /images/comic/everyday/097/03.png
+  - /images/comic/everyday/097/04.png
+---
 ```
 
-## How to Add a New Episode
+Koleco builds a full episode page with swipe navigation, keyboard shortcuts, loading indicator, and adaptive MD3 navigation — automatically.
 
-1. Create `src/content/comic/ja/{series}/{episode_id}.md` with frontmatter:
-   ```yaml
-   ---
-   title: "Episode title in Japanese"
-   episode: "097"
-   description: "Optional description."
-   images:
-     - /images/comic/ja/{series}/097/cut-1.jpg
-     - /images/comic/ja/{series}/097/cut-2.jpg
-     - /images/comic/ja/{series}/097/cut-3.jpg
-     - /images/comic/ja/{series}/097/cut-4.jpg
-   ---
-   ```
-2. Add images to `public/images/comic/ja/{series}/{episode_id}/`
-3. Run `npm run build` to verify, then push to GitHub to deploy.
+---
+
+## Build flow
+
+```mermaid
+flowchart LR
+    CONTENT[Markdown\ncontent files] --> ASTRO[Astro v5\nbuild]
+    ASTRO --> HTML[Static HTML\ndist/]
+    HTML --> CDN[Cloudflare Pages\nor any CDN]
+    CDN --> BROWSER[Browser]
+
+    style CONTENT fill:#FFD9E3,color:#3E001D
+    style ASTRO   fill:#B5005B,color:#fff
+    style HTML    fill:#FFD9E3,color:#3E001D
+    style CDN     fill:#B5005B,color:#fff
+    style BROWSER fill:#FFD9E3,color:#3E001D
+```
+
+---
+
+## Adaptive navigation
+
+Koleco renders three navigation patterns from a single component — no JavaScript framework needed.
+
+```mermaid
+flowchart TD
+    VIEWPORT{Viewport width}
+    VIEWPORT -->|less than 600px| MOBILE[Bottom Navigation Bar\nHome · Comic · Today · About]
+    VIEWPORT -->|601 to 1240px| TABLET[Navigation Rail\nleft 80px · icon only]
+    VIEWPORT -->|1241px or wider| DESKTOP[Navigation Drawer\nleft 256px · icon + label]
+
+    style MOBILE  fill:#FFD9E3,color:#3E001D
+    style TABLET  fill:#B5005B,color:#fff
+    style DESKTOP fill:#3E001D,color:#FFD9E3
+```
+
+---
+
+## Data model
+
+```mermaid
+classDiagram
+    class Comic {
+        +string episode
+        +string title
+        +string description
+        +string[] images
+    }
+    class TodayDiscovery {
+        +string date
+        +string title
+        +string[] tags
+        +string image
+    }
+    class Works {
+        +string title
+        +string category
+        +string url
+        +string description
+    }
+    class SeriesMeta {
+        +Record series_titles
+        +Record series_covers
+        +string[] top_page_series
+    }
+
+    Comic --> SeriesMeta : references
+```
+
+---
+
+## Tech stack
+
+| Layer | Choice |
+|---|---|
+| Framework | [Astro v5](https://astro.build/) — static output, Content Layer API |
+| Design | Material Design 3 — Rose Pink seed `#B5005B` |
+| Icons | [Tabler Icons](https://tabler.io/icons) — webfont, npm |
+| Testing | [Vitest](https://vitest.dev/) — TDD, pure function unit tests |
+| Hosting | [Cloudflare Pages](https://pages.cloudflare.com/) — free tier |
+| Content | Markdown — Astro Content Collections with Zod schema |
+| Conventions | `snake_case`, JSDoc, single-responsibility, TDD Red-first |
+
+---
+
+## Project structure
+
+```
+src/
+├── components/
+│   ├── navigation.astro      # MD3 adaptive nav (mobile / tablet / desktop)
+│   ├── episode_nav.astro     # Comic prev / list / next navigation
+│   └── footer.astro          # Copyright footer
+├── content/
+│   ├── comic/                # {lang}/{series}/{episode}.md
+│   ├── today_discovery/      # YYYY-MM-DD.md  (_archive/ excluded from build)
+│   └── works/                # {category}/{slug}.md
+├── layouts/
+│   └── base_layout.astro     # OGP, GA4, font imports
+├── lib/
+│   ├── comic.js              # Episode helpers — all TDD-tested
+│   ├── today_discovery.js    # Discovery helpers — all TDD-tested
+│   ├── works.js              # Works helpers — all TDD-tested
+│   ├── series_meta.js        # Series titles, covers, top-page order
+│   └── fixtures/             # Synthetic test data (no Astro runtime needed)
+└── pages/
+    ├── index.astro            # Homepage
+    ├── about.astro            # Creator profile + social links
+    ├── 404.astro              # Custom 404
+    ├── [lang]/comic/          # Comic reader pages
+    ├── today/                 # Today's Discovery archive
+    └── works/                 # Works listing
+public/
+└── css/
+    ├── md3-tokens.css         # MD3 design tokens (colors, type, shape)
+    └── style.css              # Global styles + responsive layout
+docs/
+├── develop_plan_v2.md         # 22-phase development plan + checklist
+└── adr.md                     # Architecture Decision Records
+```
+
+---
+
+## Getting started
+
+### Prerequisites
+
+- Node.js 20.x or later
+- npm 10.x or later
+
+### Install
+
+```bash
+git clone https://github.com/hiroxpepe/koleco.git
+cd koleco
+npm install
+```
+
+### Develop
+
+```bash
+npm run dev
+```
+
+Open `http://localhost:4321`.
+
+### Test
+
+```bash
+npm run test
+```
+
+All tests run against pure utility functions in `src/lib/` — no browser, no Astro runtime needed.
+
+### Build
+
+```bash
+npm run build
+```
+
+Outputs static HTML to `dist/`. Zero errors = ready to deploy.
+
+---
+
+## Content conventions
+
+### Comic episode
+
+File: `src/content/comic/{lang}/{series}/{episode}.md`
+
+```yaml
+---
+episode: "001"
+title: "Episode title"
+description: "Optional one-line description"
+images:
+  - /images/comic/{series}/001/01.png
+  - /images/comic/{series}/001/02.png
+  - /images/comic/{series}/001/03.png
+  - /images/comic/{series}/001/04.png
+---
+```
+
+### Today's Discovery
+
+File: `src/content/today_discovery/YYYY-MM-DD.md`
+
+```yaml
+---
+date: "2026-05-22"
+title: "Starlings fly as one"
+tags: ["Nature"]
+---
+
+Body text — 1 to 3 sentences.
+```
+
+Archive old entries to `src/content/today_discovery/_archive/`.
+The glob pattern `*.md` loads only root-level files — archived entries are never built.
+
+### Works
+
+File: `src/content/works/{category}/{slug}.md`
+
+```yaml
+---
+title: "Game title"
+category: "game"
+url: "https://example.com"
+description: "One-line description"
+---
+```
+
+---
+
+## Design system
+
+Koleco uses **Material Design 3** with a custom Rose Pink seed color.
+
+```
+Seed color:  #B5005B
+Primary:     #B5005B  (Rose Pink)
+Secondary:   #74565F
+Surface:     #FEF4F6
+```
+
+All tokens live in `public/css/md3-tokens.css`. To swap the theme:
+
+1. Pick a new seed color at [m3.material.io/theme-builder](https://m3.material.io/theme-builder)
+2. Replace token values in `public/css/md3-tokens.css`
+3. Run `npm run build` to verify
+
+Light mode only. Dark mode is intentionally deferred to v2.
+
+---
+
+## Forking this project
+
+Koleco is a personal site, but the structure is designed to be reused. To make it yours:
+
+1. Replace `src/content/` with your own Markdown
+2. Update `src/lib/series_meta.js` — series titles, covers, top-page order
+3. Edit `src/pages/about.astro` — your bio, social links, email
+4. Update `public/css/md3-tokens.css` — your seed color
+5. Edit `src/components/navigation.astro` — your nav items
+6. Set `site` in `astro.config.mjs` to your domain
+7. Connect to Cloudflare Pages and push to deploy
+
+---
+
+## License
+
+[MIT](./LICENSE) © hiroxpepe
 ```
 
 ## FILE: specs\app_spec.md
@@ -3017,32 +3454,96 @@ images:
 ```astro
 ---
 // Episode navigation component: prev/list/next links for the comic reader.
-// IMPORTANT: DOM structure must match .hugo-nav a:first-child / a:last-child selectors in inline script.
-const { prev_href, next_href, list_href } = Astro.props;
+//
+// 重要な変更 (v0.19.3):
+//   - クラス名を .md3-episode-nav 体系に統一
+//   - .md3-episode-nav-prev / -list / -next クラスを追加（JS依存解消）
+//   - 前後ボタンにエピソード番号を表示
+//   - 中央ボタンに "List" (Mobile) / "Episode List" (Tablet+) を表示
+//   - 無効ナビ (prev/next が null) は要素自体を表示しない
+//
+// swipe/keyboard JS は .md3-episode-nav-prev / .md3-episode-nav-next を使用。
+// first-child / last-child セレクタは廃止（DOM順序依存から脱却）。
+const { prev_href, next_href, list_href, prev_episode, next_episode } = Astro.props;
 ---
-<div class="hugo-nav" style="display:flex;gap:12px;justify-content:center;margin-top:2em;">
-  {prev_href
-    ? <a href={prev_href} class="md3-btn md3-btn-outlined">← Previous</a>
-    : <span style="visibility:hidden;" class="md3-btn md3-btn-outlined">← Previous</span>
-  }
-  <a href={list_href} class="md3-btn md3-btn-tonal">All Episodes</a>
-  {next_href
-    ? <a href={next_href} class="md3-btn md3-btn-outlined">Next →</a>
-    : <span style="visibility:hidden;" class="md3-btn md3-btn-outlined">Next →</span>
-  }
+<div class="md3-episode-nav">
+  {prev_href && (
+    <a class="md3-episode-nav-prev" href={prev_href}
+       aria-label={`Previous episode ${prev_episode}`}>
+      <i class="ti ti-arrow-left" aria-hidden="true"></i>
+      <span class="nav-label">Ep.{prev_episode}</span>
+    </a>
+  )}
+  <a class="md3-episode-nav-list" href={list_href} aria-label="Episode list">
+    <i class="ti ti-list" aria-hidden="true"></i>
+    <span class="nav-label">List</span>
+  </a>
+  {next_href && (
+    <a class="md3-episode-nav-next" href={next_href}
+       aria-label={`Next episode ${next_episode}`}>
+      <span class="nav-label">Ep.{next_episode}</span>
+      <i class="ti ti-arrow-right" aria-hidden="true"></i>
+    </a>
+  )}
 </div>
+
+<style>
+  .md3-episode-nav {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 8px;
+    max-width: 640px;
+    margin: 24px auto 16px;
+    padding: 0 1em;
+  }
+  .md3-episode-nav a {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 48px;
+    padding: 8px 12px;
+    border-radius: var(--md-sys-shape-corner-full);
+    font-size: var(--md-sys-typescale-label-large-size);
+    font-weight: 500;
+    text-decoration: none;
+    background: var(--md-sys-color-secondary-container);
+    color: var(--md-sys-color-on-secondary-container);
+    transition: background 0.15s;
+  }
+  .md3-episode-nav a:hover {
+    background: var(--md-sys-color-primary-container);
+    color: var(--md-sys-color-on-primary-container);
+    text-decoration: none;
+  }
+  .md3-episode-nav-list {
+    background: var(--md-sys-color-primary) !important;
+    color: var(--md-sys-color-on-primary) !important;
+  }
+  .md3-episode-nav-list:hover {
+    background: var(--md-sys-color-primary-container) !important;
+    color: var(--md-sys-color-on-primary-container) !important;
+  }
+  .nav-icon { font-size: 20px; line-height: 1; }
+  .nav-label { font-size: var(--md-sys-typescale-label-large-size); }
+  .md3-episode-nav a i { font-size: 18px; }
+
+  @media (min-width: 601px) {
+    .md3-episode-nav { padding: 0; }
+  }
+</style>
 ```
 
 ## FILE: src\components\footer.astro
 
 ```astro
 ---
-// Site footer: copyright and utility links.
+// Site footer: copyright only.
+// About はナビにあるので不要、Contact はスパムリスクで削除。
 ---
 <footer class="md3-footer">
-  <a href="/about/">About</a>
-  <span class="md3-footer-sep">·</span>
-  <a href="/about/#contact">Contact</a>
   <span class="md3-footer-copy">© 2026 STUDIO MeowToon</span>
 </footer>
 ```
@@ -3051,134 +3552,205 @@ const { prev_href, next_href, list_href } = Astro.props;
 
 ```astro
 ---
-// MD3 navigation component: renders bar (mobile), rail (tablet), or drawer (desktop) via CSS breakpoints only.
+// MD3 Adaptive Navigation (Top App Bar 撤去版):
+//   Mobile  (≤600px)    : Bottom Navigation Bar
+//   Tablet  (601–1240px): Navigation Rail (left 80px)
+//   Desktop (≥1241px)   : Navigation Drawer (left 256px)
+//
+// Icons: Tabler Icons webfont (npm, via base_layout.astro import)
+// Verified icon names: ti-home / ti-books / ti-sparkles /
+//   ti-briefcase / ti-user
+//
+// TODO Phase 2: Rail hamburger → modal drawer expansion
+
 const { current_page = '/' } = Astro.props;
 
+// 全デバイス共通 4項目。Works/Contact は廃止。
 const nav_items = [
-  { icon: '🏠', label: 'Home',  href: '/' },
-  { icon: '📖', label: 'Manga', href: '/ja/comic/' },
-  { icon: '🎨', label: 'Works', href: '/works/' },
-  { icon: '👤', label: 'About', href: '/about/' },
+  { label: 'Home',  href: '/',           icon: 'ti-home' },
+  { label: 'Comic', href: '/ja/comic/',  icon: 'ti-books' },
+  { label: 'Today', href: '/today/',     icon: 'ti-sparkles' },
+  { label: 'About', href: '/about/',     icon: 'ti-user' },
 ];
 
-const is_active = (href) => current_page === href || (href !== '/' && current_page.startsWith(href));
+const is_active = (href) =>
+  href === '/' ? current_page === '/' : current_page.startsWith(href);
 ---
 
-<!-- Mobile: Navigation Bar -->
-<nav class="md3-nav-bar" aria-label="Main navigation">
+<!-- Navigation Rail (tablet) -->
+<nav class="m3-nav-rail" aria-label="サイトナビゲーション（タブレット）">
+  <a href="/" class="m3-rail-brand">SM</a>
   {nav_items.map(item => (
-    <a href={item.href} class={`md3-nav-bar-item ${is_active(item.href) ? 'active' : ''}`}>
-      <span class="md3-nav-icon">{item.icon}</span>
-      <span class="md3-nav-label">{item.label}</span>
+    <a href={item.href}
+       class={`m3-rail-item${is_active(item.href) ? ' active' : ''}`}
+       aria-current={is_active(item.href) ? 'page' : undefined}>
+      <span class="m3-rail-indicator">
+        <i class={`ti ${item.icon}`} aria-hidden="true"></i>
+      </span>
+      <span class="m3-rail-label">{item.label}</span>
     </a>
   ))}
 </nav>
 
-<!-- Tablet: Navigation Rail -->
-<nav class="md3-nav-rail" aria-label="Main navigation">
+<!-- Navigation Drawer (desktop) -->
+<nav class="m3-nav-drawer" aria-label="サイトナビゲーション（デスクトップ）">
+  <a href="/" class="m3-drawer-brand">STUDIO MeowToon</a>
   {nav_items.map(item => (
-    <a href={item.href} class={`md3-nav-rail-item ${is_active(item.href) ? 'active' : ''}`}>
-      <span class="md3-nav-icon">{item.icon}</span>
-      <span class="md3-nav-label">{item.label}</span>
+    <a href={item.href}
+       class={`m3-drawer-item${is_active(item.href) ? ' active' : ''}`}
+       aria-current={is_active(item.href) ? 'page' : undefined}>
+      <i class={`ti ${item.icon}`} aria-hidden="true"></i>
+      {item.label}
     </a>
   ))}
 </nav>
 
-<!-- Desktop: Navigation Drawer -->
-<nav class="md3-nav-drawer" aria-label="Main navigation">
-  <div class="md3-nav-drawer-header">STUDIO MeowToon</div>
+<!-- Bottom Navigation Bar (mobile のみ) -->
+<nav class="m3-bottom-nav" aria-label="サイトナビゲーション（モバイル）">
   {nav_items.map(item => (
-    <a href={item.href} class={`md3-nav-drawer-item ${is_active(item.href) ? 'active' : ''}`}>
-      <span class="md3-nav-icon">{item.icon}</span>
-      <span class="md3-nav-label">{item.label}</span>
+    <a href={item.href}
+       class={`m3-bot-item${is_active(item.href) ? ' active' : ''}`}
+       aria-current={is_active(item.href) ? 'page' : undefined}>
+      <span class="m3-bot-indicator">
+        <i class={`ti ${item.icon}`} aria-hidden="true"></i>
+      </span>
+      <span class="m3-bot-label">{item.label}</span>
     </a>
   ))}
 </nav>
 
 <style>
-  /* Mobile: show bar, hide rail + drawer */
-  .md3-nav-rail, .md3-nav-drawer { display: none; }
-  .md3-nav-bar {
-    display: flex;
-    position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
-    height: 80px;
-    background: var(--md-sys-color-surface);
-    border-top: 1px solid var(--md-sys-color-outline-variant);
-    justify-content: space-around;
-    align-items: center;
+  /* ── CSS Variables ── */
+  :root {
+    --m3-rail-width:      80px;
+    --m3-drawer-width:    256px;
+    --m3-bot-nav-height:  80px;
   }
 
-  /* Tablet */
-  @media (min-width: 601px) {
-    .md3-nav-bar { display: none; }
-    .md3-nav-rail {
-      display: flex;
-      flex-direction: column;
-      position: fixed; top: 0; left: 0; bottom: 0; z-index: 100;
-      width: 80px;
-      background: var(--md-sys-color-surface);
-      border-right: 1px solid var(--md-sys-color-outline-variant);
-      padding-top: 12px;
-      align-items: center;
-      gap: 4px;
-    }
+  /* ── Navigation Rail (tablet only) ── */
+  .m3-nav-rail {
+    display: none;
+    position: fixed; top: 0; left: 0; bottom: 0;
+    width: var(--m3-rail-width);
+    background: var(--md-sys-color-surface-container-low);
+    border-right: 1px solid var(--md-sys-color-outline-variant);
+    flex-direction: column; align-items: center;
+    padding: 12px 0 16px; z-index: 90; overflow-y: auto;
   }
-
-  /* Desktop */
-  @media (min-width: 1241px) {
-    .md3-nav-rail { display: none; }
-    .md3-nav-drawer {
-      display: flex;
-      flex-direction: column;
-      position: fixed; top: 0; left: 0; bottom: 0; z-index: 100;
-      width: 280px;
-      background: var(--md-sys-color-surface);
-      border-right: 1px solid var(--md-sys-color-outline-variant);
-      padding: 16px 0;
-      gap: 2px;
-    }
-  }
-
-  .md3-nav-bar-item,
-  .md3-nav-rail-item,
-  .md3-nav-drawer-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    padding: 8px 12px;
-    text-decoration: none;
-    color: var(--md-sys-color-on-surface-variant);
-    font-size: var(--md-sys-typescale-label-medium-size);
-    border-radius: var(--md-sys-shape-corner-full);
-  }
-
-  .md3-nav-drawer-item {
-    flex-direction: row;
-    gap: 12px;
-    padding: 12px 24px;
-    border-radius: var(--md-sys-shape-corner-full);
-    margin: 0 8px;
-    font-size: var(--md-sys-typescale-label-large-size);
-  }
-
-  .md3-nav-drawer-header {
-    padding: 16px 24px;
-    font-size: var(--md-sys-typescale-title-large-size);
-    font-weight: 700;
-    color: var(--md-sys-color-on-surface);
-    margin-bottom: 8px;
-  }
-
-  .md3-nav-bar-item.active,
-  .md3-nav-rail-item.active,
-  .md3-nav-drawer-item.active {
+  .m3-rail-brand {
+    font-family: var(--md-sys-typescale-font-family-brand);
+    font-size: 18px; font-weight: 700;
     color: var(--md-sys-color-primary);
-    background: var(--md-sys-color-secondary-container);
+    text-decoration: none;
+    padding: 8px 0 16px;
+    display: block;
+    flex-shrink: 0;
+  }
+  .m3-rail-brand:hover { text-decoration: none; opacity: 0.8; }
+  .m3-rail-item {
+    width: 72px; display: flex; flex-direction: column;
+    align-items: center; gap: 4px; padding: 4px 0;
+    text-decoration: none; color: var(--md-sys-color-on-surface-variant);
+  }
+  .m3-rail-item:hover { color: var(--md-sys-color-on-surface); text-decoration: none; }
+  .m3-rail-indicator {
+    width: 56px; height: 32px;
     border-radius: var(--md-sys-shape-corner-full);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; transition: background 0.2s;
+  }
+  .m3-rail-item:hover .m3-rail-indicator { background: rgba(0,0,0,.06); }
+  .m3-rail-item.active .m3-rail-indicator {
+    background: var(--md-sys-color-secondary-container);
+  }
+  .m3-rail-item.active .m3-rail-indicator i {
+    color: var(--md-sys-color-on-secondary-container);
+  }
+  .m3-rail-label {
+    font-size: var(--md-sys-typescale-label-medium-size);
+    font-weight: 500; text-align: center;
+  }
+  .m3-rail-item.active .m3-rail-label { color: var(--md-sys-color-on-surface); }
+
+  /* ── Navigation Drawer (desktop only) ── */
+  .m3-nav-drawer {
+    display: none;
+    position: fixed; top: 0; left: 0; bottom: 0;
+    width: var(--m3-drawer-width);
+    background: var(--md-sys-color-surface-container-low);
+    border-right: 1px solid var(--md-sys-color-outline-variant);
+    flex-direction: column; padding: 16px 12px; gap: 2px;
+    z-index: 90; overflow-y: auto;
+  }
+  .m3-drawer-brand {
+    font-family: var(--md-sys-typescale-font-family-brand);
+    font-size: 18px; font-weight: 700;
+    color: var(--md-sys-color-on-surface); text-decoration: none;
+    padding: 8px 16px 20px; display: block; flex-shrink: 0;
+  }
+  .m3-drawer-brand:hover { color: var(--md-sys-color-primary); text-decoration: none; }
+  .m3-drawer-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 16px; border-radius: var(--md-sys-shape-corner-full);
+    font-size: var(--md-sys-typescale-label-large-size); font-weight: 500;
+    color: var(--md-sys-color-on-surface-variant);
+    text-decoration: none; transition: background 0.15s, color 0.15s;
+  }
+  .m3-drawer-item i { font-size: 22px; flex-shrink: 0; }
+  .m3-drawer-item:hover {
+    background: rgba(0,0,0,.06);
+    color: var(--md-sys-color-on-surface);
+    text-decoration: none;
+  }
+  .m3-drawer-item.active {
+    background: var(--md-sys-color-secondary-container);
+    color: var(--md-sys-color-on-secondary-container);
   }
 
-  .md3-nav-icon { font-size: 20px; }
+  /* ── Bottom Navigation Bar (mobile only) ── */
+  .m3-bottom-nav {
+    display: none;
+    position: fixed; bottom: 0; left: 0; right: 0;
+    height: var(--m3-bot-nav-height);
+    background: var(--md-sys-color-surface-container-low);
+    border-top: 1px solid var(--md-sys-color-outline-variant);
+    z-index: 100;
+  }
+  .m3-bot-item {
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 4px; text-decoration: none;
+    color: var(--md-sys-color-on-surface-variant);
+    padding: 12px 0 16px;
+  }
+  .m3-bot-item:hover { text-decoration: none; }
+  .m3-bot-indicator {
+    width: 64px; height: 32px;
+    border-radius: var(--md-sys-shape-corner-full);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; transition: background 0.2s;
+  }
+  .m3-bot-item.active .m3-bot-indicator {
+    background: var(--md-sys-color-secondary-container);
+  }
+  .m3-bot-item.active .m3-bot-indicator i {
+    color: var(--md-sys-color-on-secondary-container);
+  }
+  .m3-bot-label {
+    font-size: var(--md-sys-typescale-label-medium-size); font-weight: 500;
+  }
+  .m3-bot-item.active .m3-bot-label { color: var(--md-sys-color-on-surface); }
+
+  /* ── Breakpoints ── */
+  @media (max-width: 600px) {
+    .m3-bottom-nav { display: flex; }
+  }
+  @media (min-width: 601px) and (max-width: 1240px) {
+    .m3-nav-rail { display: flex; }
+  }
+  @media (min-width: 1241px) {
+    .m3-nav-drawer { display: flex; }
+  }
 </style>
 ```
 
@@ -3248,12 +3820,19 @@ export const collections = { comic: comic_collection, today_discovery: today_dis
 ---
 // Base HTML layout providing <html>, <head>, <body> wrapper for all page types.
 // Props: title (required), lang (default 'en'), og_image (optional), current_page (for nav active state).
+
+// Tabler Icons — loaded via npm, Vite bundles fonts into dist/. No CDN dependency.
+// Requires: npm install (package.json に @tabler/icons-webfont を追加済み)
+import '@tabler/icons-webfont/dist/tabler-icons.min.css';
+
 import Navigation from '../components/navigation.astro';
 import Footer from '../components/footer.astro';
+import { getCollection } from 'astro:content';
+
 const { title, lang = 'en', og_image, current_page = '/' } = Astro.props;
+const works_entries = await getCollection('works').catch(() => []);
+const show_works = works_entries.length > 0;
 const page_title = `${title} | STUDIO MeowToon`;
-// import.meta.env.DEV is true in dev/preview mode; Astro.site is ALWAYS set (from astro.config.mjs)
-// even during local dev — so Astro.site ?? Astro.url.origin never falls back. Use DEV flag instead.
 const base_url = import.meta.env.DEV ? Astro.url.origin : Astro.site;
 const og_image_abs = og_image ? new URL(og_image, base_url).href : undefined;
 const og_url = new URL(Astro.url.pathname, base_url).href;
@@ -3272,6 +3851,7 @@ const og_url = new URL(Astro.url.pathname, base_url).href;
   {og_image_abs && <meta name="twitter:card" content="summary_large_image">}
   <link rel="stylesheet" href="/css/md3-tokens.css">
   <link rel="stylesheet" href="/css/style.css">
+  <!-- Google Fonts 削除済み（プライバシーファースト方針）。フォントは system-ui にフォールバック -->
   {import.meta.env.PUBLIC_GA4_ID && (
     <>
       <script async src={`https://www.googletagmanager.com/gtag/js?id=${import.meta.env.PUBLIC_GA4_ID}`}></script>
@@ -3285,7 +3865,7 @@ const og_url = new URL(Astro.url.pathname, base_url).href;
   )}
 </head>
 <body>
-  <Navigation current_page={current_page} />
+  <Navigation current_page={current_page} show_works={show_works} />
   <main class="md3-page-content">
     <slot />
   </main>
@@ -3429,20 +4009,32 @@ export function build_episode_paths(entries) {
 }
 
 /**
- * Builds prev/next/list hrefs for episode navigation.
+ * Builds prev/next/list hrefs + episode numbers for episode navigation.
+ *
+ * v0.19.3 拡張: prev_episode / next_episode を返す
+ * (episode_nav.astro でラベル "Ep.001" 表示に使用)
+ *
  * @param {Object[]} entries
  * @param {string} lang
  * @param {string} series
  * @param {string} episode_id
- * @returns {{ prev_href: string|null, next_href: string|null, list_href: string }}
+ * @returns {{
+ *   prev_href: string|null,
+ *   next_href: string|null,
+ *   list_href: string,
+ *   prev_episode: string|null,
+ *   next_episode: string|null
+ * }}
  */
 export function build_episode_nav(entries, lang, series, episode_id) {
   const prev = get_prev_episode(entries, lang, series, episode_id);
   const next = get_next_episode(entries, lang, series, episode_id);
-  const list_href  = `/${lang}/comic/${series}/`;
-  const prev_href  = prev ? `/${lang}/comic/${series}/${prev.data.episode}/` : null;
-  const next_href  = next ? `/${lang}/comic/${series}/${next.data.episode}/` : null;
-  return { prev_href, next_href, list_href };
+  const list_href     = `/${lang}/comic/${series}/`;
+  const prev_href     = prev ? `/${lang}/comic/${series}/${prev.data.episode}/` : null;
+  const next_href     = next ? `/${lang}/comic/${series}/${next.data.episode}/` : null;
+  const prev_episode  = prev ? prev.data.episode : null;
+  const next_episode  = next ? next.data.episode : null;
+  return { prev_href, next_href, list_href, prev_episode, next_episode };
 }
 ```
 
@@ -3675,25 +4267,42 @@ describe('build_episode_paths', () => {
 });
 
 // --- build_episode_nav ---
+// v0.19.3: 戻り値に prev_episode / next_episode を追加
 
 describe('build_episode_nav', () => {
-  it('middle episode 002 returns correct prev/next/list hrefs', () => {
+  it('middle episode 002 returns prev/next/list hrefs + prev/next episode numbers', () => {
     const nav = build_episode_nav(fixture_entries, 'ja', 'everyday', '002');
     expect(nav).toEqual({
       prev_href: '/ja/comic/everyday/001/',
       next_href: '/ja/comic/everyday/003/',
       list_href: '/ja/comic/everyday/',
+      prev_episode: '001',
+      next_episode: '003',
     });
   });
 
-  it('first episode 001 has prev_href null', () => {
+  it('first episode 001 has prev_href null and prev_episode null', () => {
     const nav = build_episode_nav(fixture_entries, 'ja', 'everyday', '001');
     expect(nav.prev_href).toBeNull();
+    expect(nav.prev_episode).toBeNull();
   });
 
-  it('last episode 003 has next_href null', () => {
+  it('first episode 001 still has next_href and next_episode set', () => {
+    const nav = build_episode_nav(fixture_entries, 'ja', 'everyday', '001');
+    expect(nav.next_href).toBe('/ja/comic/everyday/002/');
+    expect(nav.next_episode).toBe('002');
+  });
+
+  it('last episode 003 has next_href null and next_episode null', () => {
     const nav = build_episode_nav(fixture_entries, 'ja', 'everyday', '003');
     expect(nav.next_href).toBeNull();
+    expect(nav.next_episode).toBeNull();
+  });
+
+  it('last episode 003 still has prev_href and prev_episode set', () => {
+    const nav = build_episode_nav(fixture_entries, 'ja', 'everyday', '003');
+    expect(nav.prev_href).toBe('/ja/comic/everyday/002/');
+    expect(nav.prev_episode).toBe('002');
   });
 
   it('list_href always has trailing slash', () => {
@@ -3707,10 +4316,12 @@ describe('build_episode_nav', () => {
     expect(nav.next_href).toMatch(/\/$/);
   });
 
-  it('single-episode series (lusiphite/001) has both prev_href and next_href null', () => {
+  it('single-episode series (lusiphite/001) has all prev/next null', () => {
     const nav = build_episode_nav(fixture_entries, 'ja', 'lusiphite', '001');
     expect(nav.prev_href).toBeNull();
     expect(nav.next_href).toBeNull();
+    expect(nav.prev_episode).toBeNull();
+    expect(nav.next_episode).toBeNull();
   });
 });
 ```
@@ -3889,6 +4500,16 @@ export const series_covers = {
  * @type {string[]}
  */
 export const top_page_series = ['everyday', 'storyboard', 'lusiphite'];
+
+/**
+ * One-line descriptions for each series (used on the home page sections).
+ * @type {Record<string, string>}
+ */
+export const series_descriptions = {
+  everyday:   'A slice-of-life daily manga. New episodes every day.',
+  storyboard: 'A story-driven series exploring narrative and imagination.',
+  lusiphite:  'A fantasy adventure set in a world between light and shadow.',
+};
 ```
 
 ## FILE: src\lib\today_discovery.js
@@ -4176,11 +4797,18 @@ const { cat, meta, items } = Astro.props;
 ```astro
 ---
 // Episode page: displays comic panel images with navigation.
+//
+// 重要な変更 (v0.19.3):
+//   - クラスを .md3-comic-* / .md3-episode-nav-* に統一
+//   - swipe/keyboard JS のセレクタを .md3-episode-nav-prev / -next に変更
+//     （first-child / last-child の DOM 順序依存から脱却）
+//   - 上の EpisodeNav を削除（下のみ）
+//   - build_episode_nav の戻り値 prev_episode / next_episode を EpisodeNav に渡す
+//
+// 全画像ロード完了で .ready クラスを付けて一括フェードイン表示する。
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../../../../layouts/base_layout.astro';
 import EpisodeNav from '../../../../../components/episode_nav.astro';
-import ReactionsSlot from '../../../../../components/reactions_slot.astro';
-import CommentsSlot from '../../../../../components/comments_slot.astro';
 import { get_episode, build_episode_paths, build_episode_nav } from '../../../../../lib/comic.js';
 
 export async function getStaticPaths() {
@@ -4195,27 +4823,54 @@ const { title, description, images } = current.data;
 const nav = build_episode_nav(all_entries, lang, series, episode);
 ---
 <BaseLayout title={title} lang={lang} og_image={images[0]} current_page={`/${lang}/comic/`}>
-  <div class="md3-section">
-    <div class="hugo-episode md3-label-large">Episode {episode}</div>
-    <h1 class="hugo-title md3-title-large">{title}</h1>
-    <div class="hugo-images">
-      {images.map(src => (
-        <img src={src} alt="comic panel" loading="lazy">
-      ))}
-    </div>
-    {description && (
-      <div class="hugo-description md3-body-large">{description}</div>
-    )}
-    <ReactionsSlot />
-    <CommentsSlot />
-    <EpisodeNav
-      prev_href={nav.prev_href}
-      next_href={nav.next_href}
-      list_href={nav.list_href}
-    />
+  <div class="md3-comic-meta">
+    <span class="md3-label-large">Episode {episode}</span>
+    <h1 class="md3-title-large">{title}</h1>
   </div>
+
+  <div class="md3-comic-images" id="comic-images">
+    <div class="md3-progress" aria-label="Loading"></div>
+    {images.map(src => (
+      <img src={src} alt="comic panel" loading="eager">
+    ))}
+  </div>
+
+  {description && (
+    <p class="md3-comic-description">{description}</p>
+  )}
+
+  <EpisodeNav
+    prev_href={nav.prev_href}
+    next_href={nav.next_href}
+    list_href={nav.list_href}
+    prev_episode={nav.prev_episode}
+    next_episode={nav.next_episode}
+  />
+
   <script>
+  // 全画像ロード完了で .ready 付与 → 画像を一括フェードイン
+  (function() {
+    const container = document.getElementById('comic-images');
+    if (!container) return;
+    const imgs = container.querySelectorAll('img');
+    if (imgs.length === 0) { container.classList.add('ready'); return; }
+    let loaded = 0;
+    const onDone = () => {
+      loaded++;
+      if (loaded >= imgs.length) container.classList.add('ready');
+    };
+    imgs.forEach(img => {
+      if (img.complete) {
+        onDone();
+      } else {
+        img.addEventListener('load',  onDone, { once: true });
+        img.addEventListener('error', onDone, { once: true });
+      }
+    });
+  })();
+
   // Swipe navigation: right swipe = prev, left swipe = next.
+  // セレクタは .md3-episode-nav-prev / -next を使用 (クラス指定で意図明示)
   let touchStartX = null;
   let touchStartY = null;
   document.body.addEventListener('touchstart', function(e) {
@@ -4229,10 +4884,10 @@ const nav = build_episode_nav(all_entries, lang, series, episode);
     if (Math.abs(dx) > Math.abs(dy) * 0.7 && Math.abs(dx) > 40) {
       e.preventDefault();
       if (dx > 0) {
-        let prev = document.querySelector('.hugo-nav a:first-child');
+        let prev = document.querySelector('.md3-episode-nav-prev');
         if (prev && prev.getAttribute('href')) location.href = prev.getAttribute('href');
       } else {
-        let next = document.querySelector('.hugo-nav a:last-child');
+        let next = document.querySelector('.md3-episode-nav-next');
         if (next && next.getAttribute('href')) location.href = next.getAttribute('href');
       }
     }
@@ -4242,10 +4897,10 @@ const nav = build_episode_nav(all_entries, lang, series, episode);
   // Keyboard navigation: arrow keys.
   document.addEventListener('keydown', function(e) {
     if (e.key === 'ArrowLeft') {
-      let prev = document.querySelector('.hugo-nav a:first-child');
+      let prev = document.querySelector('.md3-episode-nav-prev');
       if (prev && prev.getAttribute('href')) location.href = prev.getAttribute('href');
     } else if (e.key === 'ArrowRight') {
-      let next = document.querySelector('.hugo-nav a:last-child');
+      let next = document.querySelector('.md3-episode-nav-next');
       if (next && next.getAttribute('href')) location.href = next.getAttribute('href');
     }
   });
@@ -4258,6 +4913,7 @@ const nav = build_episode_nav(all_entries, lang, series, episode);
 ```astro
 ---
 // Series list page: shows all episodes for a given lang/series.
+// MD3 統一: md3-headline-large, md3-episode-list を使用。
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../../../layouts/base_layout.astro';
 import { get_all_episodes, build_series_paths } from '../../../../lib/comic.js';
@@ -4274,19 +4930,55 @@ const episodes = get_all_episodes(all_entries, lang, series);
 const display_title = series_titles[series] ?? series;
 ---
 <BaseLayout title={display_title} lang={lang} og_image={series_covers[series]} current_page={`/${lang}/comic/`}>
-  <div class="md3-section">
-    <h1 class="md3-headline-large">{display_title}</h1>
-    <ul class="hugo-list">
+  <section class="md3-section">
+    <h1 class="md3-headline-large">{display_title} - Episode List</h1>
+    <ul class="md3-episode-list">
       {episodes.map(ep => (
-        <li style="padding: 8px 0; border-bottom: 1px solid var(--md-sys-color-outline-variant);">
+        <li>
           <a href={`/${lang}/comic/${series}/${ep.data.episode}/`}>
             {ep.data.episode} {ep.data.title}
           </a>
         </li>
       ))}
     </ul>
-    <div style="margin-top:2em;"><a href="/" class="md3-btn md3-btn-tonal">← Home</a></div>
-  </div>
+    <p style="margin-top:2em;"><a href="/" class="md3-btn md3-btn-tonal">⤴ Top</a></p>
+  </section>
+</BaseLayout>
+```
+
+## FILE: src\pages\[lang]\comic\index.astro
+
+```astro
+---
+// Comic index page: lists all series for a given lang.
+import BaseLayout from '../../../layouts/base_layout.astro';
+import { top_page_series, series_titles, series_covers, series_descriptions } from '../../../lib/series_meta.js';
+
+export function getStaticPaths() {
+  return [
+    { params: { lang: 'ja' } },
+    { params: { lang: 'en' } },
+  ];
+}
+
+const { lang } = Astro.params;
+---
+<BaseLayout title="Comic" lang={lang} current_page={`/${lang}/comic/`}>
+  <section class="kn-section" style="background: var(--md-sys-color-background);">
+    <h1 style="font-family:'Lexend',sans-serif;font-size:32px;font-weight:800;margin:0 0 32px;color:var(--md-sys-color-on-surface);">Comic</h1>
+    <div class="kn-series-grid">
+      {top_page_series.map(series => (
+        <a href={`/${lang}/comic/${series}/`} class="kn-series-card">
+          <img src={series_covers[series]} alt={series_titles[series]} loading="lazy">
+          <div class="kn-series-card-body">
+            <span class="kn-series-card-title">{series_titles[series]}</span>
+            <p class="kn-series-card-desc">{series_descriptions?.[series] ?? ''}</p>
+            <span class="kn-series-card-read">Read →</span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
 </BaseLayout>
 ```
 
@@ -4294,18 +4986,18 @@ const display_title = series_titles[series] ?? series;
 
 ```astro
 ---
-// Custom 404 page for Cloudflare Pages.
+// 404 page. Cloudflare Pages serves this file for unknown URLs.
+// MD3 統一: md3-headline-large を使用。
 import BaseLayout from '../layouts/base_layout.astro';
 ---
-<BaseLayout title="Page Not Found" lang="en" current_page="/404/">
-  <div class="md3-section">
+<BaseLayout title="404 — Page Not Found" lang="ja">
+  <section class="md3-section" style="text-align:center;">
     <h1 class="md3-headline-large">404 — Page Not Found</h1>
-    <p class="md3-body-large">
-      お探しのページは見つかりませんでした。<br>
-      The page you're looking for doesn't exist.
+    <p class="md3-body-large" style="margin:24px 0;">
+      お探しのページが見つかりませんでした。
     </p>
-    <a href="/" class="md3-btn md3-btn-filled">← Back to Home</a>
-  </div>
+    <p><a href="/" class="md3-btn md3-btn-tonal">⤴ Top</a></p>
+  </section>
 </BaseLayout>
 ```
 
@@ -4313,88 +5005,247 @@ import BaseLayout from '../layouts/base_layout.astro';
 
 ```astro
 ---
-// About page: creator information.
+// About page: creator profile + connect links (MD3 統一).
+// 旧 about-* クラス・グラデーション・box-shadow を全廃。
+// Lexend フォント削除。Tabler Icons 使用。
 import BaseLayout from '../layouts/base_layout.astro';
 ---
 <BaseLayout title="About" lang="en" current_page="/about/">
-  <div class="md3-section">
-    <h1 class="md3-headline-large">About</h1>
-    <div class="md3-card">
-      <h2 class="md3-title-large">STUDIO MeowToon</h2>
-      <p class="md3-body-large">One creator. Every day.</p>
-      <!-- Phase 21.5: add creator bio, social links -->
+  <section class="about-page">
+
+    <!-- Identity -->
+    <div class="about-avatar">MT</div>
+    <h1 class="md3-headline-large about-name">STUDIO MeowToon</h1>
+    <p class="about-role">4-panel comic creator</p>
+    <p class="about-bio">
+      One creator. One comic. Every day.<br>
+      Drawing about the small surprises of daily life.
+    </p>
+
+    <div class="about-divider"></div>
+
+    <!-- Connect -->
+    <p class="about-section-title">Connect</p>
+    <div class="about-link-list">
+      <a href="https://x.com/studio_meowtoon" class="about-link-row" target="_blank" rel="noopener">
+        <span class="about-link-icon"><i class="ti ti-brand-x" aria-hidden="true"></i></span>
+        <span class="about-link-body">
+          <span class="about-link-label">X (Twitter)</span>
+          <span class="about-link-sub">@studio_meowtoon</span>
+        </span>
+        <i class="ti ti-external-link about-link-arrow" aria-hidden="true"></i>
+      </a>
+      <a href="https://instagram.com/studio.meowtoon" class="about-link-row" target="_blank" rel="noopener">
+        <span class="about-link-icon"><i class="ti ti-brand-instagram" aria-hidden="true"></i></span>
+        <span class="about-link-body">
+          <span class="about-link-label">Instagram</span>
+          <span class="about-link-sub">@studio.meowtoon</span>
+        </span>
+        <i class="ti ti-external-link about-link-arrow" aria-hidden="true"></i>
+      </a>
+      <a href="https://github.com/hiroxpepe" class="about-link-row" target="_blank" rel="noopener">
+        <span class="about-link-icon"><i class="ti ti-brand-github" aria-hidden="true"></i></span>
+        <span class="about-link-body">
+          <span class="about-link-label">GitHub</span>
+          <span class="about-link-sub">hiroxpepe</span>
+        </span>
+        <i class="ti ti-external-link about-link-arrow" aria-hidden="true"></i>
+      </a>
     </div>
-    <div class="md3-card" id="contact" style="margin-top: 16px;">
-      <h2 class="md3-title-large">Contact</h2>
-      <p class="md3-body-large">hello [at] meowtoon [dot] com</p>
+
+    <div class="about-divider"></div>
+
+    <!-- Email -->
+    <p class="about-section-title">Email</p>
+    <div class="about-link-list">
+      <a href="mailto:hello@meowtoon.com" class="about-link-row">
+        <span class="about-link-icon"><i class="ti ti-mail" aria-hidden="true"></i></span>
+        <span class="about-link-body">
+          <span class="about-link-label">hello@meowtoon.com</span>
+          <span class="about-link-sub">For business inquiries</span>
+        </span>
+        <i class="ti ti-arrow-right about-link-arrow" aria-hidden="true"></i>
+      </a>
     </div>
-  </div>
+
+  </section>
 </BaseLayout>
+
+<style>
+  .about-page {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  /* Avatar */
+  .about-avatar {
+    width: 80px; height: 80px;
+    border-radius: var(--md-sys-shape-corner-full);
+    background: var(--md-sys-color-primary-container);
+    color: var(--md-sys-color-primary);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px; font-weight: 500;
+    margin-bottom: 16px;
+  }
+
+  .about-name { margin-bottom: 4px; }
+
+  .about-role {
+    font-size: var(--md-sys-typescale-body-large-size);
+    color: var(--md-sys-color-on-surface-variant);
+    margin-bottom: 16px;
+  }
+
+  .about-bio {
+    font-size: var(--md-sys-typescale-body-large-size);
+    line-height: 1.7;
+    color: var(--md-sys-color-on-surface);
+    margin-bottom: 0;
+  }
+
+  .about-divider {
+    height: 1px;
+    background: var(--md-sys-color-outline-variant);
+    margin: 24px 0;
+  }
+
+  .about-section-title {
+    font-size: var(--md-sys-typescale-label-medium-size);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--md-sys-color-on-surface-variant);
+    margin-bottom: 8px;
+  }
+
+  /* Link list */
+  .about-link-list {
+    display: flex;
+    flex-direction: column;
+  }
+  .about-link-list .about-link-row {
+    border-bottom: 1px solid var(--md-sys-color-outline-variant);
+  }
+  .about-link-list .about-link-row:last-child { border-bottom: none; }
+
+  .about-link-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 0;
+    text-decoration: none;
+    transition: background 0.15s;
+  }
+  .about-link-row:hover { text-decoration: none; }
+
+  .about-link-icon {
+    width: 36px; height: 36px;
+    border-radius: var(--md-sys-shape-corner-full);
+    background: var(--md-sys-color-surface-container);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    color: var(--md-sys-color-primary);
+    flex-shrink: 0;
+  }
+
+  .about-link-body {
+    display: flex; flex-direction: column; gap: 2px;
+    flex: 1;
+  }
+  .about-link-label {
+    font-size: var(--md-sys-typescale-body-large-size);
+    font-weight: 500;
+    color: var(--md-sys-color-on-surface);
+  }
+  .about-link-sub {
+    font-size: var(--md-sys-typescale-label-medium-size);
+    color: var(--md-sys-color-on-surface-variant);
+  }
+  .about-link-arrow {
+    font-size: 16px;
+    color: var(--md-sys-color-on-surface-variant);
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 600px) {
+    .about-page { padding: 24px 16px 80px; }
+  }
+</style>
 ```
 
 ## FILE: src\pages\index.astro
 
 ```astro
 ---
-// Top page: landing page with Hero, Today's Discovery, Manga, and Works sections.
-import { getCollection } from 'astro:content';
+// Top page: 3-column landscape series card grid, centered.
+import { getCollection, render } from 'astro:content';
 import BaseLayout from '../layouts/base_layout.astro';
 import { build_top_page_data } from '../lib/comic.js';
 import { get_latest_discovery } from '../lib/today_discovery.js';
-import { has_works, get_latest_work } from '../lib/works.js';
+import { has_works } from '../lib/works.js';
+import { series_descriptions } from '../lib/series_meta.js';
 
 const comic_entries     = await getCollection('comic');
 const discovery_entries = await getCollection('today_discovery');
 const works_entries     = await getCollection('works');
 const series_list       = build_top_page_data(comic_entries);
 const latest_discovery  = get_latest_discovery(discovery_entries);
-const DiscoveryContent  = latest_discovery ? (await latest_discovery.render()).Content : null;
+const DiscoveryContent  = latest_discovery ? (await render(latest_discovery)).Content : null;
 const works_categories  = ['game', 'asset', 'book', 'project'];
+const has_any_works     = works_categories.some(cat => has_works(works_entries, cat));
 ---
 <BaseLayout title="Home" lang="en" current_page="/" og_image={series_list[0]?.cover_src}>
 
-  <!-- Section 1: Hero -->
-  <section class="md3-hero">
-    <h1 class="md3-headline-large">One creator. Every day.</h1>
-    <p class="md3-body-large">Games · Manga · 3D Assets · Books · Projects</p>
-  </section>
+  {latest_discovery
+    ? (
+      <section class="kn-section kn-discovery-section">
+        <div class="kn-container" style="text-align:center">
+          <span class="kn-badge kn-badge--live">🔴 Today's Discovery</span>
+          <h1>{latest_discovery.data.title}</h1>
+          {DiscoveryContent && <div class="kn-discovery-body"><DiscoveryContent /></div>}
+          <a href="/today/" class="md3-btn md3-btn-tonal">See all</a>
+        </div>
+      </section>
+    )
+    : (
+      <section class="kn-section kn-hero-section">
+        <div class="kn-container" style="text-align:center">
+          {series_list[0] && (
+            <img class="kn-hero-img" src={series_list[0].cover_src} alt="Comic" loading="eager">
+          )}
+          <h1>One creator.<br>One comic.<br>Every&nbsp;day.</h1>
+          <p class="kn-hero-sub">Games · Comic · 3D Assets · Books</p>
+          <a href="/ja/comic/" class="md3-btn md3-btn-filled">Read Comic</a>
+        </div>
+      </section>
+    )
+  }
 
-  <!-- Section 2: Today's Discovery (conditional) -->
-  {latest_discovery && (
-    <section class="md3-section">
-      <h2 class="md3-title-large">Today's Discovery <span class="md3-ephemeral-badge">🔴 Ephemeral</span></h2>
-      <div class="md3-card">
-        <time datetime={latest_discovery.data.date} class="md3-label-large">{latest_discovery.data.date}</time>
-        <h3 class="md3-title-large">{latest_discovery.data.title}</h3>
-        {DiscoveryContent && <DiscoveryContent />}
-        {latest_discovery.data.image && <img src={latest_discovery.data.image} alt={latest_discovery.data.title} loading="lazy">}
-      </div>
-      <a href="/today/" class="md3-btn md3-btn-outlined" style="margin-top:16px;display:inline-flex;">See archive →</a>
-    </section>
-  )}
-
-  <!-- Section 3: Latest Manga (always shown) -->
-  <section class="md3-section">
-    <h2 class="md3-title-large">Manga</h2>
-    <div class="md3-card-grid">
-      {series_list.map(s => (
-        <a href={s.href} class="md3-card md3-card-series" style="text-decoration:none;color:inherit;">
+  <section class="kn-section" style="background: var(--md-sys-color-background);">
+    <div class="kn-series-grid">
+      {series_list.map((s) => (
+        <a href={s.href} class="kn-series-card">
           <img src={s.cover_src} alt={s.display_title} loading="lazy">
-          <span class="md3-title-large">{s.display_title}</span>
+          <div class="kn-series-card-body">
+            <span class="kn-series-card-title">{s.display_title}</span>
+            <p class="kn-series-card-desc">{series_descriptions?.[s.series] ?? ''}</p>
+            <span class="kn-series-card-read">Read →</span>
+          </div>
         </a>
       ))}
     </div>
   </section>
 
-  <!-- Section 4: Works (per-category conditional) -->
-  {works_categories.some(cat => has_works(works_entries, cat)) && (
-    <section class="md3-section">
-      <h2 class="md3-title-large">Works</h2>
-      <div class="md3-card-grid">
-        {has_works(works_entries, 'game')    && <a href="/games/"    class="md3-card" style="text-decoration:none;">🎮 Games</a>}
-        {has_works(works_entries, 'asset')   && <a href="/assets/"   class="md3-card" style="text-decoration:none;">🎲 3D Assets</a>}
-        {has_works(works_entries, 'book')    && <a href="/books/"    class="md3-card" style="text-decoration:none;">📚 Books</a>}
-        {has_works(works_entries, 'project') && <a href="/projects/" class="md3-card" style="text-decoration:none;">💻 Projects</a>}
+  {has_any_works && (
+    <section class="kn-section" style="background: var(--md-sys-color-surface);">
+      <div class="kn-container" style="text-align:center">
+        <h2>Works</h2>
+        <div class="kn-cards--icon">
+          {has_works(works_entries, 'game')    && <a href="/games/"    class="kn-card--icon"><span class="kn-card-icon">🎮</span><span class="kn-card-label">Games</span></a>}
+          {has_works(works_entries, 'asset')   && <a href="/assets/"   class="kn-card--icon"><span class="kn-card-icon">🎲</span><span class="kn-card-label">3D Assets</span></a>}
+          {has_works(works_entries, 'book')    && <a href="/books/"    class="kn-card--icon"><span class="kn-card-icon">📚</span><span class="kn-card-label">Books</span></a>}
+          {has_works(works_entries, 'project') && <a href="/projects/" class="kn-card--icon"><span class="kn-card-icon">💻</span><span class="kn-card-label">Projects</span></a>}
+        </div>
+        <a href="/works/" class="md3-btn md3-btn-tonal">See all works</a>
       </div>
     </section>
   )}
@@ -4407,31 +5258,128 @@ const works_categories  = ['game', 'asset', 'book', 'project'];
 ```astro
 ---
 // Today's Discovery archive page: shows latest 30 discoveries.
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/base_layout.astro';
 import { get_recent_discoveries } from '../../lib/today_discovery.js';
 
 const all_entries  = await getCollection('today_discovery');
 const discoveries  = get_recent_discoveries(all_entries, 30);
-const rendered     = await Promise.all(discoveries.map(d => d.render()));
+const rendered     = await Promise.all(discoveries.map(d => render(d)));
 ---
 <BaseLayout title="Today's Discovery" lang="en" current_page="/today/">
-  <div class="md3-section">
-    <h1 class="md3-headline-large">Today's Discovery</h1>
-    {discoveries.length === 0 && <p class="md3-body-large">No discoveries yet.</p>}
+  <section class="today-page">
+
+    <div class="today-badge">
+      <i class="ti ti-sparkles" aria-hidden="true"></i>
+      Today's Discovery
+    </div>
+
+    {discoveries.length === 0 && (
+      <p class="md3-body-large" style="color: var(--md-sys-color-on-surface-variant);">
+        No discoveries yet.
+      </p>
+    )}
+
     {discoveries.map((d, i) => {
       const { Content } = rendered[i];
       return (
-        <div class="md3-card" style="margin-bottom: 16px;">
-          <time datetime={d.data.date} class="md3-label-large">{d.data.date}</time>
-          <h2 class="md3-title-large">{d.data.title}</h2>
-          <Content />
-          {d.data.image && <img src={d.data.image} alt={d.data.title} loading="lazy">}
+        <div class="today-entry">
+          <time datetime={d.data.date} class="today-date">{d.data.date}</time>
+          <h2 class="today-title">{d.data.title}</h2>
+          <div class="today-body"><Content /></div>
+          {d.data.image && (
+            <img src={d.data.image} alt={d.data.title} loading="lazy" class="today-image">
+          )}
+          {d.data.tags && d.data.tags.length > 0 && (
+            <div class="today-tags">
+              {d.data.tags.map(tag => (
+                <span class="today-tag">{tag}</span>
+              ))}
+            </div>
+          )}
         </div>
       );
     })}
-  </div>
+
+  </section>
 </BaseLayout>
+
+<style>
+  .today-page {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 32px 24px 80px;
+  }
+
+  .today-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 14px;
+    border-radius: var(--md-sys-shape-corner-full);
+    background: var(--md-sys-color-primary-container);
+    color: var(--md-sys-color-on-primary-container);
+    font-size: var(--md-sys-typescale-label-medium-size);
+    font-weight: 500;
+    margin-bottom: 24px;
+  }
+  .today-badge i { font-size: 14px; }
+
+  .today-entry {
+    border-bottom: 1px solid var(--md-sys-color-outline-variant);
+    padding: 20px 0;
+  }
+  .today-entry:last-child { border-bottom: none; }
+
+  .today-date {
+    display: block;
+    font-size: var(--md-sys-typescale-label-medium-size);
+    color: var(--md-sys-color-on-surface-variant);
+    margin-bottom: 6px;
+  }
+
+  .today-title {
+    font-size: var(--md-sys-typescale-title-large-size);
+    font-weight: 500;
+    color: var(--md-sys-color-on-surface);
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+
+  .today-body {
+    font-size: var(--md-sys-typescale-body-large-size);
+    color: var(--md-sys-color-on-surface-variant);
+    line-height: 1.7;
+  }
+  .today-body p { margin: 0; }
+
+  .today-image {
+    width: 100%;
+    border-radius: var(--md-sys-shape-corner-medium);
+    margin-top: 12px;
+  }
+
+  .today-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 10px;
+  }
+
+  .today-tag {
+    display: inline-block;
+    padding: 3px 12px;
+    border-radius: var(--md-sys-shape-corner-full);
+    background: var(--md-sys-color-surface-container);
+    color: var(--md-sys-color-on-surface-variant);
+    font-size: var(--md-sys-typescale-label-small-size);
+    font-weight: 500;
+  }
+
+  @media (max-width: 600px) {
+    .today-page { padding: 24px 16px 80px; }
+  }
+</style>
 ```
 
 ## FILE: src\pages\works\index.astro

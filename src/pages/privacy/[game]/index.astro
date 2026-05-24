@@ -1,0 +1,241 @@
+---
+// Per-game Privacy Policy page. One static page is generated per entry in
+// src/content/privacy/. The URL is /privacy/{slug}/ — register that URL in
+// the app store (e.g. Google Play Console) as the privacy policy link.
+//
+// Pages are NOT linked from site navigation. Reachable by direct URL only.
+//
+// Sections are rendered conditionally based on the frontmatter flags:
+//   - Advertising section: only if uses_ads === true
+//   - Analytics section:   only if uses_analytics === true
+//   - Purchases section:   only if uses_iap === true
+//   - Online section:      only if uses_online === true
+//   - Permissions section: only if permissions list is non-empty
+//
+// Common legal boilerplate (GDPR / CCPA / COPPA / children's privacy,
+// data retention, user rights, policy changes, contact) is always shown.
+
+import BaseLayout from '../../../layouts/base_layout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('privacy');
+  return entries.map((entry) => ({
+    params: { game: entry.data.slug },
+    props:  { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const d = entry.data;
+const audience_label = {
+  everyone: 'General audiences (all ages)',
+  teen:     'Teen (13+)',
+  mature:   'Mature (17+)',
+}[d.target_audience];
+---
+<BaseLayout title={`Privacy Policy — ${d.title}`} lang="en" current_page="/privacy/">
+  <article class="privacy-page md3-section">
+
+    <h1 class="md3-headline-large">Privacy Policy for {d.title}</h1>
+    <p class="privacy-meta md3-body-medium">
+      Platform: {d.platform}<br>
+      Effective Date: {d.effective_date}
+    </p>
+
+    <h2 class="md3-title-large">1. Introduction</h2>
+    <p class="md3-body-large">
+      This Privacy Policy describes how <strong>{d.title}</strong> (the “App”),
+      provided by {d.developer_name} (“we”, “us”, or “our”), handles information
+      in connection with your use of the App on {d.platform}. By installing or
+      using the App, you agree to the practices described in this policy.
+    </p>
+
+    <h2 class="md3-title-large">2. Information We Collect</h2>
+    {d.collects_personal_info ? (
+      <p class="md3-body-large">
+        The App collects certain personal information necessary for its features
+        and services, as described in the sections below. We collect only what
+        is needed and never sell your personal information.
+      </p>
+    ) : (
+      <p class="md3-body-large">
+        The App does not collect any personally identifiable information
+        directly. Any technical data described in the sections below is handled
+        by third-party services under their own privacy practices.
+      </p>
+    )}
+
+    {d.uses_ads && (
+      <>
+        <h2 class="md3-title-large">3. Advertising</h2>
+        <p class="md3-body-large">
+          The App displays advertisements provided by third-party ad networks.
+          These networks may use device identifiers (such as the Android
+          Advertising ID), IP address, and general usage information to deliver
+          relevant ads and measure ad performance.
+        </p>
+        {d.ad_sdks.length > 0 && (
+          <>
+            <p class="md3-body-large">Ad networks used by this App:</p>
+            <ul class="md3-body-large">
+              {d.ad_sdks.map((sdk) => <li>{sdk}</li>)}
+            </ul>
+          </>
+        )}
+        <p class="md3-body-large">
+          You can reset or limit the use of your advertising identifier through
+          your device’s system settings (Settings → Google → Ads on Android).
+        </p>
+      </>
+    )}
+
+    {d.uses_analytics && (
+      <>
+        <h2 class="md3-title-large">4. Analytics</h2>
+        <p class="md3-body-large">
+          The App uses analytics services to understand how players interact
+          with the App so we can improve it. These services may collect device
+          information, app usage events, crash reports, and approximate
+          location derived from IP address. The data is aggregated and is not
+          used to identify you personally.
+        </p>
+        {d.analytics_sdks.length > 0 && (
+          <>
+            <p class="md3-body-large">Analytics services used by this App:</p>
+            <ul class="md3-body-large">
+              {d.analytics_sdks.map((sdk) => <li>{sdk}</li>)}
+            </ul>
+          </>
+        )}
+      </>
+    )}
+
+    {d.uses_iap && (
+      <>
+        <h2 class="md3-title-large">5. In-App Purchases</h2>
+        <p class="md3-body-large">
+          The App offers in-app purchases. Payment processing is handled
+          entirely by the platform store (Google Play Billing). We do not
+          receive or store your payment card information. The store may share
+          purchase confirmation data with us for the purpose of granting
+          purchased items in the App.
+        </p>
+      </>
+    )}
+
+    {d.uses_online && (
+      <>
+        <h2 class="md3-title-large">6. Online Features</h2>
+        <p class="md3-body-large">
+          The App connects to network services for features such as
+          leaderboards, achievements, cloud save, or multiplayer. When you use
+          these features, technical information (such as a player identifier
+          provided by the platform, IP address, and gameplay-related data) is
+          transmitted to the corresponding service in order to operate the
+          feature.
+        </p>
+      </>
+    )}
+
+    {d.permissions.length > 0 && (
+      <>
+        <h2 class="md3-title-large">7. Device Permissions</h2>
+        <p class="md3-body-large">
+          The App requests the following Android permissions, which are used
+          solely to operate the features they enable:
+        </p>
+        <ul class="md3-body-large">
+          {d.permissions.map((p) => <li>{p}</li>)}
+        </ul>
+      </>
+    )}
+
+    <h2 class="md3-title-large">8. Data Sharing</h2>
+    <p class="md3-body-large">
+      We do not sell your personal information. We share information with
+      third-party service providers only to the extent necessary to operate
+      the App (for example, the platform store, the ad networks and analytics
+      services listed above). We may also disclose information if required by
+      law or to protect the rights, property, or safety of users.
+    </p>
+
+    <h2 class="md3-title-large">9. Data Retention</h2>
+    <p class="md3-body-large">
+      Information processed by third-party services is retained according to
+      those services’ own retention policies. We retain any data we receive
+      only for as long as needed to provide the App’s features or comply with
+      applicable legal obligations.
+    </p>
+
+    <h2 class="md3-title-large">10. Your Rights (GDPR / CCPA)</h2>
+    <p class="md3-body-large">
+      Depending on your jurisdiction, you may have the right to access,
+      correct, delete, or restrict processing of personal information about
+      you, and the right to opt out of the sale of personal information. To
+      exercise these rights, contact us using the address in the “Contact”
+      section below. Many controls (such as the advertising identifier reset)
+      are also available directly through your device’s system settings.
+    </p>
+
+    <h2 class="md3-title-large">11. Children’s Privacy</h2>
+    <p class="md3-body-large">
+      Target audience for this App: <strong>{audience_label}</strong>.
+    </p>
+    {d.target_audience === 'everyone' ? (
+      <p class="md3-body-large">
+        The App is suitable for general audiences. We do not knowingly collect
+        personal information from children under the age of 13 (or the
+        equivalent minimum age in the user’s jurisdiction) without parental
+        consent. If you believe a child has provided us with personal
+        information, please contact us so that we can take appropriate action.
+      </p>
+    ) : (
+      <p class="md3-body-large">
+        The App is not directed to children under the age applicable to its
+        rating. We do not knowingly collect personal information from users
+        below the App’s minimum age requirement.
+      </p>
+    )}
+
+    <h2 class="md3-title-large">12. Changes to This Policy</h2>
+    <p class="md3-body-large">
+      We may update this Privacy Policy from time to time. When we do, we will
+      update the “Effective Date” at the top of this page and, where
+      appropriate, provide additional notice. Continued use of the App after
+      changes take effect constitutes your acceptance of the updated policy.
+    </p>
+
+    <h2 class="md3-title-large">13. Contact</h2>
+    <p class="md3-body-large">
+      If you have any questions about this Privacy Policy or about the App’s
+      handling of information, please contact:
+    </p>
+    <p class="md3-body-large">
+      {d.developer_name}<br>
+      <a href={`mailto:${d.contact_email}`}>{d.contact_email}</a>
+    </p>
+
+  </article>
+</BaseLayout>
+
+<style>
+  .privacy-page {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+  .privacy-page h1 { margin-bottom: 8px; }
+  .privacy-page h2 { margin-top: 32px; margin-bottom: 12px; }
+  .privacy-meta {
+    color: var(--md-sys-color-on-surface-variant);
+    margin-bottom: 32px;
+  }
+  .privacy-page p { margin-bottom: 12px; line-height: 1.7; }
+  .privacy-page ul { margin: 8px 0 16px 24px; line-height: 1.7; }
+  .privacy-page a { color: var(--md-sys-color-primary); }
+
+  @media (max-width: 600px) {
+    .privacy-page { padding: 24px 16px 80px; }
+  }
+</style>

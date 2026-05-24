@@ -1151,4 +1151,76 @@ Phase 2 API design is **intentionally deferred** to Phase 2 — no pre-designed 
 
 ---
 
+## v0.19.11 — OSS Configuration Externalization & Privacy Policy Pages
+
+Post-Phase-22 work to harden Koleco as an open-source project that other
+creators can fork. Not part of the 22-phase plan above; tracked here as an
+addendum so the change history stays in one place.
+
+### Goals
+
+- Move user-specific identity values out of components into a single config module.
+- Provide an `.env`-driven production URL so forks can build without code edits.
+- Add per-app Privacy Policy pages so creators can register a URL in app stores
+  (e.g. Google Play Console) using their own domain.
+
+### Checklist
+
+- [x] v0.19.11.1 Create `src/config/site.js` — site name, creator profile, social handles, email
+- [x] v0.19.11.2 Create `.env.example` — `PUBLIC_SITE_URL`, `PUBLIC_GA4_ID` with sane defaults
+- [x] v0.19.11.3 Update `astro.config.mjs` — read `PUBLIC_SITE_URL` from env, fall back to `https://example.com` so the project builds without `.env`
+- [x] v0.19.11.4 Update `src/layouts/base_layout.astro` — `<title>` and `og:site_name` reference `site.name`
+- [x] v0.19.11.5 Update `src/pages/about.astro` — read all identity / social / email values from `site.js`, render social rows conditionally (hide rows whose handle is empty)
+- [x] v0.19.11.6 Update `package.json` — set `name` to `"koleco"`
+- [x] v0.19.11.7 Add `privacy` collection to `src/content.config.js` — Zod schema for per-app frontmatter (slug, title, platform, effective_date, developer_name, contact_email, collects_personal_info, uses_ads, ad_sdks, uses_analytics, analytics_sdks, uses_iap, uses_online, target_audience, permissions)
+- [x] v0.19.11.8 Create `src/content/privacy/germio.md` — sample app entry with placeholder developer/contact values; all SDK flags set to `false` for the simplest possible offline single-player baseline
+- [x] v0.19.11.9 Create `src/pages/privacy/[game]/index.astro` — dynamic route that renders one Privacy Policy page per `privacy` collection entry; sections conditionally rendered from frontmatter booleans; common GDPR / CCPA / COPPA legal boilerplate always shown
+- [x] v0.19.11.10 Pages are reachable by direct URL only — NOT linked from navigation or footer (intentional: app stores consume the URL directly, no need to expose `/privacy/` in site nav)
+- [x] v0.19.11.11 No index page at `/privacy/` — only `/privacy/{slug}/` paths exist
+- [x] v0.19.11.12 No TDD helper module — template uses simple conditional rendering only; revisit if logic grows
+- [x] v0.19.11.13 Update `README.md` — Forking section now reflects `site.js` + `.env` workflow; includes the Privacy Policy step
+- [x] v0.19.11.14 Create `docs/privacy_policy_design.md` — purpose, URL structure, file structure, schema, page template behavior, sample app explanation, procedure to add a new app, Google Play Console registration steps, decisions & rationale, future considerations
+
+### Decisions (recorded for future reference)
+
+- **Public identity (name, bio, social, email) lives in `site.js`** rather than `.env`, because it is not secret and is more pleasant to edit as a JS module than as flat KEY=VALUE pairs.
+- **Production URL and GA4 ID live in `.env`** because they are environment-specific and (in GA4's case) sensitive.
+- **`series_meta.js` stays separate from `site.js`.** Series metadata is closer to content than to site identity, and combining them would bloat `site.js` and blur responsibilities.
+- **`PUBLIC_SITE_URL` falls back to `https://example.com`** when unset, so a fresh clone builds with no setup. This trades a small risk of accidentally shipping `example.com` in OGP for a much smoother first-build experience for forks. Production deployments must set `.env`.
+- **Privacy Policy is English-only.** Most app stores accept an English policy globally, and maintaining translated versions multiplies the risk of legal drift between languages.
+- **Per-app URLs, not a shared one.** App store review processes treat the privacy URL as app-specific, and per-app pages let each policy show only the practices that actually apply to that app.
+
+### Out of scope
+
+- Migrating `src/lib/series_meta.js` into `site.js` (kept separate by decision above)
+- Translating Privacy Policy template into other languages
+- Building a `/privacy/` index page
+- Adding tests for the Privacy Policy template
+
+### Files
+
+**New**
+
+```
+.env.example
+src/config/site.js
+src/content/privacy/germio.md
+src/pages/privacy/[game]/index.astro
+docs/privacy_policy_design.md
+```
+
+**Modified**
+
+```
+astro.config.mjs                          PUBLIC_SITE_URL env + fallback
+package.json                              name -> koleco
+src/content.config.js                     add privacy collection
+src/layouts/base_layout.astro             site.name for <title> and og:site_name
+src/pages/about.astro                     read identity from site.js, conditional social rows
+README.md                                 Forking section reflects site.js + .env workflow
+docs/develop_plan_v2.md                   this addendum
+```
+
+---
+
 *develop_plan_v2.md · 2026-05-18 · 22 phases · 188 checklist items · TDD RED/GREEN fully separated*

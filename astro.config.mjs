@@ -2,9 +2,13 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
+// Production site URL. Read from PUBLIC_SITE_URL environment variable.
+// Falls back to a placeholder so the project can build without any .env setup.
+// Override via `.env` (see .env.example) before deploying to production.
+const SITE_URL = process.env.PUBLIC_SITE_URL || 'https://example.com';
+
 export default defineConfig({
-  // TODO Phase 22: change to 'https://meowtoon.com' after custom domain is confirmed.
-  site: 'https://studio-meowtoon.pages.dev',
+  site: SITE_URL,
   output: 'static',
   trailingSlash: 'always',
   integrations: [sitemap()],

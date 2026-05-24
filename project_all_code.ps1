@@ -24,12 +24,9 @@ $header = "# Aggregated Sources (Astro, JS, CSS, Markdown)`n`nRepository: $repo`
 
 # Excluded directories.
 # Astro projects typically exclude dist, node_modules, and .astro cache.
-# 追加: 'content' を除外して大量のMarkdownデータがダンプされるのを防ぐ
-$excludeDirs = @(
-    'dist', 'node_modules', '.astro',
-    '.git', '.vscode', '.idea',
-    'content'
-) + $ExcludeProjects
+# Also exclude 'content' to avoid dumping large amounts of Markdown content data.
+$excludeDirs = 'dist','node_modules','.astro','.git','.vscode','.idea','content'
+if ($ExcludeProjects) { $excludeDirs += $ExcludeProjects }
 
 # Collect target files
 $files = Get-ChildItem -Path $repo -Recurse -File | Where-Object {

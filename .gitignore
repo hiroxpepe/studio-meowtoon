@@ -6,6 +6,9 @@
 *.lock
 .DS_Store
 
+# Local environment variables. This file is ignored by git, so you can safely put secrets in here.
+.env
+
 # VS Code
 .vsconfig
 *.code-workspace

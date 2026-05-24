@@ -2,65 +2,81 @@
 // About page: creator profile + connect links (MD3 統一).
 // 旧 about-* クラス・グラデーション・box-shadow を全廃。
 // Lexend フォント削除。Tabler Icons 使用。
+// All identity / social / contact values come from src/config/site.js — edit there to customize.
 import BaseLayout from '../layouts/base_layout.astro';
+import { site } from '../config/site.js';
 ---
 <BaseLayout title="About" lang="en" current_page="/about/">
   <section class="about-page">
 
     <!-- Identity -->
-    <div class="about-avatar">MT</div>
-    <h1 class="md3-headline-large about-name">STUDIO MeowToon</h1>
-    <p class="about-role">4-panel comic creator</p>
+    <div class="about-avatar">{site.creator.avatar_text}</div>
+    <h1 class="md3-headline-large about-name">{site.creator.name}</h1>
+    <p class="about-role">{site.creator.role}</p>
     <p class="about-bio">
-      One creator. One comic. Every day.<br>
-      Drawing about the small surprises of daily life.
+      {site.creator.bio_line_1}<br>
+      {site.creator.bio_line_2}
     </p>
 
-    <div class="about-divider"></div>
+    {(site.social.x || site.social.instagram || site.social.github) && (
+      <>
+        <div class="about-divider"></div>
 
-    <!-- Connect -->
-    <p class="about-section-title">Connect</p>
-    <div class="about-link-list">
-      <a href="https://x.com/studio_meowtoon" class="about-link-row" target="_blank" rel="noopener">
-        <span class="about-link-icon"><i class="ti ti-brand-x" aria-hidden="true"></i></span>
-        <span class="about-link-body">
-          <span class="about-link-label">X (Twitter)</span>
-          <span class="about-link-sub">@studio_meowtoon</span>
-        </span>
-        <i class="ti ti-external-link about-link-arrow" aria-hidden="true"></i>
-      </a>
-      <a href="https://instagram.com/studio.meowtoon" class="about-link-row" target="_blank" rel="noopener">
-        <span class="about-link-icon"><i class="ti ti-brand-instagram" aria-hidden="true"></i></span>
-        <span class="about-link-body">
-          <span class="about-link-label">Instagram</span>
-          <span class="about-link-sub">@studio.meowtoon</span>
-        </span>
-        <i class="ti ti-external-link about-link-arrow" aria-hidden="true"></i>
-      </a>
-      <a href="https://github.com/hiroxpepe" class="about-link-row" target="_blank" rel="noopener">
-        <span class="about-link-icon"><i class="ti ti-brand-github" aria-hidden="true"></i></span>
-        <span class="about-link-body">
-          <span class="about-link-label">GitHub</span>
-          <span class="about-link-sub">hiroxpepe</span>
-        </span>
-        <i class="ti ti-external-link about-link-arrow" aria-hidden="true"></i>
-      </a>
-    </div>
+        <!-- Connect -->
+        <p class="about-section-title">Connect</p>
+        <div class="about-link-list">
+          {site.social.x && (
+            <a href={`https://x.com/${site.social.x}`} class="about-link-row" target="_blank" rel="noopener">
+              <span class="about-link-icon"><i class="ti ti-brand-x" aria-hidden="true"></i></span>
+              <span class="about-link-body">
+                <span class="about-link-label">X (Twitter)</span>
+                <span class="about-link-sub">@{site.social.x}</span>
+              </span>
+              <i class="ti ti-external-link about-link-arrow" aria-hidden="true"></i>
+            </a>
+          )}
+          {site.social.instagram && (
+            <a href={`https://instagram.com/${site.social.instagram}`} class="about-link-row" target="_blank" rel="noopener">
+              <span class="about-link-icon"><i class="ti ti-brand-instagram" aria-hidden="true"></i></span>
+              <span class="about-link-body">
+                <span class="about-link-label">Instagram</span>
+                <span class="about-link-sub">@{site.social.instagram}</span>
+              </span>
+              <i class="ti ti-external-link about-link-arrow" aria-hidden="true"></i>
+            </a>
+          )}
+          {site.social.github && (
+            <a href={`https://github.com/${site.social.github}`} class="about-link-row" target="_blank" rel="noopener">
+              <span class="about-link-icon"><i class="ti ti-brand-github" aria-hidden="true"></i></span>
+              <span class="about-link-body">
+                <span class="about-link-label">GitHub</span>
+                <span class="about-link-sub">{site.social.github}</span>
+              </span>
+              <i class="ti ti-external-link about-link-arrow" aria-hidden="true"></i>
+            </a>
+          )}
+        </div>
+      </>
+    )}
 
-    <div class="about-divider"></div>
+    {site.email && (
+      <>
+        <div class="about-divider"></div>
 
-    <!-- Email -->
-    <p class="about-section-title">Email</p>
-    <div class="about-link-list">
-      <a href="mailto:hello@meowtoon.com" class="about-link-row">
-        <span class="about-link-icon"><i class="ti ti-mail" aria-hidden="true"></i></span>
-        <span class="about-link-body">
-          <span class="about-link-label">hello@meowtoon.com</span>
-          <span class="about-link-sub">For business inquiries</span>
-        </span>
-        <i class="ti ti-arrow-right about-link-arrow" aria-hidden="true"></i>
-      </a>
-    </div>
+        <!-- Email -->
+        <p class="about-section-title">Email</p>
+        <div class="about-link-list">
+          <a href={`mailto:${site.email}`} class="about-link-row">
+            <span class="about-link-icon"><i class="ti ti-mail" aria-hidden="true"></i></span>
+            <span class="about-link-body">
+              <span class="about-link-label">{site.email}</span>
+              <span class="about-link-sub">{site.email_label}</span>
+            </span>
+            <i class="ti ti-arrow-right about-link-arrow" aria-hidden="true"></i>
+          </a>
+        </div>
+      </>
+    )}
 
   </section>
 </BaseLayout>
